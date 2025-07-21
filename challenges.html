@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Challenges | SciSolve</title>
+    <style>
+        /* Updated color scheme to match index.html */
+        :root {
+            --primary-color: #1f2937; /* dark slate */
+            --secondary-color: #3b82f6; /* sky blue */
+            --accent-color: #f59e0b; /* amber */
+            --light-color: #f3f4f6;
+            --dark-color: #111827;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --gray-light: #d1d5db;
+            --gray-medium: #9ca3af;
+            --gray-dark: #4b5563;
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease-in-out;
+            --bg-image: url('scientific-music-wallpaper-27.jpg');
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(to right, rgba(31, 41, 55, 0.85), rgba(17, 24, 39, 0.85)),
+                        var(--bg-image) no-repeat center center fixed;
+            background-size: cover;
+            color: var(--light-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: rgba(17, 24, 39, 0.85);
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--light-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--light-color);
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .nav-links a.active {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+        
+        .auth-buttons .btn {
+            margin-left: 1rem;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-login {
+            background-color: transparent;
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+        }
+        
+        .btn-login:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-signup {
+            background-color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-signup:hover {
+            background-color: #2563eb;
+            border-color: #2563eb;
+        }
+        
+        /* Challenge-specific styles */
+        .page-header {
+            padding: 8rem 0 3rem;
+            background: rgba(31, 41, 55, 0.9);
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .page-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+            color: var(--gray-light);
+        }
+        
+        .challenges-section {
+            padding: 3rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--light-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-title p {
+            color: var(--gray-light);
+        }
+        
+        /* Enhanced Filter Bar */
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(5px);
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .filter-group label {
+            margin-right: 0.5rem;
+            font-weight: 500;
+            white-space: nowrap;
+            color: var(--light-color);
+        }
+        
+        .filter-group select, .filter-group input {
+            padding: 0.6rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 5px;
+            min-width: 150px;
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .search-box {
+            position: relative;
+            flex-grow: 1;
+            max-width: 300px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding-left: 2.5rem;
+            color: white;
+        }
+        
+        .search-box input::placeholder {
+            color: var(--gray-light);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-light);
+        }
+        
+        /* Category Tags */
+        .category-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .category-tag {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--light-color);
+        }
+        
+        .category-tag:hover, .category-tag.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-new-challenge {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-new-challenge:hover {
+            background-color: #059669;
+            transform: translateY(-2px);
+        }
+        
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .challenge-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .challenge-image {
+            height: 180px;
+            background-color: #ddd;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .challenge-content {
+            padding: 1.5rem;
+        }
+        
+        .challenge-category {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .challenge-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: white;
+        }
+        
+        .challenge-card p {
+            color: var(--gray-light);
+            margin-bottom: 1.2rem;
+            font-size: 0.9rem;
+        }
+        
+        .challenge-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--gray-light);
+            margin-bottom: 1rem;
+        }
+        
+        .challenge-deadline {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .challenge-deadline i {
+            font-size: 0.9rem;
+        }
+        
+        .progress-container {
+            margin-bottom: 1rem;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.3rem;
+            font-size: 0.8rem;
+            color: var(--gray-light);
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--secondary-color);
+            width: 65%;
+        }
+        
+        .btn-view {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: 1px solid var(--secondary-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-view:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 3rem;
+            gap: 0.5rem;
+        }
+        
+        .pagination button {
+            background-color: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--light-color);
+            padding: 0.6rem 1rem;
+            min-width: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 5px;
+        }
+        
+        .pagination button.active {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .pagination button:hover:not(.active) {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        footer {
+            background-color: rgba(17, 24, 39, 0.95);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--light-color);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column a {
+            color: var(--gray-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray-light);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .page-header {
+                padding: 6rem 0 2rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+            
+            .filter-group {
+                width: 100%;
+            }
+            
+            .search-box {
+                max-width: 100%;
+            }
+            
+            .challenges-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Sci<span>Solve</span></div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="challenges.html" class="active">Challenges</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="collaboration.html">Collaboration</a></li>
+                    <li><a href="leaderboard.html" class="active">Leaderboard</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+                
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Scientific Challenges</h1>
+            <p>Browse and participate in open scientific challenges from researchers and organizations worldwide.</p>
+        </div>
+    </section>
+
+    <section class="challenges-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Current Challenges</h2>
+                <p>Join these open challenges and collaborate with the community to find solutions</p>
+            </div>
+            
+            <!-- Enhanced Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label for="category">Category:</label>
+                    <select id="category">
+                        <option value="all">All Categories</option>
+                        <option value="biology">Biology</option>
+                        <option value="physics">Physics</option>
+                        <option value="chemistry">Chemistry</option>
+                        <option value="environmental">Environmental</option>
+                        <option value="computerscience">Computer Science</option>
+                        <option value="math">Mathematics</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="difficulty">Difficulty:</label>
+                    <select id="difficulty">
+                        <option value="all">All Levels</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="sort">Sort by:</label>
+                    <select id="sort">
+                        <option value="newest">Newest</option>
+                        <option value="deadline">Deadline</option>
+                        <option value="popular">Most Popular</option>
+                        <option value="prize">Prize Value</option>
+                    </select>
+                </div>
+                
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search challenges..." id="search-input">
+                </div>
+                <a href="create-challenge.html" class="btn-new-challenge">New Challenge</a>
+            </div>
+            
+            <!-- Category Tags -->
+            <div class="category-tags">
+                <span class="category-tag active">All</span>
+                <span class="category-tag">Biology</span>
+                <span class="category-tag">Physics</span>
+                <span class="category-tag">Chemistry</span>
+                <span class="category-tag">Environmental</span>
+                <span class="category-tag">Computer Science</span>
+                <span class="category-tag">Mathematics</span>
+            </div>
+            
+            <div class="challenges-grid">
+                <!-- Challenge 1 -->
+                <div class="challenge-card">
+                    <div class="challenge-image" style="background-image: url('https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
+                    <div class="challenge-content">
+                        <span class="challenge-category">Biology</span>
+                        <h3>Protein Folding Prediction</h3>
+                        <p>Develop more accurate algorithms to predict protein structures from amino acid sequences, with applications in drug discovery and disease research.</p>
+                        <div class="challenge-meta">
+                            <span>24 teams participating</span>
+                            <span class="challenge-deadline">
+                                <i class="far fa-clock"></i> 2 weeks left
+                            </span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Progress</span>
+                                <span>65%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                        </div>
+                       <a href="challenge-detail.html?id=1&category=biology" class="btn-view">View Details</a>
+                    </div>
+                </div>
+                
+                <!-- Challenge 2 -->
+                <div class="challenge-card">
+                    <div class="challenge-image" style="background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
+                    <div class="challenge-content">
+                        <span class="challenge-category">Physics</span>
+                        <h3>Quantum Error Correction</h3>
+                        <p>Design novel quantum error correction codes for noisy intermediate-scale quantum devices to improve computational reliability.</p>
+                        <div class="challenge-meta">
+                            <span>18 teams participating</span>
+                            <span class="challenge-deadline">
+                                <i class="far fa-clock"></i> 1 month left
+                            </span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Progress</span>
+                                <span>42%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 42%;"></div>
+                            </div>
+                        </div>
+                        <a href="challenge-detail.html?id=2&category=physics" class="btn-view">View Details</a>
+                    </div>
+                </div>
+                
+                <!-- Challenge 3 -->
+                <div class="challenge-card">
+                    <div class="challenge-image" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
+                    <div class="challenge-content">
+                        <span class="challenge-category">Environmental</span>
+                        <h3>Climate Model Optimization</h3>
+                        <p>Improve parameterization schemes in climate models to better predict extreme weather events and regional climate impacts.</p>
+                        <div class="challenge-meta">
+                            <span>32 teams participating</span>
+                            <span class="challenge-deadline">
+                                <i class="far fa-clock"></i> 3 weeks left
+                            </span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Progress</span>
+                                <span>78%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 78%;"></div>
+                            </div>
+                        </div>
+                        <a href="challenge-detail.html?id=4&category=environmental" class="btn-view">View Details</a>
+                    </div>
+                </div>
+                
+                <!-- Challenge 4 -->
+                <div class="challenge-card">
+                    <div class="challenge-image" style="background-image: url('https://images.unsplash.com/photo-1581094271901-8022df4466f9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
+                    <div class="challenge-content">
+                        <span class="challenge-category">Chemistry</span>
+                        <h3>Green Solvent Development</h3>
+                        <p>Discover or design new environmentally friendly solvents for industrial applications with reduced toxicity and biodegradability.</p>
+                        <div class="challenge-meta">
+                            <span>15 teams participating</span>
+                            <span class="challenge-deadline">
+                                <i class="far fa-clock"></i> 1 week left
+                            </span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Progress</span>
+                                <span>35%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 35%;"></div>
+                            </div>
+                        </div>
+                        <a href="challenge-detail.html?id=3&category=chemistry" class="btn-view">View Details</a>
+                    </div>
+                </div>
+                
+                <!-- Challenge 5 -->
+                <div class="challenge-card">
+                    <div class="challenge-image" style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
+                    <div class="challenge-content">
+                        <span class="challenge-category">Computer Science</span>
+                        <h3>AI for Drug Discovery</h3>
+                        <p>Develop machine learning models to predict drug-target interactions and accelerate the drug discovery pipeline.</p>
+                        <div class="challenge-meta">
+                            <span>28 teams participating</span>
+                            <span class="challenge-deadline">
+                                <i class="far fa-clock"></i> 2 months left
+                            </span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Progress</span>
+                                <span>53%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 53%;"></div>
+                            </div>
+                        </div>
+                        <a href="challenge-detail.html?id=5&category=cs" class="btn-view">View Details</a>
+                    </div>
+                </div>
+                
+                <!-- Challenge 6 -->
+                <div class="challenge-card">
+                    <div class="challenge-image" style="background-image: url('https://images.unsplash.com/photo-1635070040851-8c43a8522d3a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
+                    <div class="challenge-content">
+                        <span class="challenge-category">Mathematics</span>
+                        <h3>Optimization Algorithms</h3>
+                        <p>Create novel optimization algorithms for high-dimensional, non-convex problems with applications across sciences.</p>
+                        <div class="challenge-meta">
+                            <span>12 teams participating</span>
+                            <span class="challenge-deadline">
+                                <i class="far fa-clock"></i> 3 weeks left
+                            </span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Progress</span>
+                                <span>29%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 29%;"></div>
+                            </div>
+                        </div>
+                        <a href="challenge-detail.html?id=6&category=math" class="btn-view">View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pagination">
+                <button><i class="fas fa-angle-left"></i></button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button><i class="fas fa-angle-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SciSolve</h3>
+                    <p>The global platform for crowdsourced scientific problem-solving and collaboration.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="challenges.html">Challenges</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API</a></li>
+                        <li><a href="#">Simulation Tools</a></li>
+                        <li><a href="#">Help Center</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                        <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 SciSolve. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Category tag filtering
+            const categoryTags = document.querySelectorAll('.category-tag');
+            categoryTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    // Remove active class from all tags
+                    categoryTags.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked tag
+                    this.classList.add('active');
+                    
+                    // Here you would filter challenges based on the selected category
+                    // For now, we'll just log the selected category
+                    console.log('Selected category:', this.textContent);
+                });
+            });
+            
+            // Search functionality
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                console.log('Searching for:', searchTerm);
+                // Here you would filter challenges based on search term
+            });
+            
+            // Sort functionality
+            const sortSelect = document.getElementById('sort');
+            sortSelect.addEventListener('change', function() {
+                console.log('Sorting by:', this.value);
+                // Here you would sort challenges based on selected option
+            });
+        });
+    </script>
+</body>
+</html>

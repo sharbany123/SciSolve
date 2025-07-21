@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Challenge | SciSolve</title>
+    <style>
+    :root {
+        --primary-color: #1f2937; /* dark slate */
+        --secondary-color: #3b82f6; /* sky blue */
+        --accent-color: #f59e0b; /* amber */
+        --light-color: #f3f4f6;
+        --dark-color: #111827;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --danger-color: #ef4444;
+        --gray-light: #d1d5db;
+        --gray-medium: #9ca3af;
+        --gray-dark: #4b5563;
+        --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+        --transition: all 0.3s ease-in-out;
+        --bg-image: url('1000_F_712176662_GksIqu6SPyoCNABloq3gMPK1EhhJrxNq.jpg');
+        
+        /* Subject colors */
+        --biology-color: #27ae60;
+        --physics-color: #8b5cf6;
+        --chemistry-color: #f59e0b;
+        --environmental-color: #06b6d4;
+        --cs-color: #3b82f6;
+        --math-color: #ef4444;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        background: linear-gradient(to right, rgba(31, 41, 55, 0.85), rgba(17, 24, 39, 0.85)),
+                    var(--bg-image) no-repeat center center fixed;
+        background-size: cover;
+        color: var(--light-color);
+        line-height: 1.6;
+        min-height: 100vh;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    header {
+        background-color: rgba(17, 24, 39, 0.9);
+        box-shadow: var(--shadow-md);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+    }
+
+    .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--secondary-color);
+        display: flex;
+        align-items: center;
+        transition: var(--transition);
+    }
+
+    .logo:hover {
+        transform: translateY(-2px);
+    }
+
+    .logo span {
+        color: var(--accent-color);
+    }
+
+    .nav-links {
+        display: flex;
+        list-style: none;
+    }
+
+    .nav-links li {
+        margin-left: 2rem;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: var(--light-color);
+        font-weight: 500;
+        transition: var(--transition);
+        position: relative;
+        padding: 0.5rem 0;
+    }
+
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: var(--secondary-color);
+        transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+        color: var(--secondary-color);
+    }
+
+    .nav-links a:hover::after {
+        width: 100%;
+    }
+
+    .nav-links a.active {
+        color: var(--secondary-color);
+        font-weight: 600;
+    }
+
+    .nav-links a.active::after {
+        width: 100%;
+    }
+
+    .auth-buttons .btn {
+        margin-left: 1rem;
+        padding: 0.5rem 1.5rem;
+        border-radius: 5px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .btn-login {
+        background-color: transparent;
+        border: 1px solid var(--secondary-color);
+        color: var(--secondary-color);
+    }
+
+    .btn-login:hover {
+        background-color: var(--secondary-color);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-signup {
+        background-color: var(--secondary-color);
+        border: 1px solid var(--secondary-color);
+        color: white;
+    }
+
+    .btn-signup:hover {
+        background-color: #2563eb;
+        border-color: #2563eb;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Page Header */
+    .page-header {
+        padding: 8rem 0 2rem;
+        background: linear-gradient(135deg, rgba(31, 41, 55, 0.9) 0%, rgba(17, 24, 39, 0.9) 100%);
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .page-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') center/cover;
+        opacity: 0.15;
+        z-index: -1;
+    }
+
+    .page-header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .page-header h1 {
+        font-size: 2.2rem;
+        margin-bottom: 0.5rem;
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    .page-header p {
+        opacity: 0.9;
+        animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        opacity: 0;
+    }
+
+    /* Challenge Form */
+    .challenge-form-container {
+        padding: 3rem 0;
+    }
+
+    .form-card {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        box-shadow: var(--shadow-md);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: var(--transition);
+    }
+
+    .form-card:hover {
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-card h2 {
+        color: white;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: white;
+    }
+
+    .form-group label.required::after {
+        content: "*";
+        color: var(--danger-color);
+        margin-left: 0.3rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: var(--transition);
+        color: white;
+    }
+
+    .form-control:focus {
+        border-color: var(--secondary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    }
+
+    .form-control::placeholder {
+        color: var(--gray-medium);
+    }
+
+    textarea.form-control {
+        min-height: 150px;
+        resize: vertical;
+    }
+
+    .form-error {
+        color: var(--danger-color);
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+        display: none;
+    }
+
+    .form-control.has-error {
+        border-color: var(--danger-color);
+    }
+
+    .form-control.has-error:focus {
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+
+    .form-control.has-error + .form-error {
+        display: block;
+    }
+
+    /* Category Selection */
+    .category-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .category-option {
+        display: flex;
+        align-items: center;
+        padding: 0.8rem;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        cursor: pointer;
+        transition: var(--transition);
+        color: white;
+    }
+
+    .category-option:hover {
+        border-color: var(--secondary-color);
+        transform: translateY(-2px);
+    }
+
+    .category-option input {
+        display: none;
+    }
+
+    .category-option .category-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 0.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        border-radius: 50%;
+        transition: var(--transition);
+    }
+
+    .category-option input:checked + .category-icon {
+        transform: scale(1.2);
+        box-shadow: 0 0 0 2px white;
+    }
+
+    .biology .category-icon { background-color: var(--biology-color); }
+    .physics .category-icon { background-color: var(--physics-color); }
+    .chemistry .category-icon { background-color: var(--chemistry-color); }
+    .environmental .category-icon { background-color: var(--environmental-color); }
+    .cs .category-icon { background-color: var(--cs-color); }
+    .math .category-icon { background-color: var(--math-color); }
+
+    /* Difficulty Selection */
+    .difficulty-options {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .difficulty-option {
+        flex: 1;
+        text-align: center;
+        padding: 1rem;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .difficulty-option:hover {
+        border-color: var(--secondary-color);
+        transform: translateY(-2px);
+    }
+
+    .difficulty-option input {
+        display: none;
+    }
+
+    .difficulty-option i {
+        margin-right: 0.5rem;
+        transition: var(--transition);
+    }
+
+    .difficulty-option input:checked + i {
+        transform: scale(1.2);
+    }
+
+    .difficulty-easy {
+        color: var(--success-color);
+    }
+
+    .difficulty-medium {
+        color: var(--warning-color);
+    }
+
+    .difficulty-hard {
+        color: var(--danger-color);
+    }
+
+    /* Date Picker */
+    .date-picker {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .date-picker input {
+        flex: 1;
+    }
+
+    /* File Upload */
+    .file-upload {
+        border: 2px dashed rgba(255, 255, 255, 0.2);
+        border-radius: 5px;
+        padding: 2rem;
+        text-align: center;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: var(--transition);
+        color: var(--gray-light);
+    }
+
+    .file-upload:hover {
+        border-color: var(--secondary-color);
+        background-color: rgba(59, 130, 246, 0.1);
+        color: white;
+    }
+
+    .file-upload i {
+        font-size: 2rem;
+        color: var(--secondary-color);
+        margin-bottom: 0.5rem;
+        transition: var(--transition);
+    }
+
+    .file-upload:hover i {
+        transform: translateY(-5px);
+    }
+
+    /* Simulation Parameters */
+    .param-row {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .param-row .form-group {
+        flex: 1;
+        margin-bottom: 0;
+    }
+
+    .add-param {
+        display: flex;
+        align-items: center;
+        color: var(--secondary-color);
+        font-weight: 500;
+        cursor: pointer;
+        margin-top: 1rem;
+        transition: var(--transition);
+    }
+
+    .add-param:hover {
+        color: var(--accent-color);
+    }
+
+    .add-param i {
+        margin-right: 0.5rem;
+        transition: var(--transition);
+    }
+
+    .add-param:hover i {
+        transform: rotate(90deg);
+    }
+
+    /* Form Actions */
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn {
+        padding: 0.8rem 1.5rem;
+        border-radius: 5px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: var(--transition);
+        cursor: pointer;
+        border: none;
+    }
+
+    .btn-primary {
+        background-color: var(--secondary-color);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #2563eb;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-secondary {
+        background-color: transparent;
+        color: var(--secondary-color);
+        border: 1px solid var(--secondary-color);
+    }
+
+    .btn-secondary:hover {
+        background-color: rgba(59, 130, 246, 0.1);
+        transform: translateY(-2px);
+    }
+
+    /* Preview Section */
+    .preview-section {
+        background-color: rgba(255, 255, 255, 0.05);
+        padding: 1.5rem;
+        border-radius: 5px;
+        margin-top: 2rem;
+        border: 1px dashed rgba(255, 255, 255, 0.2);
+    }
+
+    .preview-section h3 {
+        margin-bottom: 1rem;
+        color: white;
+    }
+
+    /* Footer */
+    footer {
+        background-color: rgba(17, 24, 39, 0.95);
+        color: white;
+        padding: 3rem 0 1rem;
+        backdrop-filter: blur(5px);
+    }
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .footer-column h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        color: white;
+    }
+
+    .footer-column ul {
+        list-style: none;
+    }
+
+    .footer-column li {
+        margin-bottom: 0.8rem;
+    }
+
+    .footer-column a {
+        color: var(--gray-light);
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .footer-column a:hover {
+        color: var(--secondary-color);
+        padding-left: 5px;
+    }
+
+    .copyright {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--gray-light);
+        font-size: 0.9rem;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    /* Floating action button */
+    .fab {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 60px;
+        height: 60px;
+        background-color: var(--secondary-color);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: var(--transition);
+        z-index: 100;
+    }
+
+    .fab:hover {
+        background-color: #2563eb;
+        transform: translateY(-5px) scale(1.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+        }
+        
+        .page-header {
+            padding: 6rem 0 1.5rem;
+        }
+        
+        .page-header h1 {
+            font-size: 1.8rem;
+        }
+        
+        .category-options {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .difficulty-options {
+            flex-direction: column;
+        }
+        
+        .param-row {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .form-actions {
+            flex-direction: column;
+        }
+        
+        .btn {
+            width: 100%;
+        }
+    }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Sci<span>Solve</span></div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="challenges.html">Challenges</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="collaboration.html">Collaboration</a></li>
+                    <li><a href="leaderboard.html" class="active">Leaderboard</a></li>
+                    <li><a href="about.html">About</a></li>
+                    
+                </ul>
+                
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <div>
+                <h1>Create New Challenge</h1>
+                <p>Submit a scientific challenge for the community to solve</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="challenge-form-container">
+        <div class="container">
+            <form id="createChallengeForm">
+                <div class="form-card">
+                    <h2>Challenge Information</h2>
+                    
+                    <div class="form-group">
+                        <label for="challenge-title" class="required">Challenge Title</label>
+                        <input type="text" id="challenge-title" class="form-control" placeholder="e.g., Protein Folding Prediction">
+                        <div class="form-error">Please enter a challenge title</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Category</label>
+                        <div class="category-options">
+                            <label class="category-option biology">
+                                <input type="radio" name="category" value="biology" required>
+                                <span class="category-icon"><i class="fas fa-dna"></i></span>
+                                Biology
+                            </label>
+                            <label class="category-option physics">
+                                <input type="radio" name="category" value="physics">
+                                <span class="category-icon"><i class="fas fa-atom"></i></span>
+                                Physics
+                            </label>
+                            <label class="category-option chemistry">
+                                <input type="radio" name="category" value="chemistry">
+                                <span class="category-icon"><i class="fas fa-flask"></i></span>
+                                Chemistry
+                            </label>
+                            <label class="category-option environmental">
+                                <input type="radio" name="category" value="environmental">
+                                <span class="category-icon"><i class="fas fa-leaf"></i></span>
+                                Environmental
+                            </label>
+                            <label class="category-option cs">
+                                <input type="radio" name="category" value="cs">
+                                <span class="category-icon"><i class="fas fa-laptop-code"></i></span>
+                                Computer Science
+                            </label>
+                            <label class="category-option math">
+                                <input type="radio" name="category" value="math">
+                                <span class="category-icon"><i class="fas fa-square-root-alt"></i></span>
+                                Mathematics
+                            </label>
+                        </div>
+                        <div class="form-error">Please select a category</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Difficulty Level</label>
+                        <div class="difficulty-options">
+                            <label class="difficulty-option difficulty-easy">
+                                <input type="radio" name="difficulty" value="easy" required>
+                                <i class="fas fa-smile"></i> Easy
+                            </label>
+                            <label class="difficulty-option difficulty-medium">
+                                <input type="radio" name="difficulty" value="medium">
+                                <i class="fas fa-meh"></i> Medium
+                            </label>
+                            <label class="difficulty-option difficulty-hard">
+                                <input type="radio" name="difficulty" value="hard">
+                                <i class="fas fa-frown"></i> Hard
+                            </label>
+                        </div>
+                        <div class="form-error">Please select a difficulty level</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="challenge-description" class="required">Description</label>
+                        <textarea id="challenge-description" class="form-control" placeholder="Describe the challenge in detail..."></textarea>
+                        <div class="form-error">Please enter a description</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="challenge-objectives">Objectives & Expected Outcomes</label>
+                        <textarea id="challenge-objectives" class="form-control" placeholder="What should participants aim to achieve?"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-card">
+                    <h2>Challenge Details</h2>
+                    
+                    <div class="form-group">
+                        <label for="challenge-deadline" class="required">Submission Deadline</label>
+                        <div class="date-picker">
+                            <input type="date" id="challenge-deadline" class="form-control">
+                            <input type="time" id="challenge-time" class="form-control">
+                        </div>
+                        <div class="form-error">Please select a deadline</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="challenge-prize">Prize (optional)</label>
+                        <input type="text" id="challenge-prize" class="form-control" placeholder="e.g., $5,000 or Publication Opportunity">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="challenge-data">Data & Resources (optional)</label>
+                        <div class="file-upload" id="file-upload-area">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag & drop files here or click to browse</p>
+                            <p><small>Supports .zip, .csv, .xlsx (Max 100MB)</small></p>
+                        </div>
+                        <div id="file-list"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="challenge-evaluation">Evaluation Criteria</label>
+                        <textarea id="challenge-evaluation" class="form-control" placeholder="How will submissions be judged?"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-card">
+                    <h2>Simulation Parameters (optional)</h2>
+                    <p>Configure parameters for any interactive simulation component</p>
+                    
+                    <div id="simulation-params">
+                        <div class="param-row">
+                            <div class="form-group">
+                                <label>Parameter Name</label>
+                                <input type="text" class="form-control" placeholder="e.g., Temperature">
+                            </div>
+                            <div class="form-group">
+                                <label>Type</label>
+                                <select class="form-control">
+                                    <option>Number</option>
+                                    <option>Text</option>
+                                    <option>Boolean</option>
+                                    <option>Dropdown</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Default Value</label>
+                                <input type="text" class="form-control" placeholder="e.g., 300">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="add-param" id="add-param">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Add Parameter</span>
+                    </div>
+                    
+                    <div class="preview-section">
+                        <h3>Simulation Preview</h3>
+                        <p>Interactive simulation preview will appear here once configured.</p>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="save-draft">Save as Draft</button>
+                    <button type="submit" class="btn btn-primary" id="submit-challenge">Submit Challenge</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Floating action button -->
+    <div class="fab" id="help-fab" title="Need help?">
+        <i class="fas fa-question"></i>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SciSolve</h3>
+                    <p>The global platform for crowdsourced scientific problem-solving and collaboration.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="challenges.html">Challenges</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API</a></li>
+                        <li><a href="#">Simulation Tools</a></li>
+                        <li><a href="#">Help Center</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                        <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 SciSolve. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Form validation
+            const form = document.getElementById('createChallengeForm');
+            const requiredFields = form.querySelectorAll('[required]');
+            
+            // Validate on submit
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                let isValid = true;
+                
+                // Check required fields
+                requiredFields.forEach(field => {
+                    if (!field.value) {
+                        field.classList.add('has-error');
+                        isValid = false;
+                    } else {
+                        field.classList.remove('has-error');
+                    }
+                });
+                
+                // Check if at least one category is selected
+                const categorySelected = form.querySelector('input[name="category"]:checked');
+                if (!categorySelected) {
+                    const categoryOptions = form.querySelector('.category-options');
+                    categoryOptions.style.border = '1px solid var(--danger-color)';
+                    categoryOptions.style.borderRadius = '5px';
+                    categoryOptions.style.padding = '0.5rem';
+                    isValid = false;
+                } else {
+                    const categoryOptions = form.querySelector('.category-options');
+                    categoryOptions.style.border = 'none';
+                    categoryOptions.style.padding = '0';
+                }
+                
+                // Check if at least one difficulty is selected
+                const difficultySelected = form.querySelector('input[name="difficulty"]:checked');
+                if (!difficultySelected) {
+                    const difficultyOptions = form.querySelector('.difficulty-options');
+                    difficultyOptions.style.border = '1px solid var(--danger-color)';
+                    difficultyOptions.style.borderRadius = '5px';
+                    difficultyOptions.style.padding = '0.5rem';
+                    isValid = false;
+                } else {
+                    const difficultyOptions = form.querySelector('.difficulty-options');
+                    difficultyOptions.style.border = 'none';
+                    difficultyOptions.style.padding = '0';
+                }
+                
+                if (isValid) {
+                    // Simulate form submission with animation
+                    const submitBtn = document.getElementById('submit-challenge');
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+                    submitBtn.disabled = true;
+                    
+                    setTimeout(() => {
+                        submitBtn.innerHTML = '<i class="fas fa-check"></i> Submitted!';
+                        setTimeout(() => {
+                            alert('Challenge submitted successfully! It will be reviewed by our team before publishing.');
+                            form.reset();
+                            submitBtn.innerHTML = 'Submit Challenge';
+                            submitBtn.disabled = false;
+                        }, 1000);
+                    }, 1500);
+                } else {
+                    // Shake animation for errors
+                    const formCards = document.querySelectorAll('.form-card');
+                    formCards.forEach(card => {
+                        card.style.animation = 'shake 0.5s';
+                        setTimeout(() => {
+                            card.style.animation = '';
+                        }, 500);
+                    });
+                    
+                    // Scroll to first error
+                    const firstError = document.querySelector('.has-error');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+            
+            // Clear validation errors when user starts typing
+            requiredFields.forEach(field => {
+                field.addEventListener('input', function() {
+                    this.classList.remove('has-error');
+                });
+            });
+            
+            // Category selection animation
+            const categoryOptions = document.querySelectorAll('.category-option');
+            categoryOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    categoryOptions.forEach(opt => {
+                        opt.style.transform = '';
+                        opt.style.boxShadow = '';
+                    });
+                    
+                    if (this.querySelector('input').checked) {
+                        this.style.transform = 'translateY(-5px)';
+                        this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+                    }
+                });
+            });
+            
+            // File upload interaction
+            document.getElementById('file-upload-area').addEventListener('click', function() {
+                // Simulate file selection
+                this.style.borderColor = 'var(--success-color)';
+                this.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+                
+                setTimeout(() => {
+                    const fileList = document.getElementById('file-list');
+                    fileList.innerHTML = `
+                        <div style="background: rgba(255,255,255,0.1); padding: 0.8rem; border-radius: 5px; margin-top: 0.5rem; display: flex; justify-content: space-between; align-items: center; animation: fadeInUp 0.5s;">
+                            <span><i class="fas fa-file-csv" style="margin-right: 0.5rem; color: var(--success-color);"></i> challenge_data.zip</span>
+                            <button style="background: none; border: none; color: var(--danger-color); cursor: pointer; transition: var(--transition);" 
+                                    onmouseover="this.style.transform='rotate(90deg)'" 
+                                    onmouseout="this.style.transform='rotate(0deg)'">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                }, 300);
+            });
+            
+            // Add parameter row with animation
+            document.getElementById('add-param').addEventListener('click', function() {
+                const paramsContainer = document.getElementById('simulation-params');
+                const newRow = document.createElement('div');
+                newRow.className = 'param-row';
+                newRow.style.opacity = '0';
+                newRow.style.transform = 'translateY(20px)';
+                newRow.style.transition = 'opacity 0.3s, transform 0.3s';
+                
+                newRow.innerHTML = `
+                    <div class="form-group">
+                        <label>Parameter Name</label>
+                        <input type="text" class="form-control" placeholder="e.g., Temperature">
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select class="form-control">
+                            <option>Number</option>
+                            <option>Text</option>
+                            <option>Boolean</option>
+                            <option>Dropdown</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Default Value</label>
+                        <input type="text" class="form-control" placeholder="e.g., 300">
+                    </div>
+                `;
+                
+                paramsContainer.appendChild(newRow);
+                
+                setTimeout(() => {
+                    newRow.style.opacity = '1';
+                    newRow.style.transform = 'translateY(0)';
+                }, 10);
+            });
+            
+            // Save as draft with animation
+            document.getElementById('save-draft').addEventListener('click', function() {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-check"></i> Saved!';
+                    setTimeout(() => {
+                        this.innerHTML = 'Save as Draft';
+                        alert('Challenge saved as draft. You can continue editing later.');
+                    }, 1000);
+                }, 1000);
+            });
+            
+            // Help floating action button
+            document.getElementById('help-fab').addEventListener('click', function() {
+                alert('Need help creating your challenge? Contact our support team at support@scisolve.org');
+            });
+        });
+    </script>
+</body>
+</html>
