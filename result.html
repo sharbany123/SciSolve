@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SciSolve | Simulation Results</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Your base CSS remains the same, with additions for results page */
+       /* Updated CSS for Simulation Results Page */
+:root {
+  --primary-color: #1f2937; /* dark slate */
+  --secondary-color: #3b82f6; /* sky blue */
+  --accent-color: #f59e0b; /* amber */
+  --light-color: #f3f4f6;
+  --dark-color: #111827;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --gray-light: #d1d5db;
+  --gray-medium: #9ca3af;
+  --gray-dark: #4b5563;
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --transition: all 0.3s ease-in-out;
+  --bg-image: url('https://tse1.mm.bing.net/th/id/OIP.DBVOc-RYex6q_-J9si1eZgAAAA?w=450&h=300&rs=1&pid=ImgDetMain&o=7&rm=3');
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, rgba(31, 41, 55, 0.8), rgba(17, 24, 39, 0.8)),
+              var(--bg-image) no-repeat center center fixed;
+  background-size: cover;
+  color: var(--light-color);
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Header/Nav */
+header {
+  background-color: rgba(17, 24, 39, 0.95);
+  box-shadow: var(--shadow-md);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+nav.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--light-color);
+  display: flex;
+  align-items: center;
+}
+
+.logo span {
+  color: var(--secondary-color);
+  font-weight: 700;
+}
+
+.logo i {
+  color: var(--accent-color);
+  margin-right: 0.5rem;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: var(--gray-light);
+  padding: 0.5rem 0;
+  text-decoration: none;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-links a:hover {
+  color: var(--light-color);
+}
+
+.nav-links a.active {
+  color: var(--secondary-color);
+  border-bottom-color: var(--secondary-color);
+}
+
+.nav-links i {
+  font-size: 0.9rem;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.btn-login {
+  background-color: transparent;
+  color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+}
+
+.btn-login:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.btn-signup {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+}
+
+.btn-signup:hover {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+}
+
+/* Results Container */
+.results-container {
+  margin-top: 100px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  min-height: calc(100vh - 180px);
+  padding-bottom: 3rem;
+}
+
+.results-header {
+  background: rgba(17, 24, 39, 0.9);
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  transition: var(--transition);
+}
+
+.results-header:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.results-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.results-title h2 {
+  font-size: 1.8rem;
+  color: var(--light-color);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.results-title i {
+  color: var(--accent-color);
+}
+
+.results-meta {
+  display: flex;
+  gap: 1.5rem;
+  color: var(--gray-light);
+  font-size: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.results-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.5rem 0.8rem;
+  border-radius: 20px;
+}
+
+.results-meta-item i {
+  color: var(--secondary-color);
+  font-size: 0.8rem;
+}
+
+.results-description {
+  color: var(--gray-light);
+  line-height: 1.7;
+  padding: 0.5rem 0;
+}
+
+.results-description::first-letter {
+  font-size: 1.5em;
+  color: var(--secondary-color);
+  font-weight: bold;
+  margin-right: 0.2rem;
+  line-height: 1;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+/* Visualization Section */
+.visualization-section {
+  background: rgba(17, 24, 39, 0.9);
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  transition: var(--transition);
+}
+
+.visualization-section:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.section-title {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  color: var(--light-color);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(to right, var(--secondary-color), transparent);
+}
+
+.section-title i {
+  color: var(--accent-color);
+}
+
+.graph-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.graph-btn {
+  padding: 0.6rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: var(--gray-light);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.graph-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--light-color);
+  transform: translateY(-2px);
+}
+
+.graph-btn.active {
+  background: var(--secondary-color);
+  color: white;
+  border-color: var(--secondary-color);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.graph-container {
+  height: 400px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.graph-placeholder {
+  text-align: center;
+  padding: 2rem;
+}
+
+.graph-placeholder i {
+  font-size: 3rem;
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+.graph-placeholder p {
+  color: var(--gray-light);
+  margin-bottom: 0.5rem;
+}
+
+.graph-placeholder small {
+  color: var(--gray-dark);
+  font-size: 0.8rem;
+}
+
+/* Data Table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.data-table th, .data-table td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.data-table th {
+  color: var(--secondary-color);
+  font-weight: 500;
+  font-size: 0.9rem;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.data-table td {
+  color: var(--gray-light);
+  font-size: 0.9rem;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tr:hover td {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+/* Stats Section */
+.stats-section {
+  background: rgba(17, 24, 39, 0.9);
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  transition: var(--transition);
+}
+
+.stats-section:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  border-left: 3px solid var(--secondary-color);
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--gray-light);
+}
+
+.stat-comparison {
+  font-size: 0.8rem;
+  color: var(--success-color);
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.stat-comparison::before {
+  content: '↑';
+  display: inline-block;
+}
+
+.stat-comparison.negative {
+  color: var(--danger-color);
+}
+
+.stat-comparison.negative::before {
+  content: '↓';
+}
+
+/* Analysis Section */
+.analysis-section {
+  margin-top: 2rem;
+}
+
+.analysis-card {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-left: 3px solid var(--accent-color);
+  transition: var(--transition);
+}
+
+.analysis-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.analysis-card h4 {
+  color: var(--light-color);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.analysis-card h4 i {
+  color: var(--accent-color);
+}
+
+.analysis-card p {
+  color: var(--gray-light);
+  line-height: 1.7;
+  font-size: 0.9rem;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.btn-action {
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 1px solid var(--secondary-color);
+  color: var(--secondary-color);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+  transform: translateY(-2px);
+}
+
+.btn-success {
+  background-color: var(--success-color);
+  color: white;
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+}
+
+/* Animation for data loading */
+@keyframes pulse {
+  0% { opacity: 0.6; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0.6; transform: scale(0.95); }
+}
+
+.loading {
+  animation: pulse 1.5s infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  nav.container {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .results-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .btn-action {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .graph-controls {
+    justify-content: center;
+  }
+  
+  .results-header {
+    padding: 1.5rem;
+  }
+  
+  .visualization-section, .stats-section {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .results-title h2 {
+    font-size: 1.5rem;
+  }
+  
+  .results-meta {
+    gap: 0.8rem;
+  }
+  
+  .results-meta-item {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+  
+  .section-title {
+    font-size: 1.1rem;
+  }
+  
+  .stat-card {
+    padding: 1rem;
+  }
+  
+  .stat-value {
+    font-size: 1.5rem;
+  }
+} 
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <i class="fas fa-atom" style="margin-right: 10px;"></i>
+                <span>Sci</span>Solve
+            </div>
+            <ul class="nav-links">
+                
+                <li><a href="simulation_engine.html"></i> Simulations</a></li>
+                <li><a href="result.html" class="active"></i> Result</a></li>
+                <li><a href="submit.html"></i>Submit</a></li>
+                
+    
+</ul>
+            </ul>
+            
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="results-container">
+            <div class="results-header">
+                <div class="results-title">
+                    <h2><i class="fas fa-chart-line"></i> Projectile Motion Analysis</h2>
+                    <div class="results-meta">
+                        <div class="results-meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>Sharbany Panday</span>
+                        </div>
+                        <div class="results-meta-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>June 15, 2023</span>
+                        </div>
+                        <div class="results-meta-item">
+                            <i class="fas fa-tag"></i>
+                            <span>Physics</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-description">
+                    <p>This simulation analyzes the trajectory of a projectile with initial velocity of 45 m/s at a 60-degree angle. The experiment tests how different environmental conditions affect the flight duration and maximum height achieved. Preliminary observations suggest air resistance plays a significant role in real-world conditions compared to vacuum models.</p>
+                </div>
+            </div>
+            
+            <div class="results-grid">
+                <div class="visualization-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-chart-area"></i> Data Visualization
+                    </h3>
+                    
+                    <div class="graph-controls">
+                        <button class="graph-btn active">
+                            <i class="fas fa-chart-line"></i> Trajectory
+                        </button>
+                        <button class="graph-btn">
+                            <i class="fas fa-chart-bar"></i> Velocity
+                        </button>
+                        <button class="graph-btn">
+                            <i class="fas fa-chart-pie"></i> Energy
+                        </button>
+                        <button class="graph-btn">
+                            <i class="fas fa-table"></i> Raw Data
+                        </button>
+                    </div>
+                    
+                    <div class="graph-container">
+                        <div class="graph-placeholder">
+                            <i class="fas fa-project-diagram"></i>
+                            <p>Interactive visualization would appear here</p>
+                            <small>X-Y plot showing trajectory path with time markers</small>
+                        </div>
+                    </div>
+                    
+                    <h4 class="section-title" style="font-size: 1.1rem; margin: 1.5rem 0 1rem;">
+                        <i class="fas fa-table"></i> Sample Data Points
+                    </h4>
+                    
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Time (s)</th>
+                                <th>X Position (m)</th>
+                                <th>Y Position (m)</th>
+                                <th>Velocity (m/s)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                                <td>45.00</td>
+                            </tr>
+                            <tr>
+                                <td>1.25</td>
+                                <td>28.13</td>
+                                <td>24.84</td>
+                                <td>40.15</td>
+                            </tr>
+                            <tr>
+                                <td>2.50</td>
+                                <td>56.25</td>
+                                <td>39.37</td>
+                                <td>35.30</td>
+                            </tr>
+                            <tr>
+                                <td>3.75</td>
+                                <td>84.38</td>
+                                <td>43.59</td>
+                                <td>30.45</td>
+                            </tr>
+                            <tr>
+                                <td>5.00</td>
+                                <td>112.50</td>
+                                <td>37.50</td>
+                                <td>25.60</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="stats-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-calculator"></i> Key Metrics
+                    </h3>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">112.5 m</div>
+                            <div class="stat-label">Maximum Distance</div>
+                            <div class="stat-comparison">+12.4% vs average</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">43.6 m</div>
+                            <div class="stat-label">Peak Height</div>
+                            <div class="stat-comparison">+8.2% vs average</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">7.8 s</div>
+                            <div class="stat-label">Flight Duration</div>
+                            <div class="stat-comparison negative">-5.3% vs average</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">32.4 m/s</div>
+                            <div class="stat-label">Impact Velocity</div>
+                            <div class="stat-comparison">+3.1% vs average</div>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-microscope"></i> AI Analysis
+                        </h3>
+                        
+                        <div class="analysis-card">
+                            <h4><i class="fas fa-lightbulb"></i> Key Observation</h4>
+                            <p>The projectile's trajectory shows a 12% increase in horizontal distance compared to standard models, likely due to the slightly lower gravity value (9.65 m/s²) used in this simulation. This could represent conditions at higher altitudes or different planetary bodies.</p>
+                        </div>
+                        
+                        <div class="analysis-card">
+                            <h4><i class="fas fa-exclamation-triangle"></i> Anomaly Detection</h4>
+                            <p>Between t=3.5s and t=4.2s, the vertical velocity shows unexpected fluctuations that may indicate either numerical instability in the simulation or interesting physical phenomena worth further investigation.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+    <button class="btn-action btn-secondary" onclick="location.href='simulation_engine.html'">
+        <i class="fas fa-redo"></i> Run New
+    </button>
+    <button class="btn-action btn-primary">
+        <i class="fas fa-share-alt"></i> Share
+    </button>
+    <button class="btn-action btn-secondary">
+        <i class="fas fa-download"></i> Export
+    </button>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       
+    document.addEventListener('DOMContentLoaded', function() {
+        // 1. Get simulation data from storage
+        const simData = JSON.parse(sessionStorage.getItem('currentSimulation') || {});
+        const urlParams = new URLSearchParams(window.location.search);
+        const simId = urlParams.get('simId');
+
+        // 2. Display results if available
+        if(simData.results) {
+            // Update metrics display
+            document.querySelectorAll('.stat-value')[0].textContent = simData.results.distance + ' m';
+            document.querySelectorAll('.stat-value')[1].textContent = simData.results.height + ' m'; 
+            document.querySelectorAll('.stat-value')[2].textContent = simData.results.time + ' s';
+            
+            // Update simulation info
+            document.querySelector('.results-title h2').textContent = simData.config.title || 'Projectile Motion Analysis';
+            document.querySelector('.results-description p').textContent = 
+                simData.config.description || `Simulation of ${simData.config.type}`;
+            
+            // Update data table
+            updateDataTable(simData.results.dataPoints);
+        }
+
+        // 3. Graph controls
+        const graphBtns = document.querySelectorAll('.graph-btn');
+        graphBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                graphBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                renderGraph(this.textContent.trim(), simData.results?.dataPoints || []);
+            });
+        });
+
+        // 4. Export button
+        document.querySelector('.btn-secondary').addEventListener('click', function() {
+            exportData(simData);
+        });
+        
+        // 5. Share button
+        document.querySelector('.btn-primary').addEventListener('click', function() {
+            shareResults(simId);
+        });
+
+        // Helper functions
+        function updateDataTable(dataPoints) {
+            const tbody = document.querySelector('.data-table tbody');
+            tbody.innerHTML = '';
+            
+            dataPoints.forEach(point => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${point.time}</td>
+                    <td>${point.x}</td>
+                    <td>${point.y}</td>
+                    <td>${point.velocity}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function renderGraph(type, data) {
+            const graphContainer = document.querySelector('.graph-container');
+            graphContainer.innerHTML = `
+                <canvas id="resultsChart" width="800" height="400"></canvas>
+                <small>${type} visualization</small>
+            `;
+            console.log(`Would render ${type} graph with:`, data);
+        }
+
+        function exportData(simData) {
+            if(!simData.config) {
+                alert('No simulation data found');
+                return;
+            }
+            
+            let csv = 'Parameter,Value\n';
+            csv += `Title,${simData.config.title}\n`;
+            csv += `Type,${simData.config.type}\n`;
+            
+            for(const [key, value] of Object.entries(simData.config.parameters)) {
+                csv += `${key},${value}\n`;
+            }
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `simulation_${Date.now()}.csv`;
+            a.click();
+        }
+
+        function shareResults(simId) {
+            const shareUrl = `${window.location.href.split('?')[0]}?simId=${simId}`;
+            if(navigator.share) {
+                navigator.share({
+                    title: 'My Science Simulation',
+                    text: 'Check out these simulation results!',
+                    url: shareUrl
+                });
+            } else {
+                prompt('Copy this link to share:', shareUrl);
+            }
+        }
+    });
+ 
+          
+    </script>
+    <!-- Load Chart.js for graphs -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/nav-highlight.js"></script>
+</body>
+</html>

@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SciSolve | Simulation Engine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Your provided CSS with additions for the simulation form */
+        /* Updated CSS for Simulation Engine */
+:root {
+  --primary-color: #1f2937; /* dark slate */
+  --secondary-color: #3b82f6; /* sky blue */
+  --accent-color: #f59e0b; /* amber */
+  --light-color: #f3f4f6;
+  --dark-color: #111827;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --gray-light: #d1d5db;
+  --gray-medium: #9ca3af;
+  --gray-dark: #4b5563;
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --transition: all 0.3s ease-in-out;
+  --bg-image: url('https://png.pngtree.com/thumb_back/fw800/background/20240206/pngtree-ai-robot-hans-and-human-hand-touch-image_15623075.jpg');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: linear-gradient(to right, rgba(31, 41, 55, 0.9), rgba(17, 24, 39, 0.9)),
+              var(--bg-image) no-repeat center center fixed;
+  background-size: cover;
+  color: var(--light-color);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header/Nav */
+header {
+  background-color: rgba(17, 24, 39, 0.95);
+  box-shadow: var(--shadow-md);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--light-color);
+  display: flex;
+  align-items: center;
+}
+
+.logo span {
+  color: var(--secondary-color);
+  font-weight: 700;
+}
+
+.logo i {
+  color: var(--accent-color);
+  margin-right: 0.5rem;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: var(--gray-light);
+  padding: 0.5rem 0;
+  text-decoration: none;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-links a:hover {
+  color: var(--light-color);
+}
+
+.nav-links a.active {
+  color: var(--secondary-color);
+  border-bottom-color: var(--secondary-color);
+}
+
+.nav-links i {
+  font-size: 0.9rem;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.btn-login {
+  background-color: transparent;
+  color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+}
+
+.btn-login:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.btn-signup {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+}
+
+.btn-signup:hover {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+}
+
+/* Simulation Container */
+.simulation-container {
+  margin-top: 100px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  min-height: calc(100vh - 180px);
+  padding-bottom: 3rem;
+}
+
+/* Simulation Form */
+.simulation-form {
+  background: rgba(17, 24, 39, 0.9);
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  transition: var(--transition);
+}
+
+.simulation-form:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.form-header {
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.form-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to right, var(--secondary-color), var(--accent-color));
+  border-radius: 3px;
+}
+
+.form-header h2 {
+  font-size: 1.8rem;
+  color: var(--light-color);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.form-header h2 i {
+  color: var(--accent-color);
+}
+
+.form-header p {
+  color: var(--gray-light);
+  font-size: 0.9rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--light-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-group label i {
+  color: var(--accent-color);
+  font-size: 0.9rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: white;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.form-control::placeholder {
+  color: var(--gray-dark);
+}
+
+select.form-control {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239ca3af'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+}
+
+.range-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.range-value {
+  min-width: 50px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  font-family: monospace;
+  color: var(--secondary-color);
+  font-weight: 600;
+}
+
+input[type="range"] {
+  flex-grow: 1;
+  -webkit-appearance: none;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  background: var(--secondary-color);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+}
+
+.radio-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  transition: var(--transition);
+}
+
+.radio-option:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.radio-option input {
+  accent-color: var(--secondary-color);
+  cursor: pointer;
+}
+
+.radio-option label {
+  color: var(--gray-light);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.radio-option:hover label {
+  color: var(--light-color);
+}
+
+.radio-option input:checked + label {
+  color: var(--light-color);
+  font-weight: 500;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(to right, var(--secondary-color), var(--accent-color));
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Simulation Visualization */
+.simulation-visualization {
+  background: rgba(17, 24, 39, 0.9);
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+}
+
+.simulation-visualization:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.simulation-title {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--light-color);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.simulation-title i {
+  color: var(--accent-color);
+}
+
+.simulation-display {
+  flex-grow: 1;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px dashed rgba(59, 130, 246, 0.3);
+}
+
+.simulation-placeholder {
+  text-align: center;
+  padding: 2rem;
+  color: var(--gray-light);
+}
+
+.simulation-placeholder i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--secondary-color);
+  opacity: 0.7;
+}
+
+.simulation-placeholder p {
+  margin-bottom: 0.5rem;
+}
+
+.simulation-placeholder small {
+  color: var(--gray-dark);
+  font-size: 0.8rem;
+}
+
+.simulation-controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-control {
+  flex: 1;
+  padding: 0.8rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--gray-light);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-control:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--light-color);
+  transform: translateY(-2px);
+}
+
+.btn-control.primary {
+  background: linear-gradient(to right, var(--secondary-color), var(--accent-color));
+  color: white;
+  border: none;
+}
+
+.btn-control.primary:hover {
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.simulation-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.stat-card {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  border-left: 3px solid var(--secondary-color);
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+  margin-bottom: 0.3rem;
+  font-family: monospace;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--gray-light);
+}
+
+/* Animation for simulation running */
+@keyframes pulse {
+  0% { opacity: 0.6; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0.6; transform: scale(0.95); }
+}
+
+.simulation-running {
+  animation: pulse 1.5s infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .simulation-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .simulation-visualization {
+    min-height: 500px;
+  }
+  
+  nav {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+  
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .simulation-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .radio-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .radio-option {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .simulation-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .simulation-controls {
+    flex-direction: column;
+  }
+  
+  .form-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .simulation-title {
+    font-size: 1.3rem;
+  }
+}
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <i class="fas fa-atom" style="margin-right: 10px;"></i>
+                <span>Sci</span>Solve
+            </div>
+            <ul class="nav-links">
+                <li><a href="challenges.html"></i> Back</a></li>
+                <li><a href="simulation_engine.html" class="active"></i> Simulations</a></li>
+                <li><a href="result.html"></i>Result</a></li>
+                <li><a href="submit.html"></i> Submit</a></li>
+
+                
+</ul>
+            </ul>
+           
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="simulation-container">
+            <!-- Simulation Parameters Form -->
+            <div class="simulation-form">
+                <div class="form-header">
+                    <h2><i class="fas fa-cog"></i> Simulation Parameters</h2>
+                    <p>Configure the parameters for your scientific simulation</p>
+                </div>
+                
+                <form id="simulationForm">
+                    <div class="form-group">
+                        <label for="simulationType"><i class="fas fa-shapes"></i> Simulation Type</label>
+                        <select id="simulationType" class="form-control">
+                            <option value="">Select a simulation type</option>
+                            <option value="physics">Physics: Projectile Motion</option>
+                            <option value="chemistry">Chemistry: Reaction Kinetics</option>
+                            <option value="biology">Biology: Population Dynamics</option>
+                            <option value="environmental">Environmental: Climate Model</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="simulationName"><i class="fas fa-tag"></i> Simulation Name</label>
+                        <input type="text" id="simulationName" class="form-control" placeholder="My Science Experiment">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-sliders-h"></i> Initial Velocity (m/s)</label>
+                        <div class="range-container">
+                            <input type="range" id="velocity" min="0" max="100" value="50" step="1" class="form-control">
+                            <span class="range-value" id="velocityValue">50</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-ruler-combined"></i> Launch Angle (degrees)</label>
+                        <div class="range-container">
+                            <input type="range" id="angle" min="0" max="90" value="45" step="1" class="form-control">
+                            <span class="range-value" id="angleValue">45</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-weight"></i> Mass (kg)</label>
+                        <div class="range-container">
+                            <input type="range" id="mass" min="0.1" max="10" value="1" step="0.1" class="form-control">
+                            <span class="range-value" id="massValue">1.0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-wind"></i> Environment</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="envVacuum" name="environment" value="vacuum" checked>
+                                <label for="envVacuum">Vacuum</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="envEarth" name="environment" value="earth">
+                                <label for="envEarth">Earth</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="envMars" name="environment" value="mars">
+                                <label for="envMars">Mars</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gravity"><i class="fas fa-globe"></i> Gravity (m/s²)</label>
+                        <input type="number" id="gravity" class="form-control" value="9.81" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description"><i class="fas fa-align-left"></i> Description</label>
+                        <textarea id="description" class="form-control" rows="3" placeholder="Describe your simulation hypothesis or objectives..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-rocket"></i> Run Simulation
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Simulation Visualization Area -->
+            <div class="simulation-visualization">
+                <h3 class="simulation-title">Simulation Output</h3>
+                
+                <div class="simulation-display">
+                    <div class="simulation-placeholder">
+                        <i class="fas fa-project-diagram"></i>
+                        <p>Configure and run your simulation to see the visualization here</p>
+                    </div>
+                </div>
+                
+                <div class="simulation-controls">
+                    <button class="btn-control" id="btnPause">
+                        <i class="fas fa-pause"></i> Pause
+                    </button>
+                    <button class="btn-control primary" id="btnRun">
+                        <i class="fas fa-play"></i> Run
+                    </button>
+                    <button class="btn-control" id="btnReset">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+                
+                <div class="simulation-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="statDistance">0.00</div>
+                        <div class="stat-label">Distance (m)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statHeight">0.00</div>
+                        <div class="stat-label">Max Height (m)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statTime">0.00</div>
+                        <div class="stat-label">Duration (s)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Interactive functionality for the simulation form
+    document.addEventListener('DOMContentLoaded', function() {
+        // Helper function to update range displays
+        function updateRangeValue(rangeId, valueId) {
+            const range = document.getElementById(rangeId);
+            const value = document.getElementById(valueId);
+            value.textContent = range.value;
+            
+            range.addEventListener('input', function() {
+                value.textContent = this.value;
+            });
+        }
+        
+        // Handle clone parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        if(urlParams.has('cloneId')) {
+            document.getElementById('simulationName').value = "Clone of #" + urlParams.get('cloneId');
+        }
+        
+        // Initialize range displays
+        updateRangeValue('velocity', 'velocityValue');
+        updateRangeValue('angle', 'angleValue');
+        updateRangeValue('mass', 'massValue');
+        
+        // Form submission handler
+          // Updated form submission in simulation_engine.html
+              form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // 1. Get form data
+    const formData = {
+        title: document.getElementById('simulationName').value,
+        type: document.getElementById('simulationType').value,
+        parameters: {
+            velocity: document.getElementById('velocity').value,
+            angle: document.getElementById('angle').value,
+            mass: document.getElementById('mass').value,
+            environment: document.querySelector('input[name="environment"]:checked').value,
+            gravity: document.getElementById('gravity').value
+        },
+        description: document.getElementById('description').value
+    };
+
+    // 2. Show loading state
+    const placeholder = document.querySelector('.simulation-placeholder');
+    placeholder.innerHTML = `
+        <i class="fas fa-cogs simulation-running"></i>
+        <p>Running ${formData.type} simulation...</p>
+    `;
+
+    // 3. Store data for results page
+    sessionStorage.setItem('simulationData', JSON.stringify(formData));
+
+    // 4. Redirect after 2 seconds (simulate processing)
+    setTimeout(() => {
+        window.location.href = 'result.html?simId=' + Date.now();
+    }, 2000);
+});
+
+// Simulation calculation function
+async function simulateCalculation(formData) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve({
+                distance: (formData.parameters.velocity * 2 * Math.sin(formData.parameters.angle * Math.PI/180)).toFixed(2),
+                height: (Math.pow(formData.parameters.velocity * Math.sin(formData.parameters.angle * Math.PI/180), 2) / (2 * formData.parameters.gravity)).toFixed(2),
+                time: (2 * formData.parameters.velocity * Math.sin(formData.parameters.angle * Math.PI/180) / formData.parameters.gravity).toFixed(2),
+                dataPoints: generateDataPoints(formData)
+            });
+        }, 2000);
+    });
+}
+
+function generateDataPoints(formData) {
+    // Generate sample trajectory data
+    const points = [];
+    const v0 = formData.parameters.velocity;
+    const angle = formData.parameters.angle;
+    const g = formData.parameters.gravity;
+    
+    for(let t = 0; t <= 5; t += 0.5) {
+        points.push({
+            time: t,
+            x: v0 * Math.cos(angle * Math.PI/180) * t,
+            y: v0 * Math.sin(angle * Math.PI/180) * t - 0.5 * g * t * t
+        });
+    }
+    return points;
+}
+            
+            // Store data for results page
+            sessionStorage.setItem('simulationData', JSON.stringify(formData));
+            
+            // Show loading state
+            const placeholder = document.querySelector('.simulation-placeholder');
+            placeholder.innerHTML = `
+                <i class="fas fa-cogs simulation-running"></i>
+                <p>Running ${formData.type} simulation...</p>
+            `;
+            
+            // Simulate calculation delay then redirect
+            setTimeout(() => {
+                // Generate unique ID for this simulation run
+                const simId = 'sim-' + Date.now();
+                
+                // Store results temporarily
+                const results = {
+                    distance: (Math.random() * 1000).toFixed(2),
+                    height: (Math.random() * 500).toFixed(2),
+                    time: (Math.random() * 10).toFixed(2)
+                };
+                sessionStorage.setItem(simId, JSON.stringify(results));
+                
+                // Redirect to results page
+                window.location.href = `result.html?simId=${simId}`;
+            }, 2000);
+        });
+        
+        // Control buttons
+        document.getElementById('btnRun').addEventListener('click', function() {
+            console.log('Simulation running...');
+        });
+        
+        document.getElementById('btnPause').addEventListener('click', function() {
+            console.log('Simulation paused');
+        });
+        
+        document.getElementById('btnReset').addEventListener('click', function() {
+            console.log('Simulation reset');
+            document.querySelector('.simulation-placeholder').innerHTML = `
+                <i class="fas fa-project-diagram"></i>
+                <p>Configure and run your simulation to see the visualization here</p>
+            `;
+            
+            // Reset stats
+            document.getElementById('statDistance').textContent = '0.00';
+            document.getElementById('statHeight').textContent = '0.00';
+            document.getElementById('statTime').textContent = '0.00';
+        });
+    
+</script>
+    <script src="js/nav-highlight.js"></script>
+</body>
+</html>
