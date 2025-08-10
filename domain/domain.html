@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SciSolve | Domain Expert Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+
+       
+    /* ==============================
+       ROOT VARIABLES & BASE STYLES
+    ============================== */
+:root {
+        --primary-color: #0ea5e9;      /* Bright blue */
+        --secondary-color: #3b82f6;    /* Lighter blue */
+        --success-color: #10b981;      /* Emerald green */
+        --warning-color: #f59e0b;      /* Amber */
+        --danger-color: #ef4444;       /* Red */
+        --accent-color: #f97316;       /* Orange accent */
+        --gray-dark: #111827;
+        --gray-medium: #374151;
+        --gray-light: #9ca3af;
+        --bg-dark: #1e293b;
+        --radius-sm: 6px;
+        --radius-md: 12px;
+        --radius-lg: 20px;
+        --radius-full: 9999px;
+        --space-xs: 6px;
+        --space-sm: 12px;
+        --space-md: 18px;
+        --space-lg: 30px;
+        --space-xl: 48px;
+        --transition: all 0.3s ease-in-out;
+        --shadow-sm: 0 1px 4px rgba(0,0,0,0.1);
+        --shadow-md: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    * {
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: white;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    body {
+        background:
+          linear-gradient(rgba(17,24,39,0.85), rgba(22,28,36,0.85)),
+          url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+        padding: 36px 0;
+        color: #d1fae5;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ==============================
+       TYPOGRAPHY
+    ============================== */
+    
+
+    /* ==============================
+       LAYOUT & CONTAINERS
+    ============================== */
+   .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* Header */
+    header nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--space-sm) 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+
+ 
+
+      .logo {
+        font-weight: 800;
+        font-size: 1.8rem;
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+
+    .logo span {
+        color: var(--secondary-color);
+    }
+.nav-links {
+        list-style: none;
+        display: flex;
+        gap: var(--space-lg);
+    }
+
+    .nav-links li a {
+        color: var(--gray-light);
+        font-weight: 600;
+        text-decoration: none;
+        padding: var(--space-xs) var(--space-sm);
+        border-radius: var(--radius-sm);
+        transition: var(--transition);
+    }
+
+    .nav-links li a:hover,
+    .nav-links li a.active {
+        background: var(--primary-color);
+        color: white;
+        box-shadow: var(--shadow-md);
+    }
+
+/* Auth buttons */
+    .auth-buttons button {
+        background: transparent;
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        font-weight: 700;
+        padding: 8px 20px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: var(--transition);
+        margin-left: var(--space-sm);
+    }
+
+    .auth-buttons button:hover {
+        background: var(--primary-color);
+        color: white;
+        box-shadow: var(--shadow-md);
+    }
+
+    /* ==============================
+       DASHBOARD HEADER
+    ============================== */
+    .team-header {
+        background: rgba(26, 32, 44, 0.7);
+        border-radius: var(--radius-lg);
+        padding: var(--space-xl);
+        margin-bottom: var(--space-xl);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(49, 130, 206, 0.1);
+        box-shadow: var(--shadow-md);
+    }
+
+    .team-header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: var(--space-lg);
+    }
+
+    .team-info h1 {
+        font-size: 2rem;
+        color: white;
+        margin-bottom: var(--space-sm);
+    }
+
+    .team-info h1 span {
+        color: var(--secondary-color);
+    }
+
+    .team-description {
+        max-width: 600px;
+        margin-bottom: var(--space-lg);
+        color: var(--gray-light);
+    }
+
+    .team-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-sm);
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+        background: rgba(49, 130, 206, 0.1);
+        padding: var(--space-xs) var(--space-sm);
+        border-radius: var(--radius-full);
+        font-size: 0.85rem;
+        color: var(--gray-light);
+    }
+
+    .meta-item i {
+        color: var(--secondary-color);
+        font-size: 0.9em;
+    }
+
+    .team-actions {
+        display: flex;
+        gap: var(--space-sm);
+        flex-wrap: wrap;
+    }
+
+    .btn-primary {
+        background: var(--secondary-color);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+    }
+
+    .btn-primary:hover {
+        background: #2c5282;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-outline {
+        background: transparent;
+        border: 1px solid var(--secondary-color);
+        color: var(--secondary-color);
+    }
+
+    .btn-outline:hover {
+        background: rgba(49, 130, 206, 0.1);
+        transform: translateY(-2px);
+    }
+
+    /* ==============================
+       STATS GRID
+    ============================== */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: var(--space-lg);
+        margin-bottom: var(--space-xl);
+    }
+
+    .stat-card {
+        background: rgba(26, 32, 44, 0.7);
+        border-radius: var(--radius-lg);
+        padding: var(--space-lg);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,0.05);
+        transition: var(--transition);
+        min-height: 140px;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+        border-color: rgba(49, 130, 206, 0.3);
+    }
+
+    .stat-card.warning {
+        border-left: 4px solid var(--warning-color);
+    }
+
+    .stat-card.danger {
+        border-left: 4px solid var(--danger-color);
+    }
+
+    .stat-value {
+        font-size: 2.25rem;
+        font-weight: 700;
+        margin-bottom: var(--space-xs);
+        color: white;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        color: var(--gray-light);
+    }
+
+    .stat-card i {
+        position: absolute;
+        right: var(--space-lg);
+        bottom: var(--space-lg);
+        font-size: 1.8rem;
+        opacity: 0.2;
+    }
+
+    /* ==============================
+       REVIEW CARDS
+    ============================== */
+    .updates-section {
+        margin-bottom: var(--space-xl);
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--space-lg);
+        flex-wrap: wrap;
+        gap: var(--space-md);
+    }
+
+    .section-header h2 {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        font-size: 1.5rem;
+        color: white;
+    }
+
+    .section-header h2 i {
+        color: var(--secondary-color);
+    }
+
+    .review-card {
+        background: rgba(26, 32, 44, 0.7);
+        border-radius: var(--radius-lg);
+        padding: var(--space-lg);
+        margin-bottom: var(--space-md);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,0.05);
+        transition: var(--transition);
+    }
+
+    .review-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
+        border-color: rgba(49, 130, 206, 0.3);
+    }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--space-sm);
+        margin-bottom: var(--space-md);
+    }
+
+    .review-meta {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--space-sm);
+    }
+
+    .review-domain {
+        background: rgba(49, 130, 206, 0.1);
+        color: var(--secondary-color);
+        padding: var(--space-xs) var(--space-sm);
+        border-radius: var(--radius-full);
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .review-urgency {
+        background: rgba(229, 62, 62, 0.1);
+        color: var(--danger-color);
+        padding: var(--space-xs) var(--space-sm);
+        border-radius: var(--radius-full);
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .ai-flag {
+        background: rgba(221, 107, 32, 0.1);
+        color: var(--warning-color);
+        padding: var(--space-xs) var(--space-sm);
+        border-radius: var(--radius-full);
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+    }
+
+    .update-time {
+        color: var(--gray-medium);
+        font-size: 0.85rem;
+    }
+
+    .review-title {
+        font-size: 1.2rem;
+        margin-bottom: var(--space-sm);
+        color: white;
+    }
+
+    .review-preview {
+        color: var(--gray-light);
+        margin-bottom: var(--space-lg);
+        line-height: 1.7;
+    }
+
+    .review-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--space-md);
+        padding-top: var(--space-md);
+        border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .review-author {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+    }
+
+    .review-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        border: 2px solid var(--secondary-color);
+    }
+
+    .update-actions {
+        display: flex;
+        gap: var(--space-lg);
+        flex-wrap: wrap;
+    }
+
+    .action-link {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+        color: var(--secondary-color);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: var(--transition);
+        cursor: pointer;
+    }
+
+    .action-link:hover {
+        color: var(--accent-color);
+        transform: translateX(2px);
+    }
+
+    .action-link i {
+        font-size: 0.85em;
+    }
+
+    /* ==============================
+       TOOLS PANEL
+    ============================== */
+    .tools-panel {
+        background: rgba(26, 32, 44, 0.7);
+        border-radius: var(--radius-lg);
+        padding: var(--space-xl);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,0.05);
+        margin-top: var(--space-xl);
+    }
+
+    .tools-panel h2 {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        color: white;
+    }
+
+    .tools-panel h2 i {
+        color: var(--secondary-color);
+    }
+
+    .tools-panel p {
+        color: var(--gray-light);
+        margin-top: var(--space-xs);
+    }
+
+    .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: var(--space-lg);
+        margin-top: var(--space-lg);
+    }
+
+    .tool-card {
+        background: rgba(26, 54, 93, 0.5);
+        border-radius: var(--radius-md);
+        padding: var(--space-lg);
+        transition: var(--transition);
+        text-decoration: none;
+        border: 1px solid rgba(255,255,255,0.05);
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .tool-card:hover {
+        background: rgba(49, 130, 206, 0.1);
+        transform: translateY(-5px);
+        border-color: rgba(49, 130, 206, 0.3);
+        box-shadow: var(--shadow-md);
+    }
+
+    .tool-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: var(--radius-md);
+        background: rgba(49, 130, 206, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto var(--space-md);
+        color: var(--secondary-color);
+        font-size: 1.5rem;
+    }
+
+    .tool-name {
+        font-size: 1.1rem;
+        margin-bottom: var(--space-xs);
+        color: white;
+    }
+
+    .tool-desc {
+        color: var(--gray-light);
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    /* ==============================
+       FORM ELEMENTS
+    ============================== */
+    .form-control {
+        background: rgba(26, 54, 93, 0.7);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: var(--radius-md);
+        padding: 0.6rem 1rem;
+        color: white;
+        font-size: 0.9rem;
+        transition: var(--transition);
+        width: 100%;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.2);
+    }
+
+    select.form-control {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23a0aec0' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 16px 12px;
+        padding-right: 2.5rem;
+    }
+
+    /* ==============================
+       FOOTER
+    ============================== */
+    footer {
+        background: rgba(26, 32, 44, 0.95);
+        padding: var(--space-xl) 0;
+        margin-top: var(--space-xl);
+        backdrop-filter: blur(8px);
+        border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--space-xl);
+        margin-bottom: var(--space-lg);
+    }
+
+    .footer-column h3 {
+        font-size: 1.1rem;
+        margin-bottom: var(--space-md);
+        color: white;
+    }
+
+    .footer-links {
+        list-style: none;
+    }
+
+    .footer-links li {
+        margin-bottom: var(--space-sm);
+    }
+
+    .footer-links a {
+        color: var(--gray-light);
+        text-decoration: none;
+        transition: var(--transition);
+        font-size: 0.9rem;
+        display: inline-block;
+    }
+
+    .footer-links a:hover {
+        color: var(--secondary-color);
+        transform: translateX(3px);
+    }
+
+    .social-links {
+        display: flex;
+        gap: var(--space-sm);
+        margin-top: var(--space-md);
+    }
+
+    .social-links a {
+        color: white;
+        background: rgba(255,255,255,0.1);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+    }
+
+    .social-links a:hover {
+        background: var(--secondary-color);
+        transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: var(--space-lg);
+        border-top: 1px solid rgba(255,255,255,0.1);
+        color: var(--gray-light);
+        font-size: 0.85rem;
+    }
+
+    /* ==============================
+       UTILITY CLASSES
+    ============================== */
+    .text-secondary {
+        color: var(--secondary-color);
+    }
+
+    .text-accent {
+        color: var(--accent-color);
+    }
+
+    .text-light {
+        color: var(--light-color);
+    }
+
+    .text-gray {
+        color: var(--gray-medium);
+    }
+
+    .bg-dark {
+        background: var(--dark-color);
+    }
+
+    /* ==============================
+       MODAL DIALOGS
+    ============================== */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.8);
+        backdrop-filter: blur(5px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition-slow);
+    }
+
+    .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal {
+        background: rgba(26, 32, 44, 0.95);
+        border-radius: var(--radius-xl);
+        width: 90%;
+        max-width: 600px;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: var(--space-xl);
+        box-shadow: var(--shadow-xl);
+        border: 1px solid rgba(49, 130, 206, 0.2);
+        transform: translateY(20px);
+        transition: var(--transition-slow);
+        position: relative;
+    }
+
+    .modal-overlay.active .modal {
+        transform: translateY(0);
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--space-lg);
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+    }
+
+    .modal-title i {
+        color: var(--secondary-color);
+    }
+
+    .close-modal {
+        background: transparent;
+        border: none;
+        color: var(--gray-light);
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .close-modal:hover {
+        color: var(--danger-color);
+        transform: rotate(90deg);
+    }
+
+    .modal-body {
+        margin-bottom: var(--space-xl);
+    }
+
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: var(--space-sm);
+        padding-top: var(--space-lg);
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* Review Modal Specific Styles */
+    .review-modal-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-lg);
+    }
+
+    .review-full-text {
+        background: rgba(26, 54, 93, 0.7);
+        border-radius: var(--radius-md);
+        padding: var(--space-lg);
+        line-height: 1.8;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    .review-meta-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: var(--space-sm);
+        margin-bottom: var(--space-lg);
+    }
+
+    .meta-card {
+        background: rgba(49, 130, 206, 0.1);
+        border-radius: var(--radius-md);
+        padding: var(--space-sm);
+    }
+
+    .meta-label {
+        font-size: 0.8rem;
+        color: var(--gray-light);
+        margin-bottom: var(--space-xs);
+    }
+
+    .meta-value {
+        font-weight: 500;
+        color: white;
+    }
+
+    /* Tool Modal Specific Styles */
+    .tool-modal-icon {
+        font-size: 3rem;
+        color: var(--secondary-color);
+        margin-bottom: var(--space-md);
+        text-align: center;
+    }
+
+    /* Form Styles */
+    .form-group {
+        margin-bottom: var(--space-lg);
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: var(--space-xs);
+        color: var(--gray-light);
+        font-size: 0.9rem;
+    }
+
+    textarea.form-control {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    /* Quick Review Modal */
+    .quick-review-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--space-md);
+        margin-bottom: var(--space-lg);
+    }
+
+    .quick-review-card {
+        background: rgba(26, 54, 93, 0.7);
+        border-radius: var(--radius-md);
+        padding: var(--space-md);
+        text-align: center;
+        cursor: pointer;
+        transition: var(--transition);
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .quick-review-card:hover {
+        background: rgba(49, 130, 206, 0.1);
+        border-color: var(--secondary-color);
+    }
+
+    .quick-review-card i {
+        font-size: 1.5rem;
+        margin-bottom: var(--space-sm);
+        color: var(--secondary-color);
+    }
+
+    /* Batch Approve Modal */
+    .batch-approve-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: var(--space-lg);
+    }
+
+    .batch-approve-table th, 
+    .batch-approve-table td {
+        padding: var(--space-sm);
+        text-align: left;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .batch-approve-table th {
+        color: var(--gray-light);
+        font-weight: 500;
+        font-size: 0.85rem;
+    }
+
+    .batch-approve-table td {
+        color: white;
+        font-size: 0.9rem;
+    }
+
+    .batch-approve-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* ==============================
+       RESPONSIVE DESIGN
+    ============================== */
+    @media (max-width: 1024px) {
+        .container {
+            padding: 0 var(--space-md);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .team-header-content {
+            flex-direction: column;
+        }
+        
+        .team-actions {
+            width: 100%;
+            justify-content: flex-start;
+        }
+        
+        .stats-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .nav-links {
+            display: none;
+        }
+        
+        .review-footer {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--space-md);
+        }
+        
+        .update-actions {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .modal {
+            padding: var(--space-lg);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .auth-buttons {
+            flex-direction: column;
+            width: 100%;
+        }
+        
+        .btn {
+            width: 100%;
+        }
+        
+        .footer-content {
+            grid-template-columns: 1fr;
+            gap: var(--space-lg);
+        }
+
+        .modal {
+            width: 95%;
+            padding: var(--space-lg) var(--space-md);
+        }
+
+        .modal-footer {
+            flex-direction: column;
+        }
+
+        .modal-footer .btn {
+            width: 100%;
+        }
+    }
+
+    /* ==============================
+       ANIMATIONS
+    ============================== */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+        from { 
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to { 
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    .fade-in {
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    .fade-in-up {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    /* Quick Actions */
+    .expert-actions {
+        display: flex;
+        gap: var(--space-sm);
+        margin-bottom: var(--space-xl);
+        flex-wrap: wrap;
+    }
+
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Sci<span>Solve</span></a>
+                <ul class="nav-links">
+                    <li><a href="#" class="active">Dashboard</a></li>
+                    <li><a href="problem.html">Challenges</a></li>
+                    <li><a href="solution.html">Solutions</a></li>
+                    <li><a href="#">Mentorship</a></li>
+                    <li><a href="#">Analytics</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    <button class="btn btn-login">Profile</button>
+                    <button class="btn btn-signup">Log Out</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Dashboard Header -->
+        <div class="team-header">
+            <div class="team-header-content">
+                <div class="team-info">
+                    <h1>Domain Expert <span>Dashboard</span></h1>
+                    <p class="team-description">
+                        Review pending submissions, validate solutions, and mentor researchers in your specialized domain.
+                    </p>
+                    <div class="team-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-atom"></i>
+                            <span>Quantum Physics</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Level 4 Validator</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-star"></i>
+                            <span>98% Accuracy</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-actions">
+                    <button id="quickReviewBtn" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i> Quick Review
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-sliders-h"></i> Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">24</div>
+                <div class="stat-label">Pending Reviews</div>
+                <i class="fas fa-inbox"></i>
+            </div>
+            <div class="stat-card warning">
+                <div class="stat-value">8</div>
+                <div class="stat-label">High Priority</div>
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">142</div>
+                <div class="stat-label">Reviewed This Month</div>
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-card danger">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Disputed Decisions</div>
+                <i class="fas fa-comment-alt-exclamation"></i>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="expert-actions">
+            <button id="batchApproveBtn" class="btn btn-primary">
+                <i class="fas fa-check-double"></i> Batch Approve
+            </button>
+            <button id="filterPriorityBtn" class="btn btn-outline">
+                <i class="fas fa-filter"></i> Filter by Priority
+            </button>
+            <button id="advancedSearchBtn" class="btn btn-outline">
+                <i class="fas fa-search"></i> Advanced Search
+            </button>
+        </div>
+
+        <!-- Pending Reviews Section -->
+        <div class="updates-section">
+            <div class="section-header">
+                <h2><i class="fas fa-tasks"></i> Pending Reviews</h2>
+                <div>
+                    <select class="form-control">
+                        <option>Sort by Newest</option>
+                        <option>Sort by Priority</option>
+                        <option>Sort by Domain</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Review Card 1 (High Priority) -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-meta">
+                        <span class="review-domain">Quantum Computing</span>
+                        <span class="review-urgency">High Priority</span>
+                    </div>
+                    <span class="update-time">Due in 12 hours</span>
+                </div>
+                <h3 class="review-title">Error in Shor's Algorithm Implementation</h3>
+                <p class="review-preview">
+                    Submitted solution appears to miscalculate prime factors for numbers >15 qubits. The modular exponentiation step shows incorrect period finding...
+                </p>
+                <div class="review-footer">
+                    <div class="review-author">
+                        <div class="review-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/44.jpg');"></div>
+                        <span>Dr. Lisa Zhang</span>
+                    </div>
+                    <div class="update-actions">
+                        <a class="action-link approve-btn" data-submission="shor-algorithm"><i class="fas fa-check"></i> Approve</a>
+                        <a class="action-link request-revision-btn" data-submission="shor-algorithm"><i class="fas fa-edit"></i> Request Revisions</a>
+                        <a class="action-link reject-btn" data-submission="shor-algorithm"><i class="fas fa-times"></i> Reject</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Review Card 2 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-meta">
+                        <span class="review-domain">Quantum Entanglement</span>
+                    </div>
+                    <span class="update-time">Submitted 2 days ago</span>
+                </div>
+                <h3 class="review-title">New approach to Bell's Theorem Verification</h3>
+                <p class="review-preview">
+                    Proposed experimental setup using polarized photons claims 98% correlation efficiency. Need to verify statistical significance of results...
+                </p>
+                <div class="review-footer">
+                                        <div class="review-author">
+                        <div class="review-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/32.jpg');"></div>
+                        <span>Prof. Raj Patel</span>
+                    </div>
+                    <div class="update-actions">
+                        <a class="action-link approve-btn" data-submission="bells-theorem"><i class="fas fa-check"></i> Approve</a>
+                        <a class="action-link request-revision-btn" data-submission="bells-theorem"><i class="fas fa-edit"></i> Request Revisions</a>
+                        <a class="action-link reject-btn" data-submission="bells-theorem"><i class="fas fa-times"></i> Reject</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Review Card 3 (AI Flagged) -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-meta">
+                        <span class="review-domain">Quantum Cryptography</span>
+                        <span class="ai-flag"><i class="fas fa-robot"></i> AI Flagged</span>
+                    </div>
+                    <span class="update-time">Submitted 1 day ago</span>
+                </div>
+                <h3 class="review-title">Potential Vulnerability in BB84 Protocol Implementation</h3>
+                <p class="review-preview">
+                    Our AI system detected unusual patterns in the error correction phase. Manual review required to confirm if this represents a novel attack vector or implementation error...
+                </p>
+                <div class="review-footer">
+                    <div class="review-author">
+                        <div class="review-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/68.jpg');"></div>
+                        <span>Dr. Sofia Kowalski</span>
+                    </div>
+                    <div class="update-actions">
+                        <a class="action-link view-details-btn" data-submission="bb84-protocol"><i class="fas fa-search"></i> Investigate</a>
+                        <a class="action-link approve-btn" data-submission="bb84-protocol"><i class="fas fa-check"></i> Approve</a>
+                        <a class="action-link reject-btn" data-submission="bb84-protocol"><i class="fas fa-times"></i> Reject</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Review Card 4 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-meta">
+                        <span class="review-domain">Quantum Simulation</span>
+                    </div>
+                    <span class="update-time">Submitted 3 days ago</span>
+                </div>
+                <h3 class="review-title">Hybrid Quantum-Classical Algorithm for Molecular Modeling</h3>
+                <p class="review-preview">
+                    Claims 40% speedup over existing VQE approaches for certain molecular structures. Need to verify benchmark methodology and compare with...
+                </p>
+                <div class="review-footer">
+                    <div class="review-author">
+                        <div class="review-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/75.jpg');"></div>
+                        <span>Dr. Kwame Nkrumah</span>
+                    </div>
+                    <div class="update-actions">
+                        <a class="action-link approve-btn" data-submission="hybrid-algorithm"><i class="fas fa-check"></i> Approve</a>
+                        <a class="action-link request-revision-btn" data-submission="hybrid-algorithm"><i class="fas fa-edit"></i> Request Revisions</a>
+                        <a class="action-link reject-btn" data-submission="hybrid-algorithm"><i class="fas fa-times"></i> Reject</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expert Tools Section -->
+        <div class="tools-panel">
+            <h2><i class="fas fa-tools"></i> Expert Tools</h2>
+            <p>Specialized utilities to help with your validation and mentoring tasks.</p>
+            
+            <div class="tools-grid">
+                <div class="tool-card" id="validationToolBtn">
+                    <div class="tool-icon">
+                        <i class="fas fa-check-double"></i>
+                    </div>
+                    <h3 class="tool-name">Validation Assistant</h3>
+                    <p class="tool-desc">AI-powered tool to help verify mathematical proofs and experimental results.</p>
+                </div>
+                
+                <div class="tool-card" id="mentoringToolBtn">
+                    <div class="tool-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="tool-name">Mentoring Console</h3>
+                    <p class="tool-desc">Communicate directly with researchers seeking guidance in your domain.</p>
+                </div>
+                
+                <div class="tool-card" id="literatureToolBtn">
+                    <div class="tool-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3 class="tool-name">Literature Review</h3>
+                    <p class="tool-desc">Access to premium journals and recent publications in your field.</p>
+                </div>
+                
+                <div class="tool-card" id="benchmarkToolBtn">
+                    <div class="tool-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3 class="tool-name">Benchmarking</h3>
+                    <p class="tool-desc">Compare submitted solutions against known benchmarks and standards.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SciSolve</h3>
+                    <p>Accelerating scientific discovery through collaborative problem solving and expert validation.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Research Challenges</a></li>
+                        <li><a href="#">Become an Expert</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">API Documentation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Research Guidelines</a></li>
+                        <li><a href="#">Validation Standards</a></li>
+                        <li><a href="#">Publication Ethics</a></li>
+                        <li><a href="#">Community Forum</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Data Processing</a></li>
+                        <li><a href="#">Contact Legal</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 SciSolve. All rights reserved. | Version 2.4.1</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Quick Review Modal -->
+    <div class="modal-overlay" id="quickReviewModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-rocket"></i> Quick Review</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="quick-review-grid">
+                    <div class="quick-review-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Approve</h3>
+                        <p>Mark as technically sound with no revisions needed</p>
+                    </div>
+                    <div class="quick-review-card">
+                        <i class="fas fa-edit"></i>
+                        <h3>Minor Revisions</h3>
+                        <p>Request small clarifications or corrections</p>
+                    </div>
+                    <div class="quick-review-card">
+                        <i class="fas fa-redo"></i>
+                        <h3>Major Revisions</h3>
+                        <p>Substantial changes needed before approval</p>
+                    </div>
+                    <div class="quick-review-card">
+                        <i class="fas fa-times"></i>
+                        <h3>Reject</h3>
+                        <p>Fundamental flaws in methodology or results</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Selected Submission:</label>
+                    <select class="form-control">
+                        <option>Error in Shor's Algorithm Implementation</option>
+                        <option>New approach to Bell's Theorem Verification</option>
+                        <option>Potential Vulnerability in BB84 Protocol</option>
+                        <option>Hybrid Quantum-Classical Algorithm</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Quick Comments (Optional):</label>
+                    <textarea class="form-control" placeholder="Add any quick notes..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline close-modal">Cancel</button>
+                <button class="btn btn-primary">Submit Review</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Batch Approve Modal -->
+    <div class="modal-overlay" id="batchApproveModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-check-double"></i> Batch Approval</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Select multiple submissions to approve simultaneously. Only use for clearly valid solutions.</p>
+                
+                <table class="batch-approve-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>Submission</th>
+                            <th>Domain</th>
+                            <th>Submitted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>Error in Shor's Algorithm Implementation</td>
+                            <td>Quantum Computing</td>
+                            <td>2 hours ago</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>New approach to Bell's Theorem Verification</td>
+                            <td>Quantum Entanglement</td>
+                            <td>2 days ago</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>Hybrid Quantum-Classical Algorithm</td>
+                            <td>Quantum Simulation</td>
+                            <td>3 days ago</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="form-group">
+                    <label class="form-label">Batch Comments (Optional):</label>
+                    <textarea class="form-control" placeholder="Add comments that will apply to all selected submissions..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline close-modal">Cancel</button>
+                <button class="btn btn-primary">Approve Selected</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Validation Tool Modal -->
+    <div class="modal-overlay" id="validationToolModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-check-double"></i> Validation Assistant</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="tool-modal-icon">
+                    <i class="fas fa-atom"></i>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Select Submission to Validate:</label>
+                    <select class="form-control">
+                        <option>Error in Shor's Algorithm Implementation</option>
+                        <option>New approach to Bell's Theorem Verification</option>
+                        <option>Potential Vulnerability in BB84 Protocol</option>
+                        <option>Hybrid Quantum-Classical Algorithm</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Validation Focus Area:</label>
+                    <select class="form-control">
+                        <option>Mathematical Proof</option>
+                        <option>Experimental Methodology</option>
+                        <option>Statistical Analysis</option>
+                        <option>Code Implementation</option>
+                        <option>Literature Comparison</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Specific Questions (Optional):</label>
+                    <textarea class="form-control" placeholder="What specific aspects would you like the validation assistant to examine?"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline close-modal">Cancel</button>
+                <button class="btn btn-primary">Run Validation</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Detail Modal -->
+    <div class="modal-overlay" id="reviewDetailModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-file-alt"></i> Submission Details</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="review-modal-content">
+                    <div class="review-meta-grid">
+                        <div class="meta-card">
+                            <div class="meta-label">Domain</div>
+                            <div class="meta-value">Quantum Computing</div>
+                        </div>
+                        <div class="meta-card">
+                            <div class="meta-label">Submitted By</div>
+                            <div class="meta-value">Dr. Lisa Zhang</div>
+                        </div>
+                        <div class="meta-card">
+                            <div class="meta-label">Submitted On</div>
+                            <div class="meta-value">June 15, 2023</div>
+                        </div>
+                        <div class="meta-card">
+                            <div class="meta-label">Priority</div>
+                            <div class="meta-value">High</div>
+                        </div>
+                    </div>
+                    
+                    <h3>Error in Shor's Algorithm Implementation</h3>
+                    
+                    <div class="review-full-text">
+                        <p>The submitted solution presents an implementation of Shor's algorithm for factoring integers using quantum circuits. While the general approach follows standard methodology, our analysis has identified several critical issues:</p>
+                        
+                        <ol>
+                            <li><strong>Modular Exponentiation:</strong> The implementation appears to incorrectly calculate the modular exponentiation step for numbers requiring more than 15 qubits. Specifically, the period finding function returns inconsistent results when...</li>
+                            
+                            <li><strong>Quantum Fourier Transform:</strong> The QFT implementation shows phase errors when the input register exceeds 12 qubits. This manifests as incorrect probability amplitudes in the output distribution...</li>
+                            
+                            <li><strong>Error Correction:</strong> The solution lacks adequate error correction for the proposed scale of computation. Given the current error rates in quantum hardware, the probability of obtaining correct factors drops below 30% for numbers...</li>
+                        </ol>
+                        
+                        <p>We recommend the following revisions:</p>
+                        <ul>
+                            <li>Re-examine the modular exponentiation circuit for larger qubit counts</li>
+                            <li>Implement additional error correction protocols</li>
+                            <li>Provide benchmark results against known test cases</li>
+                            <li>Include theoretical analysis of success probabilities</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Your Evaluation:</label>
+                        <select class="form-control">
+                            <option>Select decision...</option>
+                            <option>Approve</option>
+                            <option>Request Minor Revisions</option>
+                            <option>Request Major Revisions</option>
+                            <option>Reject</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Detailed Feedback:</label>
+                        <textarea class="form-control" placeholder="Provide detailed technical feedback for the researcher..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline close-modal">Cancel</button>
+                <button class="btn btn-primary">Submit Evaluation</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal toggle functionality
+        const modalTriggers = {
+            '#quickReviewBtn': '#quickReviewModal',
+            '#batchApproveBtn': '#batchApproveModal',
+            '#validationToolBtn': '#validationToolModal',
+            '.view-details-btn': '#reviewDetailModal'
+        };
+        
+        // Initialize all modals
+        Object.entries(modalTriggers).forEach(([trigger, modal]) => {
+            const triggerEls = document.querySelectorAll(trigger);
+            const modalEl = document.querySelector(modal);
+            
+            triggerEls.forEach(el => {
+                el.addEventListener('click', () => {
+                    modalEl.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            // Close modal when clicking close button or overlay
+            const closeModal = () => {
+                modalEl.classList.remove('active');
+                document.body.style.overflow = '';
+            };
+            
+            modalEl.querySelector('.close-modal').addEventListener('click', closeModal);
+            modalEl.addEventListener('click', (e) => {
+                if (e.target === modalEl) closeModal();
+            });
+        });
+        
+        // Select all checkbox functionality
+        document.getElementById('selectAll').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('.batch-approve-table tbody input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+        
+        // Action buttons functionality
+        document.querySelectorAll('.approve-btn, .request-revision-btn, .reject-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const action = this.classList.contains('approve-btn') ? 'approved' : 
+                              this.classList.contains('request-revision-btn') ? 'revision requested' : 'rejected';
+                const submissionId = this.dataset.submission;
+                
+                // In a real app, this would make an API call
+                console.log(`Submission ${submissionId} ${action}`);
+                
+                // Visual feedback
+                const card = this.closest('.review-card');
+                card.style.borderLeft = `4px solid ${
+                    action === 'approved' ? 'var(--success-color)' : 
+                    action === 'revision requested' ? 'var(--warning-color)' : 'var(--danger-color)'
+                }`;
+                
+                // Disable all action buttons after selection
+                card.querySelectorAll('.update-actions a').forEach(link => {
+                    link.style.opacity = '0.5';
+                    link.style.pointerEvents = 'none';
+                });
+                
+                // Show temporary status message
+                const statusMsg = document.createElement('div');
+                statusMsg.textContent = `Marked as ${action}`;
+                statusMsg.style.color = action === 'approved' ? 'var(--success-color)' : 
+                                      action === 'revision requested' ? 'var(--warning-color)' : 'var(--danger-color)';
+                statusMsg.style.marginTop = '10px';
+                statusMsg.style.fontWeight = '500';
+                card.querySelector('.review-footer').appendChild(statusMsg);
+                
+                // Remove after delay
+                setTimeout(() => {
+                    card.style.opacity = '0.5';
+                    card.style.pointerEvents = 'none';
+                }, 1500);
+            });
+        });
+        
+        // Tool buttons functionality
+        document.querySelectorAll('.tool-card').forEach(tool => {
+            tool.addEventListener('click', function() {
+                const toolName = this.querySelector('.tool-name').textContent;
+                console.log(`Tool activated: ${toolName}`);
+                
+                // Visual feedback
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Same head content as dashboard -->
+    <title>SciSolve | Solutions Repository</title>
+    <style>
+        :root {
+    --primary-color: #0ea5e9;      /* Bright blue */
+    --secondary-color: #3b82f6;    /* Lighter blue */
+    --success-color: #10b981;      /* Emerald green */
+    --accent-color: #f97316;       /* Orange accent */
+    --gray-dark: #111827;
+    --gray-medium: #374151;
+    --gray-light: #9ca3af;
+    --bg-dark: #1e293b;
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-full: 9999px;
+    --space-xs: 6px;
+    --space-sm: 12px;
+    --space-md: 18px;
+    --space-lg: 30px;
+    --space-xl: 48px;
+    --transition: all 0.3s ease-in-out;
+    --shadow-sm: 0 1px 4px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background:
+      linear-gradient(rgba(17,24,39,0.85), rgba(22,28,36,0.85)),
+      url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    padding: 36px 0; /* adjust as needed */
+    color: #d1fae5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header */
+header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-sm) 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.logo {
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.logo span {
+    color: var(--secondary-color);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: var(--space-lg);
+}
+
+.nav-links li a {
+    color: var(--gray-light);
+    font-weight: 600;
+    text-decoration: none;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+}
+
+.nav-links li a:hover,
+.nav-links li a.active {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+/* Auth buttons */
+.auth-buttons button {
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    font-weight: 700;
+    padding: 8px 20px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+    margin-left: var(--space-sm);
+}
+
+.auth-buttons button:hover {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+/* Main Titles */
+.team-header h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: var(--space-sm);
+    letter-spacing: 1px;
+}
+
+.team-header h1 span {
+    color: var(--secondary-color);
+}
+
+.team-header p {
+    font-size: 1.15rem;
+    color: var(--gray-light);
+    max-width: 600px;
+    margin-bottom: var(--space-lg);
+}
+
+/* Search Bar */
+.search-bar {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+.search-bar input,
+.search-bar select {
+    padding: 12px 16px;
+    border-radius: var(--radius-lg);
+    border: none;
+    background: var(--gray-dark);
+    color: white;
+    font-weight: 600;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.4);
+    transition: var(--transition);
+    font-size: 1rem;
+    flex-grow: 1;
+    min-width: 180px;
+}
+
+.search-bar input::placeholder {
+    color: var(--gray-light);
+}
+
+.search-bar input:focus,
+.search-bar select:focus {
+    outline: none;
+    box-shadow: 0 0 10px var(--secondary-color);
+    background: #0f172a;
+}
+
+/* Solutions Header */
+.solutions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+    flex-wrap: wrap;
+    gap: var(--space-md);
+}
+
+.solutions-header h2 {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.solutions-header h2 i {
+    color: var(--primary-color);
+}
+
+.solutions-header span {
+    font-weight: 600;
+    color: var(--gray-light);
+}
+
+/* Solution Cards Grid */
+.solution-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-lg);
+}
+
+/* Solution Card */
+.solution-card {
+    background: rgba(17,24,39,0.75);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    border: 1px solid rgba(59,130,246,0.15);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.solution-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(14,165,233,0.6);
+    border-color: var(--primary-color);
+}
+
+/* Solution Badge */
+.solution-badge {
+    background: rgba(16,185,129,0.15);
+    color: var(--success-color);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-shadow: 0 0 5px rgba(16,185,129,0.6);
+}
+
+/* Impact Meter */
+.impact-meter {
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: var(--radius-full);
+    margin: var(--space-sm) 0 8px 0;
+    overflow: hidden;
+    box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+}
+
+.impact-level {
+    height: 100%;
+    background: var(--success-color);
+    border-radius: var(--radius-full);
+    transition: width 0.5s ease-in-out;
+    box-shadow: 0 0 10px var(--success-color);
+}
+
+/* Citation Badge */
+.citation-badge {
+    background: rgba(59,130,246,0.15);
+    color: var(--secondary-color);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-top: var(--space-sm);
+    text-shadow: 0 0 8px rgba(59,130,246,0.7);
+}
+
+/* Solution Stats */
+.solution-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(255,255,255,0.12);
+    color: var(--gray-light);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.solution-stats span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Pagination Buttons */
+.btn {
+    cursor: pointer;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 5px 12px rgba(14,165,233,0.6);
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    box-shadow: 0 8px 18px rgba(59,130,246,0.8);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    box-shadow: none;
+}
+
+.btn-outline:hover:not(:disabled) {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 5px 12px rgba(14,165,233,0.6);
+}
+
+.btn-outline:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(17,24,39,0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-lg);
+    z-index: 9999;
+    overflow-y: auto;
+    backdrop-filter: blur(8px);
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal {
+    background: #0f172a;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    max-width: 720px;
+    width: 100%;
+    padding: var(--space-lg);
+    color: white;
+    animation: fadeInScale 0.4s ease forwards;
+    position: relative;
+}
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--primary-color);
+    margin-bottom: var(--space-md);
+}
+
+.modal-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.close-modal {
+    background: transparent;
+    border: none;
+    color: var(--gray-light);
+    font-size: 2rem;
+    font-weight: 900;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+    color: var(--accent-color);
+}
+
+/* Modal body */
+.modal-body h3 {
+    font-size: 1.8rem;
+    margin-bottom: var(--space-md);
+    color: var(--secondary-color);
+}
+
+.modal-body h4 {
+    color: var(--primary-color);
+    margin: var(--space-md) 0 var(--space-sm) 0;
+}
+
+.modal-body p,
+.modal-body ul {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--gray-light);
+}
+
+.modal-body ul {
+    list-style-type: disc;
+    margin-left: var(--space-lg);
+}
+
+.review-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.meta-card {
+    background: rgba(59,130,246,0.15);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm);
+    color: var(--secondary-color);
+    font-weight: 700;
+    box-shadow: 0 0 8px rgba(59,130,246,0.5);
+}
+
+.meta-label {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+.meta-value {
+    font-size: 1rem;
+}
+
+/* Modal footer */
+.modal-footer {
+    margin-top: var(--space-lg);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-md);
+}
+
+/* Responsive tweaks */
+@media (max-width: 720px) {
+    .solution-grid {
+        grid-template-columns: 1fr;
+    }
+    .search-bar {
+        flex-direction: column;
+    }
+    .search-bar input,
+    .search-bar select {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <!-- Same header as dashboard with updated navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Sci<span>Solve</span></a>
+                <ul class="nav-links">
+                    <li><a href="domain.html">Dashboard</a></li>
+                    <li><a href="problem.html">Challenges</a></li>
+                    <li><a href="solution.html" class="active">Solutions</a></li>
+                    <li><a href="mentorship.html">Mentorship</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    <button class="btn btn-login">Profile</button>
+                    <button class="btn btn-signup">Log Out</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section>
+            <div class="team-header">
+                <h1>Solutions <span>Repository</span></h1>
+                <p>Browse validated solutions to scientific challenges across all domains.</p>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" class="form-control" placeholder="Search solutions...">
+                <select class="form-control" style="max-width: 200px;">
+                    <option>All Domains</option>
+                    <option>Quantum Physics</option>
+                    <option>Biochemistry</option>
+                    <option>Machine Learning</option>
+                </select>
+                <select class="form-control" style="max-width: 200px;">
+                    <option>Sort by Newest</option>
+                    <option>Sort by Impact</option>
+                    <option>Sort by Citations</option>
+                </select>
+            </div>
+            
+            <div class="solutions-header">
+                <h2><i class="fas fa-check-circle"></i> Validated Solutions</h2>
+                <span>Showing 127 solutions</span>
+            </div>
+            
+            <div class="solution-grid">
+                <!-- Solution 1 -->
+                <div class="solution-card">
+                    <span class="solution-badge">
+                        <i class="fas fa-check"></i> Validated
+                    </span>
+                    <h3>Optimized Grover's Algorithm</h3>
+                    <p>Improved implementation reduces iterations by 40% for unstructured search problems.</p>
+                    
+                    <div class="impact-meter">
+                        <div class="impact-level" style="width: 85%"></div>
+                    </div>
+                    <small>85% Impact Score</small>
+                    
+                    <span class="citation-badge">
+                        <i class="fas fa-quote-right"></i> 14 Citations
+                    </span>
+                    
+                    <div class="solution-stats">
+                        <span><i class="fas fa-atom"></i> Quantum</span>
+                        <span>Jun 2023</span>
+                    </div>
+                </div>
+                
+                <!-- Solution 2 -->
+                <div class="solution-card">
+                    <span class="solution-badge">
+                        <i class="fas fa-check"></i> Validated
+                    </span>
+                    <h3>Protein Folding Prediction</h3>
+                    <p>Hybrid quantum-classical approach achieves 92% accuracy on benchmark proteins.</p>
+                    
+                    <div class="impact-meter">
+                        <div class="impact-level" style="width: 92%"></div>
+                    </div>
+                    <small>92% Impact Score</small>
+                    
+                    <span class="citation-badge">
+                        <i class="fas fa-quote-right"></i> 27 Citations
+                    </span>
+                    
+                    <div class="solution-stats">
+                        <span><i class="fas fa-dna"></i> Biochemistry</span>
+                        <span>May 2023</span>
+                    </div>
+                </div>
+                
+                <!-- Solution 3 -->
+                <div class="solution-card">
+                    <span class="solution-badge">
+                        <i class="fas fa-check"></i> Validated
+                    </span>
+                    <h3>Quantum Error Correction</h3>
+                    <p>New surface code implementation reduces overhead by 35% while maintaining fidelity.</p>
+                    
+                    <div class="impact-meter">
+                        <div class="impact-level" style="width: 78%"></div>
+                    </div>
+                    <small>78% Impact Score</small>
+                    
+                    <span class="citation-badge">
+                        <i class="fas fa-quote-right"></i> 9 Citations
+                    </span>
+                    
+                    <div class="solution-stats">
+                        <span><i class="fas fa-atom"></i> Quantum</span>
+                        <span>Apr 2023</span>
+                    </div>
+                </div>
+                
+                <!-- Solution 4 -->
+                <div class="solution-card">
+                    <span class="solution-badge">
+                        <i class="fas fa-check"></i> Validated
+                    </span>
+                    <h3>ML for Drug Discovery</h3>
+                    <p>Generative model identifies 3 promising candidates for Parkinson's treatment.</p>
+                    
+                    <div class="impact-meter">
+                        <div class="impact-level" style="width: 95%"></div>
+                    </div>
+                    <small>95% Impact Score</small>
+                    
+                    <span class="citation-badge">
+                        <i class="fas fa-quote-right"></i> 42 Citations
+                    </span>
+                    
+                    <div class="solution-stats">
+                        <span><i class="fas fa-brain"></i> Machine Learning</span>
+                        <span>Mar 2023</span>
+                    </div>
+                </div>
+                
+                <!-- Solution 5 -->
+                <div class="solution-card">
+                    <span class="solution-badge">
+                        <i class="fas fa-check"></i> Validated
+                    </span>
+                    <h3>Topological Materials</h3>
+                    <p>Predicted and verified 2 new topological insulators with unique properties.</p>
+                    
+                    <div class="impact-meter">
+                        <div class="impact-level" style="width: 88%"></div>
+                    </div>
+                    <small>88% Impact Score</small>
+                    
+                    <span class="citation-badge">
+                        <i class="fas fa-quote-right"></i> 31 Citations
+                    </span>
+                    
+                    <div class="solution-stats">
+                        <span><i class="fas fa-microscope"></i> Materials Science</span>
+                        <span>Feb 2023</span>
+                    </div>
+                </div>
+                
+                <!-- Solution 6 -->
+                <div class="solution-card">
+                    <span class="solution-badge">
+                        <i class="fas fa-check"></i> Validated
+                    </span>
+                    <h3>Quantum Key Distribution</h3>
+                    <p>Implemented BB84 protocol with 99.9% detection efficiency over 50km fiber.</p>
+                    
+                    <div class="impact-meter">
+                        <div class="impact-level" style="width: 90%"></div>
+                    </div>
+                    <small>90% Impact Score</small>
+                    
+                    <span class="citation-badge">
+                        <i class="fas fa-quote-right"></i> 18 Citations
+                    </span>
+                    
+                    <div class="solution-stats">
+                        <span><i class="fas fa-atom"></i> Quantum</span>
+                        <span>Jan 2023</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <div style="display: flex; justify-content: center; margin-top: var(--space-xl);">
+                <div style="display: flex; gap: var(--space-sm);">
+                    <button class="btn btn-outline" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="btn btn-primary">1</button>
+                    <button class="btn btn-outline">2</button>
+                    <button class="btn btn-outline">3</button>
+                    <button class="btn btn-outline">4</button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Same footer as dashboard -->
+    <footer>
+        <!-- Footer content from dashboard -->
+    </footer>
+
+    <!-- Solution Detail Modal -->
+    <div class="modal-overlay" id="solutionDetailModal">
+        <div class="modal" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-file-alt"></i> Solution Details</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="review-meta-grid">
+                    <div class="meta-card">
+                        <div class="meta-label">Domain</div>
+                        <div class="meta-value">Quantum Computing</div>
+                    </div>
+                    <div class="meta-card">
+                        <div class="meta-label">Submitted By</div>
+                        <div class="meta-value">Dr. Elena Rodriguez</div>
+                    </div>
+                    <div class="meta-card">
+                        <div class="meta-label">Validated On</div>
+                        <div class="meta-value">June 15, 2023</div>
+                    </div>
+                    <div class="meta-card">
+                        <div class="meta-label">Impact Score</div>
+                        <div class="meta-value">92/100</div>
+                    </div>
+                </div>
+                
+                <h3>Optimized Grover's Algorithm Implementation</h3>
+                
+                <div class="review-full-text">
+                    <h4>Overview</h4>
+                    <p>This solution presents an optimized implementation of Grover's algorithm for unstructured search problems that reduces the required number of iterations by approximately 40% compared to standard implementations, while maintaining the same probability of success.</p>
+                    
+                    <h4>Key Innovations</h4>
+                    <ul>
+                        <li>Modified oracle construction that reduces phase flip operations by 30%</li>
+                        <li>Optimized diffusion operator implementation requiring fewer gates</li>
+                        <li>Adaptive iteration count based on problem size</li>
+                        <li>Benchmarked on 5-, 7-, and 10-qubit systems</li>
+                    </ul>
+                    
+                    <h4>Validation Results</h4>
+                    <p>The solution was validated against 15 benchmark problems showing consistent improvement over standard implementations:</p>
+                    
+                    <table style="width: 100%; border-collapse: collapse; margin: var(--space-md) 0;">
+                        <thead>
+                            <tr>
+                                <th style="padding: var(--space-sm); text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1);">Problem Size</th>
+                                <th style="padding: var(--space-sm); text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1);">Standard Iterations</th>
+                                <th style="padding: var(--space-sm); text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1);">Optimized Iterations</th>
+                                <th style="padding: var(--space-sm); text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1);">Improvement</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: var(--space-sm); border-bottom: 1px solid rgba(255,255,255,0.05);">5 Qubits</td>
+                                <td style="padding: var(--space-sm); border-bottom: 1px solid rgba(255,255,255,0.05);">12</td>
+                                <td style="padding: var(--space-sm); border-bottom: 1px solid rgba(255,255,255,0.05);">7</td>
+                                <td style="padding: var(--space-sm); border-bottom: 1px solid rgba(255,255,255,0.05);">42%</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: var(--space-sm); border-bottom: 1px solid rgba(255,255,255,0.05);">7 Qubits</td>
+                                <td style="padding: var(--space-sm); border-bottom: 1px solid rgba(255,255,255,0.05);">25</td>
+                                <td style="padding: var(--space-sm); border-bottom: 1px solid rgba(255,255,255,0.05);">15</td>
+                                <td style="padding: var(--space-sm); border-bottom: 1px solid rgba(255,255,255,0.05);">40%</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: var(--space-sm);">10 Qubits</td>
+                                <td style="padding: var(--space-sm);">50</td>
+                                <td style="padding: var(--space-sm);">30</td>
+                                <td style="padding: var(--space-sm);">40%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h4>Implementation Resources</h4>
+                    <div style="display: flex; gap: var(--space-sm); margin-top: var(--space-md);">
+                        <button class="btn btn-outline">
+                            <i class="fab fa-github"></i> View Code
+                        </button>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-file-pdf"></i> Read Paper
+                        </button>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-video"></i> Watch Explanation
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline close-modal">Close</button>
+                <button class="btn btn-primary">
+                    <i class="fas fa-quote-left"></i> Cite This Solution
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Open solution detail when cards are clicked
+        document.querySelectorAll('.solution-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.getElementById('solutionDetailModal').classList.add('active');
+            });
+        });
+        
+        // Close modal functionality
+        document.querySelectorAll('.close-modal').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
