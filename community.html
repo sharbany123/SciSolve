@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community | SciSolve</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    :root {
+        --primary-color: #1f2937; /* dark slate */
+        --secondary-color: #3b82f6; /* sky blue */
+        --accent-color: #f59e0b; /* amber */
+        --light-color: #f3f4f6;
+        --dark-color: #111827;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --danger-color: #ef4444;
+        --gray-light: #d1d5db;
+        --gray-medium: #9ca3af;
+        --gray-dark: #4b5563;
+        --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+        --transition: all 0.3s ease-in-out;
+        --bg-image: url('R.jpeg');
+        
+        /* Subject colors */
+        --biology-color: #10b981;
+        --physics-color: #8b5cf6;
+        --chemistry-color: #f59e0b;
+        --environmental-color: #06b6d4;
+        --cs-color: #3b82f6;
+        --math-color: #ef4444;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        background: linear-gradient(to right, rgba(31, 41, 55, 0.85), rgba(17, 24, 39, 0.85)),
+                    var(--bg-image) no-repeat center center fixed;
+        background-size: cover;
+        color: var(--light-color);
+        line-height: 1.6;
+        min-height: 100vh;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    header {
+        background-color: rgba(17, 24, 39, 0.9);
+        box-shadow: var(--shadow-md);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+    }
+
+    .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--secondary-color);
+        display: flex;
+        align-items: center;
+        transition: var(--transition);
+    }
+
+    .logo:hover {
+        transform: translateY(-2px);
+    }
+
+    .logo span {
+        color: var(--accent-color);
+    }
+
+    .nav-links {
+        display: flex;
+        list-style: none;
+    }
+
+    .nav-links li {
+        margin-left: 2rem;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: var(--light-color);
+        font-weight: 500;
+        transition: var(--transition);
+        position: relative;
+        padding: 0.5rem 0;
+    }
+
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: var(--secondary-color);
+        transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+        color: var(--secondary-color);
+    }
+
+    .nav-links a:hover::after {
+        width: 100%;
+    }
+
+    .nav-links a.active {
+        color: var(--secondary-color);
+        font-weight: 600;
+    }
+
+    .nav-links a.active::after {
+        width: 100%;
+    }
+
+    .auth-buttons .btn {
+        margin-left: 1rem;
+        padding: 0.5rem 1.5rem;
+        border-radius: 5px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .btn-login {
+        background-color: transparent;
+        border: 1px solid var(--secondary-color);
+        color: var(--secondary-color);
+    }
+
+    .btn-login:hover {
+        background-color: var(--secondary-color);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-signup {
+        background-color: var(--secondary-color);
+        border: 1px solid var(--secondary-color);
+        color: white;
+    }
+
+    .btn-signup:hover {
+        background-color: #2563eb;
+        border-color: #2563eb;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Community Header */
+    .community-header {
+        padding: 8rem 0 3rem;
+        background: linear-gradient(135deg, rgba(31, 41, 55, 0.9) 0%, rgba(17, 24, 39, 0.9) 100%);
+        color: white;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .community-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') center/cover;
+        opacity: 0.15;
+        z-index: -1;
+    }
+
+    .community-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    .community-header p {
+        max-width: 700px;
+        margin: 0 auto;
+        opacity: 0.9;
+        animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        opacity: 0;
+    }
+
+    /* Community Stats */
+    .community-stats {
+        padding: 2rem 0;
+        background-color: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(5px);
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .stat-card {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: var(--transition);
+        box-shadow: var(--shadow-md);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        background-color: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: var(--secondary-color);
+    }
+
+    .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: white;
+    }
+
+    .stat-label {
+        color: var(--gray-light);
+    }
+
+    /* Community Content */
+    .community-content {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 3rem 0;
+    }
+
+    @media (min-width: 992px) {
+        .community-content {
+            grid-template-columns: 2fr 1fr;
+        }
+    }
+
+    /* Discussion Section */
+    .discussion-section {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: var(--transition);
+    }
+
+    .discussion-section:hover {
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .section-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .section-header h2 {
+        color: white;
+        font-size: 1.5rem;
+    }
+
+    .btn-new {
+        background-color: var(--secondary-color);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-new:hover {
+        background-color: #2563eb;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+    }
+
+    .discussion-tabs {
+        display: flex;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .discussion-tab {
+        padding: 1rem;
+        cursor: pointer;
+        font-weight: 500;
+        color: var(--gray-light);
+        border-bottom: 3px solid transparent;
+        transition: var(--transition);
+    }
+
+    .discussion-tab:hover {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .discussion-tab.active {
+        color: var(--secondary-color);
+        border-bottom-color: var(--secondary-color);
+    }
+
+    .discussion-list {
+        list-style: none;
+    }
+
+    .discussion-item {
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: var(--transition);
+    }
+
+    .discussion-item:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        transform: translateX(5px);
+    }
+
+    .discussion-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: white;
+    }
+
+    .discussion-meta {
+        display: flex;
+        align-items: center;
+        font-size: 0.85rem;
+        color: var(--gray-light);
+        margin-bottom: 0.5rem;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+    }
+
+    .discussion-category {
+        display: inline-block;
+        padding: 0.2rem 0.5rem;
+        border-radius: 3px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .biology-category { background-color: var(--biology-color); color: white; }
+    .physics-category { background-color: var(--physics-color); color: white; }
+    .chemistry-category { background-color: var(--chemistry-color); color: white; }
+    .environmental-category { background-color: var(--environmental-color); color: white; }
+    .cs-category { background-color: var(--cs-color); color: white; }
+    .math-category { background-color: var(--math-color); color: white; }
+
+    .discussion-author {
+        display: flex;
+        align-items: center;
+        margin-top: 1rem;
+    }
+
+    .author-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-color: var(--gray-dark);
+        margin-right: 0.8rem;
+        background-size: cover;
+        border: 2px solid var(--secondary-color);
+    }
+
+    .author-name {
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: white;
+    }
+
+    .discussion-stats {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    .stat {
+        display: flex;
+        align-items: center;
+        font-size: 0.8rem;
+        color: var(--gray-light);
+        transition: var(--transition);
+    }
+
+    .stat:hover {
+        color: var(--secondary-color);
+    }
+
+    .stat i {
+        margin-right: 0.3rem;
+    }
+
+    /* Sidebar */
+    .community-sidebar {
+        position: sticky;
+        top: 100px;
+    }
+
+    .sidebar-card {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        box-shadow: var(--shadow-md);
+        margin-bottom: 2rem;
+        overflow: hidden;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: var(--transition);
+    }
+
+    .sidebar-card:hover {
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar-card h3 {
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 1.2rem;
+        color: white;
+    }
+
+    .top-contributors {
+        list-style: none;
+    }
+
+    .contributor {
+        display: flex;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: var(--transition);
+    }
+
+    .contributor:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .contributor-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--gray-dark);
+        margin-right: 1rem;
+        background-size: cover;
+        border: 2px solid var(--secondary-color);
+    }
+
+    .contributor-info {
+        flex: 1;
+    }
+
+    .contributor-name {
+        font-weight: 500;
+        margin-bottom: 0.2rem;
+        color: white;
+    }
+
+    .contributor-title {
+        font-size: 0.8rem;
+        color: var(--gray-light);
+    }
+
+    .contributor-points {
+        background-color: var(--secondary-color);
+        color: white;
+        padding: 0.3rem 0.6rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .active-challenges {
+        list-style: none;
+    }
+
+    .challenge-item {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: var(--transition);
+    }
+
+    .challenge-item:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .challenge-title {
+        font-weight: 500;
+        margin-bottom: 0.3rem;
+        color: white;
+    }
+
+    .challenge-meta {
+        display: flex;
+        align-items: center;
+        font-size: 0.8rem;
+        color: var(--gray-light);
+    }
+
+    .challenge-participants {
+        margin-right: 1rem;
+    }
+
+    .challenge-deadline {
+        display: flex;
+        align-items: center;
+    }
+
+    .challenge-deadline i {
+        margin-right: 0.3rem;
+    }
+
+    /* Events Section */
+    .events-list {
+        list-style: none;
+    }
+
+    .event-item {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: var(--transition);
+    }
+
+    .event-item:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .event-date {
+        display: inline-block;
+        background-color: var(--secondary-color);
+        color: white;
+        padding: 0.3rem 0.6rem;
+        border-radius: 3px;
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .event-title {
+        font-weight: 500;
+        margin-bottom: 0.3rem;
+        color: white;
+    }
+
+    .event-description {
+        font-size: 0.9rem;
+        color: var(--gray-light);
+        margin-bottom: 0.5rem;
+    }
+
+    .event-link {
+        font-size: 0.8rem;
+        color: var(--secondary-color);
+        text-decoration: none;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+    .event-link:hover {
+        color: var(--accent-color);
+        text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+        background-color: rgba(17, 24, 39, 0.95);
+        color: white;
+        padding: 3rem 0 1rem;
+        backdrop-filter: blur(5px);
+    }
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .footer-column h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        color: white;
+    }
+
+    .footer-links {
+        list-style: none;
+    }
+
+    .footer-links li {
+        margin-bottom: 0.8rem;
+    }
+
+    .footer-links a {
+        color: var(--gray-light);
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+        color: var(--secondary-color);
+        padding-left: 5px;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .social-links a {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.1);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+    }
+
+    .social-links a:hover {
+        background-color: var(--secondary-color);
+        transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--gray-light);
+        font-size: 0.9rem;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+        }
+
+        .community-header {
+            padding: 6rem 0 2rem;
+        }
+
+        .community-header h1 {
+            font-size: 2rem;
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .discussion-meta {
+            flex-wrap: wrap;
+        }
+
+        .discussion-category {
+            margin-bottom: 0.5rem;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .auth-buttons .btn {
+            margin-left: 0;
+        }
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Sci<span>Solve</span></div>
+                <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="community.html" class="active">Community</a></li>
+                <li><a href="collaboration.html">Collaboration</a></li>
+                </ul>
+                
+            </nav>
+        </div>
+    </header>
+
+    <section class="community-header">
+        <div class="container">
+            <h1>SciSolve Community Hub</h1>
+            <p>Connect with researchers, students, and science enthusiasts from around the world to collaborate, discuss, and solve scientific challenges together.</p>
+        </div>
+    </section>
+
+    <section class="community-stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-number">5,842</div>
+                    <div class="stat-label">Active Members</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-comments"></i></div>
+                    <div class="stat-number">12,459</div>
+                    <div class="stat-label">Discussions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-lightbulb"></i></div>
+                    <div class="stat-number">3,217</div>
+                    <div class="stat-label">Solutions Submitted</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-globe"></i></div>
+                    <div class="stat-number">68</div>
+                    <div class="stat-label">Countries</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="community-content">
+            <main>
+                <section class="discussion-section">
+                    <div class="section-header">
+                        <h2>Recent Discussions</h2>
+                        <a href="#" class="btn-new"><i class="fas fa-plus"></i> New Discussion</a>
+                    </div>
+                    <div class="discussion-tabs">
+                        <div class="discussion-tab active">All Topics</div>
+                        <div class="discussion-tab">Biology</div>
+                        <div class="discussion-tab">Physics</div>
+                        <div class="discussion-tab">Chemistry</div>
+                        <div class="discussion-tab">Environmental</div>
+                    </div>
+                    <ul class="discussion-list">
+                        <li class="discussion-item">
+                            <h3 class="discussion-title">Optimizing protein folding simulations for better accuracy</h3>
+                            <div class="discussion-meta">
+                                <span class="discussion-category biology-category">Biology</span>
+                                <span>Posted 2 hours ago</span>
+                            </div>
+                            <p>I've been working on improving the accuracy of protein folding simulations using machine learning techniques. Has anyone tried combining AlphaFold with molecular dynamics?</p>
+                            <div class="discussion-author">
+                                <div class="author-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/32.jpg');"></div>
+                                <div class="author-name">Dr. Michael Chen</div>
+                            </div>
+                            <div class="discussion-stats">
+                                <div class="stat"><i class="fas fa-comment"></i> 14 replies</div>
+                                <div class="stat"><i class="fas fa-eye"></i> 128 views</div>
+                                <div class="stat"><i class="fas fa-heart"></i> 42 likes</div>
+                            </div>
+                        </li>
+                        <li class="discussion-item">
+                            <h3 class="discussion-title">Quantum computing approaches for material science</h3>
+                            <div class="discussion-meta">
+                                <span class="discussion-category physics-category">Physics</span>
+                                <span>Posted 5 hours ago</span>
+                            </div>
+                            <p>We're exploring quantum computing applications for predicting material properties. Looking for collaborators who have experience with Qiskit or other quantum computing frameworks.</p>
+                            <div class="discussion-author">
+                                <div class="author-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/44.jpg');"></div>
+                                <div class="author-name">Prof. Sarah Johnson</div>
+                            </div>
+                            <div class="discussion-stats">
+                                <div class="stat"><i class="fas fa-comment"></i> 8 replies</div>
+                                <div class="stat"><i class="fas fa-eye"></i> 95 views</div>
+                                <div class="stat"><i class="fas fa-heart"></i> 27 likes</div>
+                            </div>
+                        </li>
+                        <li class="discussion-item">
+                            <h3 class="discussion-title">Help interpreting climate model results for coastal cities</h3>
+                            <div class="discussion-meta">
+                                <span class="discussion-category environmental-category">Environmental</span>
+                                <span>Posted yesterday</span>
+                            </div>
+                            <p>I'm working on the climate change impact challenge and need help interpreting my model results for sea level rise in Southeast Asia. Any experts in climate modeling available?</p>
+                            <div class="discussion-author">
+                                <div class="author-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/75.jpg');"></div>
+                                <div class="author-name">Rahul Patel</div>
+                            </div>
+                            <div class="discussion-stats">
+                                <div class="stat"><i class="fas fa-comment"></i> 5 replies</div>
+                                <div class="stat"><i class="fas fa-eye"></i> 76 views</div>
+                                <div class="stat"><i class="fas fa-heart"></i> 15 likes</div>
+                            </div>
+                        </li>
+                        <li class="discussion-item">
+                            <h3 class="discussion-title">Best practices for reproducible research in computational chemistry</h3>
+                            <div class="discussion-meta">
+                                <span class="discussion-category chemistry-category">Chemistry</span>
+                                <span>Posted 2 days ago</span>
+                            </div>
+                            <p>We're establishing guidelines for reproducible computational chemistry research in our lab. What tools and workflows are others using to ensure reproducibility?</p>
+                            <div class="discussion-author">
+                                <div class="author-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/68.jpg');"></div>
+                                <div class="author-name">Dr. Maria Gonzalez</div>
+                            </div>
+                            <div class="discussion-stats">
+                                <div class="stat"><i class="fas fa-comment"></i> 11 replies</div>
+                                <div class="stat"><i class="fas fa-eye"></i> 142 views</div>
+                                <div class="stat"><i class="fas fa-heart"></i> 38 likes</div>
+                            </div>
+                        </li>
+                        <li class="discussion-item">
+                            <h3 class="discussion-title">Call for collaborators: AI for medical imaging challenge</h3>
+                            <div class="discussion-meta">
+                                <span class="discussion-category cs-category">Computer Science</span>
+                                <span>Posted 3 days ago</span>
+                            </div>
+                            <p>Forming a team for the AI medical diagnosis challenge. Need members with expertise in computer vision, medical imaging, and explainable AI. Let me know if you're interested!</p>
+                            <div class="discussion-author">
+                                <div class="author-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/55.jpg');"></div>
+                                <div class="author-name">David Kim</div>
+                            </div>
+                            <div class="discussion-stats">
+                                <div class="stat"><i class="fas fa-comment"></i> 7 replies</div>
+                                <div class="stat"><i class="fas fa-eye"></i> 203 views</div>
+                                <div class="stat"><i class="fas fa-heart"></i> 56 likes</div>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+            </main>
+
+            <aside class="community-sidebar">
+                <div class="sidebar-card">
+                    <h3>Top Contributors</h3>
+                    <ul class="top-contributors">
+                        <li class="contributor">
+                            <div class="contributor-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/63.jpg');"></div>
+                            <div class="contributor-info">
+                                <div class="contributor-name">Dr. Emily Zhang</div>
+                                <div class="contributor-title">Biophysicist, Stanford</div>
+                            </div>
+                            <div class="contributor-points">4,820</div>
+                        </li>
+                        <li class="contributor">
+                            <div class="contributor-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/42.jpg');"></div>
+                            <div class="contributor-info">
+                                <div class="contributor-name">Prof. James Wilson</div>
+                                <div class="contributor-title">Chemist, MIT</div>
+                            </div>
+                            <div class="contributor-points">3,950</div>
+                        </li>
+                        <li class="contributor">
+                            <div class="contributor-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/28.jpg');"></div>
+                            <div class="contributor-info">
+                                <div class="contributor-name">Dr. Aisha Mohammed</div>
+                                <div class="contributor-title">Climate Scientist, ETH Zurich</div>
+                            </div>
+                            <div class="contributor-points">3,720</div>
+                        </li>
+                        <li class="contributor">
+                            <div class="contributor-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/71.jpg');"></div>
+                            <div class="contributor-info">
+                                <div class="contributor-name">Carlos Rodriguez</div>
+                                <div class="contributor-title">PhD Candidate, UC Berkeley</div>
+                            </div>
+                            <div class="contributor-points">3,150</div>
+                        </li>
+                        <li class="contributor">
+                            <div class="contributor-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/85.jpg');"></div>
+                            <div class="contributor-info">
+                                <div class="contributor-name">Sophie Martin</div>
+                                <div class="contributor-title">High School Teacher</div>
+                            </div>
+                            <div class="contributor-points">2,890</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>Active Challenges</h3>
+                    <ul class="active-challenges">
+                        <li class="challenge-item">
+                            <div class="challenge-title">Protein Folding Prediction</div>
+                            <div class="challenge-meta">
+                                <span class="challenge-participants">24 teams</span>
+                                <span class="challenge-deadline"><i class="far fa-clock"></i> 2 weeks left</span>
+                            </div>
+                        </li>
+                        <li class="challenge-item">
+                            <div class="challenge-title">Quantum Error Correction</div>
+                            <div class="challenge-meta">
+                                <span class="challenge-participants">18 teams</span>
+                                <span class="challenge-deadline"><i class="far fa-clock"></i> 1 month left</span>
+                            </div>
+                        </li>
+                        <li class="challenge-item">
+                            <div class="challenge-title">Climate Model Optimization</div>
+                            <div class="challenge-meta">
+                                <span class="challenge-participants">32 teams</span>
+                                <span class="challenge-deadline"><i class="far fa-clock"></i> 3 weeks left</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>Upcoming Events</h3>
+                    <ul class="events-list">
+                        <li class="event-item">
+                            <div class="event-date">Jun 15, 2023</div>
+                            <h4 class="event-title">Virtual Hackathon: Climate Solutions</h4>
+                            <p class="event-description">48-hour collaborative event to develop innovative solutions for climate challenges.</p>
+                            <a href="#" class="event-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                        </li>
+                        <li class="event-item">
+                            <div class="event-date">Jun 22, 2023</div>
+                            <h4 class="event-title">AI in Science Webinar Series</h4>
+                            <p class="event-description">Experts discuss applications of machine learning in scientific research.</p>
+                            <a href="#" class="event-link">Register now <i class="fas fa-arrow-right"></i></a>
+                        </li>
+                        <li class="event-item">
+                            <div class="event-date">Jul 5, 2023</div>
+                            <h4 class="event-title">Open Science Symposium</h4>
+                            <p class="event-description">Global gathering of researchers promoting open collaboration in science.</p>
+                            <a href="#" class="event-link">View agenda <i class="fas fa-arrow-right"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SciSolve</h3>
+                    <p>The global platform for crowdsourced scientific problem-solving and collaboration.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="challenges.html">Challenges</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 SciSolve. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab functionality
+        const tabs = document.querySelectorAll('.discussion-tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                // In a real implementation, this would filter discussions
+                console.log(`Showing ${tab.textContent} discussions`);
+            });
+        });
+
+        // Simulate loading animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const discussionItems = document.querySelectorAll('.discussion-item');
+            discussionItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+            
+            // Add hover effect to stat cards
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.animation = 'pulse 1s ease';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.animation = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

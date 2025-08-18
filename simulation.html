@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge Details | SciSolve</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Your existing styles... */
+        
+        /* Enhanced Simulation Styles */
+        .simulation-area {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .simulation-container {
+            height: 400px;
+            background-color: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .simulation-placeholder {
+            text-align: center;
+            color: #64748b;
+            padding: 2rem;
+            z-index: 1;
+        }
+        
+        .simulation-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .simulation-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .control-group {
+            margin-bottom: 1rem;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #334155;
+        }
+        
+        .control-group input,
+        .control-group select {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+        
+        .simulation-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .simulation-buttons button {
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-run {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+        }
+        
+        .btn-run:hover {
+            background-color: #2563eb;
+        }
+        
+        .btn-save {
+            background-color: #10b981;
+            color: white;
+            border: none;
+        }
+        
+        .btn-save:hover {
+            background-color: #059669;
+        }
+        
+        .btn-reset {
+            background-color: white;
+            color: #64748b;
+            border: 1px solid #cbd5e1;
+        }
+        
+        .btn-reset:hover {
+            background-color: #f1f5f9;
+        }
+        
+        .simulation-status {
+            padding: 1rem;
+            background-color: #f8fafc;
+            border-radius: 6px;
+            margin-top: 1rem;
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+        }
+        
+        /* Animation for loading */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .fa-spinner {
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Your existing header and challenge header sections... -->
+    
+    <div class="container">
+        <div class="challenge-content">
+            <!-- Your existing challenge description sections... -->
+            
+            <!-- Enhanced Simulation Area -->
+            <div class="simulation-area">
+                <h2><i class="fas fa-atom"></i> Interactive Simulation</h2>
+                <div class="simulation-container" id="simulation-container">
+                    <canvas id="simulation-canvas" class="simulation-canvas"></canvas>
+                    <div class="simulation-placeholder" id="simulation-placeholder">
+                        <i class="fas fa-atom" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <p>Simulation ready</p>
+                        <p><small>Configure parameters and click "Run Simulation"</small></p>
+                    </div>
+                </div>
+                
+                <div class="simulation-controls" id="simulation-controls">
+                    <!-- Dynamic controls will be inserted here -->
+                </div>
+                
+                <div class="simulation-buttons">
+                    <button class="btn-run" id="run-simulation">
+                        <i class="fas fa-play"></i> Run Simulation
+                    </button>
+                    <button class="btn-save" id="save-simulation">
+                        <i class="fas fa-save"></i> Save State
+                    </button>
+                    <button class="btn-reset" id="reset-simulation">
+                        <i class="fas fa-undo"></i> Reset
+                    </button>
+                </div>
+                
+                <div class="simulation-status" id="simulation-status">
+                    <i class="fas fa-cog fa-spin"></i>
+                    <span>Simulation in progress...</span>
+                </div>
+            </div>
+            
+            <!-- Your existing AI Assistant and Submission sections... -->
+        </div>
+        
+        <!-- Your existing sidebar... -->
+    </div>
+    
+    <!-- Your existing footer... -->
+
+    <script>
+        // DOM elements
+        const simulationContainer = document.getElementById('simulation-container');
+        const simulationPlaceholder = document.getElementById('simulation-placeholder');
+        const simulationControls = document.getElementById('simulation-controls');
+        const runSimulationBtn = document.getElementById('run-simulation');
+        const saveSimulationBtn = document.getElementById('save-simulation');
+        const resetSimulationBtn = document.getElementById('reset-simulation');
+        const simulationStatus = document.getElementById('simulation-status');
+        const simulationCanvas = document.getElementById('simulation-canvas');
+        
+        // Simulation state
+        let currentSimulation = null;
+        let chart = null;
+        let simulationParams = {};
+        
+        // Challenge data - this would normally come from your backend
+        const challenges = {
+            biology: {
+                id: 1,
+                title: "Protein Folding Prediction",
+                simulation: {
+                    title: "Protein Folding Simulation",
+                    controls: [
+                        { label: "Protein Sequence", type: "text", id: "protein-seq", 
+                          placeholder: "Enter amino acid sequence", value: "ACDEFGHIKLMNPQRSTVWY" },
+                        { label: "Temperature (K)", type: "number", id: "temperature", value: "300" },
+                        { label: "pH Level", type: "number", id: "ph-level", value: "7.0" }
+                    ]
+                }
+            },
+            physics: {
+                id: 2,
+                title: "Quantum Entanglement Simulation",
+                simulation: {
+                    title: "Quantum Circuit Simulator",
+                    controls: [
+                        { label: "Qubits", type: "number", id: "qubit-count", value: "2" },
+                        { label: "Gates", type: "select", id: "gate-type", 
+                          options: ["Hadamard", "CNOT", "Pauli-X", "Pauli-Y", "Pauli-Z"] },
+                        { label: "Iterations", type: "number", id: "iterations", value: "100" }
+                    ]
+                }
+            }
+            // Add other challenge types as needed
+        };
+        
+        // Initialize simulation based on challenge type
+        function initializeSimulation(challengeType) {
+            const challenge = challenges[challengeType];
+            if (!challenge) return;
+            
+            // Update simulation title
+            document.querySelector('.simulation-area h2').innerHTML = 
+                `<i class="fas fa-atom"></i> ${challenge.simulation.title}`;
+            
+            // Create controls
+            simulationControls.innerHTML = '';
+            challenge.simulation.controls.forEach(control => {
+                const controlGroup = document.createElement('div');
+                controlGroup.className = 'control-group';
+                
+                const label = document.createElement('label');
+                label.setAttribute('for', control.id);
+                label.textContent = control.label;
+                
+                let input;
+                if (control.type === 'select') {
+                    input = document.createElement('select');
+                    input.id = control.id;
+                    control.options.forEach(option => {
+                        const opt = document.createElement('option');
+                        opt.value = option;
+                        opt.textContent = option;
+                        input.appendChild(opt);
+                    });
+                } else {
+                    input = document.createElement('input');
+                    input.type = control.type;
+                    input.id = control.id;
+                    if (control.placeholder) input.placeholder = control.placeholder;
+                    if (control.value) input.value = control.value;
+                }
+                
+                controlGroup.appendChild(label);
+                controlGroup.appendChild(input);
+                simulationControls.appendChild(controlGroup);
+            });
+        }
+        
+        // Run simulation
+        runSimulationBtn.addEventListener('click', function() {
+            // Show loading state
+            simulationStatus.style.display = 'flex';
+            runSimulationBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Running...';
+            runSimulationBtn.disabled = true;
+            simulationPlaceholder.style.display = 'none';
+            
+            // Gather parameters
+            simulationParams = {};
+            document.querySelectorAll('.simulation-controls input, .simulation-controls select').forEach(control => {
+                simulationParams[control.id] = control.type === 'number' ? 
+                    parseFloat(control.value) || 0 : control.value;
+            });
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Run the appropriate simulation based on challenge type
+                const challengeType = getChallengeTypeFromURL();
+                const results = runLocalSimulation(challengeType, simulationParams);
+                
+                // Visualize results
+                visualizeResults(challengeType, results);
+                
+                // Hide loading state
+                simulationStatus.style.display = 'none';
+                runSimulationBtn.innerHTML = '<i class="fas fa-play"></i> Run Simulation';
+                runSimulationBtn.disabled = false;
+            }, 1500);
+        });
+        
+        // Local simulation logic
+        function runLocalSimulation(type, params) {
+            switch(type) {
+                case 'biology':
+                    return simulateProteinFolding(params);
+                case 'physics':
+                    return simulateQuantumCircuit(params);
+                default:
+                    return { status: 'success', data: {} };
+            }
+        }
+        
+        // Example simulation functions
+        function simulateProteinFolding(params) {
+            // Generate random protein structure data
+            const sequence = params['protein-seq'] || 'ACDEFGHIKLMNPQRSTVWY';
+            const length = sequence.length;
+            
+            return {
+                status: 'success',
+                data: {
+                    sequence: sequence,
+                    structure: Array.from({length}, () => ({
+                        x: Math.random() * 10 - 5,
+                        y: Math.random() * 10 - 5,
+                        z: Math.random() * 10 - 5,
+                        type: sequence.charAt(Math.floor(Math.random() * sequence.length))
+                    })),
+                    energy: (Math.random() * 10).toFixed(2)
+                }
+            };
+        }
+        
+        function simulateQuantumCircuit(params) {
+            // Generate random quantum state data
+            const qubits = params['qubit-count'] || 2;
+            
+            return {
+                status: 'success',
+                data: {
+                    qubits: qubits,
+                    states: Array.from({length: 2**qubits}, (_, i) => ({
+                        state: i.toString(2).padStart(qubits, '0'),
+                        probability: (Math.random() * 100).toFixed(2)
+                    })),
+                    entanglement: (Math.random() * 100).toFixed(2)
+                }
+            };
+        }
+        
+        // Visualization functions
+        function visualizeResults(type, results) {
+            // Clear previous chart if exists
+            if (chart) {
+                chart.destroy();
+            }
+            
+            const ctx = simulationCanvas.getContext('2d');
+            
+            switch(type) {
+                case 'biology':
+                    visualizeProteinStructure(results.data);
+                    break;
+                case 'physics':
+                    visualizeQuantumStates(ctx, results.data);
+                    break;
+                default:
+                    // Default visualization
+                    chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Result 1', 'Result 2', 'Result 3'],
+                            datasets: [{
+                                label: 'Simulation Results',
+                                data: [
+                                    Math.random() * 100,
+                                    Math.random() * 100,
+                                    Math.random() * 100
+                                ],
+                                backgroundColor: [
+                                    'rgba(59, 130, 246, 0.7)',
+                                    'rgba(16, 185, 129, 0.7)',
+                                    'rgba(245, 158, 11, 0.7)'
+                                ]
+                            }]
+                        }
+                    });
+            }
+        }
+        
+        function visualizeProteinStructure(data) {
+            // This would be more complex in a real app
+            simulationPlaceholder.innerHTML = `
+                <h4>Protein Structure Simulation Results</h4>
+                <p>Sequence: ${data.sequence}</p>
+                <p>Energy: ${data.energy} kcal/mol</p>
+                <canvas id="protein-canvas" width="400" height="300"></canvas>
+                <p><small>3D visualization would appear here with WebGL</small></p>
+            `;
+        }
+        
+        function visualizeQuantumStates(ctx, data) {
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.states.map(s => `|${s.state}〉`),
+                    datasets: [{
+                        label: 'Probability (%)',
+                        data: data.states.map(s => parseFloat(s.probability)),
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)'
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Probability (%)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Helper functions
+        function getChallengeTypeFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('category') || 'biology';
+        }
+        
+        // Save simulation state
+        saveSimulationBtn.addEventListener('click', function() {
+            const challengeType = getChallengeTypeFromURL();
+            const state = {
+                type: challengeType,
+                params: simulationParams,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('lastSimulationState', JSON.stringify(state));
+            alert('Simulation state saved locally');
+        });
+        
+        // Reset simulation
+        resetSimulationBtn.addEventListener('click', function() {
+            if (confirm('Reset all simulation parameters and results?')) {
+                // Clear visualization
+                if (chart) {
+                    chart.destroy();
+                    chart = null;
+                }
+                
+                // Reset controls
+                document.querySelectorAll('.simulation-controls input').forEach(input => {
+                    if (input.type !== 'button') {
+                        input.value = input.defaultValue || '';
+                    }
+                });
+                
+                // Show placeholder
+                simulationPlaceholder.style.display = 'block';
+                simulationPlaceholder.innerHTML = `
+                    <i class="fas fa-atom" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <p>Simulation reset</p>
+                    <p><small>Configure parameters and click "Run Simulation"</small></p>
+                `;
+            }
+        });
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const challengeType = getChallengeTypeFromURL();
+            initializeSimulation(challengeType);
+            
+            // Load saved state if exists
+            const savedState = localStorage.getItem('lastSimulationState');
+            if (savedState) {
+                try {
+                    const state = JSON.parse(savedState);
+                    if (state.type === challengeType) {
+                        // Apply saved parameters
+                        Object.keys(state.params).forEach(key => {
+                            const input = document.getElementById(key);
+                            if (input) {
+                                input.value = state.params[key];
+                            }
+                        });
+                    }
+                } catch (e) {
+                    console.error('Error loading saved state:', e);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SciSolve - Login</title>
+    <style>
+        :root {
+            --primary-color: #0ea5e9;
+            --secondary-color: #3b82f6;
+            --success-color: #10b981;
+            --accent-color: #f97316;
+            --gray-dark: #111827;
+            --gray-medium: #374151;
+            --gray-light: #9ca3af;
+            --bg-dark: #1e293b;
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-full: 9999px;
+            --space-xs: 6px;
+            --space-sm: 12px;
+            --space-md: 18px;
+            --space-lg: 30px;
+            --space-xl: 48px;
+            --transition: all 0.3s ease-in-out;
+            --shadow-sm: 0 1px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: 
+                linear-gradient(rgba(17,24,39,0.85), rgba(22,28,36,0.85)),
+                url('https://www.bing.com/images/search?view=detailV2&ccid=gH%2BZiYGQ&id=8BC6F1D7B87C664ABD82C1C62CFCE2E1F353E929&thid=OIP.gH-ZiYGQ7dR8UtrhRnluqQHaD8&mediaurl=https%3A%2F%2Fwww.knstek.com%2Fwp-content%2Fuploads%2F2020%2F05%2FDigital-Transformation.jpg&cdnurl=https%3A%2F%2Fth.bing.com%2Fth%2Fid%2FR.807f99898190edd47c52dae146796ea9%3Frik%3DKelT8%252bHi%252fCzGwQ%26pid%3DImgRaw%26r%3D0&exph=1263&expw=2374&q=wscientific+picture+scisolve+robotic+codding+physcis+chemistry+n+all&form=IRPRST&ck=F5A0CF6F3E47BDF86249859FE3FF6474&selectedindex=12&itb=0&cw=1719&ch=831&ajaxhist=0&ajaxserp=0&pivotparams=insightsToken%3Dccid_qyGqpJQO*cp_F73415B2313C9B009D9F840BD1153BD5*mid_C295678071CC55157863C8694A29B167161754C6*thid_OIP.qyGqpJQODX9wbU3lb6tulgHaD4&vt=0&sim=11&iss=VSI') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: var(--space-xl);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: rgba(17,24,39,0.95);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 500px;
+            padding: var(--space-xl);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(59,130,246,0.2);
+            backdrop-filter: blur(10px);
+            position: relative;
+            animation: fadeInScale 0.4s ease forwards;
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: var(--space-md);
+            right: var(--space-md);
+            background: none;
+            border: none;
+            color: var(--gray-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            color: var(--accent-color);
+        }
+
+        /* Auth Tabs */
+        .auth-tabs {
+            display: flex;
+            margin-bottom: var(--space-lg);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .auth-tab {
+            padding: var(--space-sm) var(--space-md);
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray-light);
+            transition: var(--transition);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+
+        .auth-tab:hover, .auth-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        /* Auth Forms */
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .auth-title {
+            font-size: 1.8rem;
+            margin-bottom: var(--space-xs);
+            color: white;
+            text-align: center;
+        }
+
+        .auth-subtitle {
+            color: var(--gray-light);
+            margin-bottom: var(--space-lg);
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        /* Social Buttons */
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-lg);
+        }
+
+        .btn-social {
+            padding: var(--space-sm);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(30,41,59,0.5);
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+        }
+
+        .btn-social:hover {
+            background: rgba(30,41,59,0.8);
+            border-color: var(--primary-color);
+        }
+
+        .btn-social i {
+            font-size: 1.2rem;
+        }
+
+        .btn-google {
+            color: #ea4335;
+        }
+
+        .btn-github {
+            color: var(--gray-light);
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: var(--space-lg) 0;
+            color: var(--gray-light);
+            font-size: 0.9rem;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .divider span {
+            padding: 0 var(--space-md);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: var(--space-md);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-xs);
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--gray-light);
+        }
+
+        .form-label.required::after {
+            content: "*";
+            color: var(--accent-color);
+            margin-left: 4px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: var(--space-sm) var(--space-md);
+            background: var(--gray-dark);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius-md);
+            color: white;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(14,165,233,0.3);
+        }
+
+        .form-error {
+            color: var(--accent-color);
+            font-size: 0.8rem;
+            margin-top: var(--space-xs);
+            display: none;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: var(--space-md);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-light);
+            cursor: pointer;
+        }
+
+        /* Password Strength */
+        .password-strength {
+            margin-top: var(--space-sm);
+        }
+
+        .strength-meter {
+            display: flex;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-xs);
+        }
+
+        .strength-bar {
+            flex: 1;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+
+        .strength-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-color);
+            transition: var(--transition);
+        }
+
+        .strength-text {
+            font-size: 0.8rem;
+            color: var(--gray-light);
+        }
+
+        /* Checkboxes */
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--space-sm);
+        }
+
+        .form-check-input {
+            margin-right: var(--space-sm);
+        }
+
+        .form-check-label {
+            font-size: 0.9rem;
+            color: var(--gray-light);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            width: 100%;
+            padding: var(--space-md);
+            margin-top: var(--space-sm);
+            box-shadow: 0 5px 15px rgba(14,165,233,0.4);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            box-shadow: 0 8px 20px rgba(59,130,246,0.6);
+        }
+
+        .btn-secondary {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        /* Links */
+        .auth-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .auth-link:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        /* Form Footer */
+        .form-footer {
+            text-align: center;
+            margin-top: var(--space-lg);
+            color: var(--gray-light);
+            font-size: 0.9rem;
+        }
+
+        /* Success Modal */
+        .success-modal-content {
+            text-align: center;
+            padding: var(--space-xl);
+        }
+
+        .success-icon {
+            font-size: 3rem;
+            color: var(--success-color);
+            margin-bottom: var(--space-md);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-sm);
+            color: white;
+        }
+
+        .modal-subtitle {
+            color: var(--gray-light);
+            margin-bottom: var(--space-md);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--space-sm);
+            margin-top: var(--space-lg);
+        }
+
+        /* Responsive */
+        @media (max-width: 576px) {
+            .modal-content {
+                padding: var(--space-lg);
+                margin: var(--space-md);
+            }
+            
+            .auth-tabs {
+                justify-content: center;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login/Signup Modal -->
+    <div class="modal active" id="auth-modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            
+            <!-- Auth Tabs -->
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Sign In</div>
+                <div class="auth-tab" data-tab="register">Create Account</div>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login-form" class="auth-form active">
+                <h2 class="auth-title">Welcome to SciSolve</h2>
+                <p class="auth-subtitle">Sign in to continue your scientific journey</p>
+                
+                <!-- Social Login -->
+                <div class="social-buttons">
+                    <button class="btn-social btn-google" id="google-login">
+                        <i class="fab fa-google"></i> Continue with Google
+                    </button>
+                    <button class="btn-social btn-github" id="github-login">
+                        <i class="fab fa-github"></i> Continue with GitHub
+                    </button>
+                </div>
+                
+                <div class="divider">or sign in with email</div>
+                
+                <!-- Email Login -->
+                <form id="email-login">
+                    <div class="form-group">
+                        <label for="login-email" class="form-label required">Email</label>
+                        <input type="email" id="login-email" class="form-control" placeholder="your@email.com" required>
+                        <div class="form-error">Please enter a valid email address</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password" class="form-label required">Password</label>
+                        <div style="position: relative;">
+                            <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+                            <i class="fas fa-eye password-toggle" id="toggle-login-password"></i>
+                        </div>
+                        <div class="form-error">Password must be at least 8 characters</div>
+                        <div style="text-align: right; margin-top: 0.5rem;">
+                            <a href="#" class="auth-link" id="forgot-password-link">Forgot password?</a>
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="remember-me" class="form-check-input">
+                        <label for="remember-me" class="form-check-label">Keep me signed in</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" id="login-btn">
+                        Sign In
+                    </button>
+                    <button id="logout-btn" data-role-only="admin">Logout</button>
+
+
+                </form>
+                
+                <div class="form-footer">
+                    Don't have an account? <a href="#" class="auth-link" id="show-register">Sign up</a>
+                </div>
+            </div>
+
+            <!-- Registration Form -->
+            <div id="register-form" class="auth-form">
+                <h2 class="auth-title">Join SciSolve</h2>
+                <p class="auth-subtitle">Become part of our scientific community</p>
+                
+                <!-- Social Registration -->
+                <div class="social-buttons">
+                    <button class="btn-social btn-google">
+                        <i class="fab fa-google"></i> Continue with Google
+                    </button>
+                    <button class="btn-social btn-github">
+                        <i class="fab fa-github"></i> Continue with GitHub
+                    </button>
+                </div>
+                
+                <div class="divider">or sign up with email</div>
+                
+                <!-- Email Registration -->
+                <form id="email-register">
+                    <div class="form-group">
+                        <label for="register-name" class="form-label required">Full Name</label>
+                        <input type="text" id="register-name" class="form-control" placeholder="Jane Doe" required>
+                        <div class="form-error">Please enter your full name</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email" class="form-label required">Email</label>
+                        <input type="email" id="register-email" class="form-control" placeholder="your@email.com" required>
+                        <div class="form-error">Please enter a valid email address</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password" class="form-label required">Password</label>
+                        <div style="position: relative;">
+                            <input type="password" id="register-password" class="form-control" placeholder="••••••••" required>
+                            <i class="fas fa-eye password-toggle" id="toggle-register-password"></i>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-meter">
+                                <div class="strength-bar"><div class="strength-fill" id="strength-fill-1"></div></div>
+                                <div class="strength-bar"><div class="strength-fill" id="strength-fill-2"></div></div>
+                                <div class="strength-bar"><div class="strength-fill" id="strength-fill-3"></div></div>
+                                <div class="strength-bar"><div class="strength-fill" id="strength-fill-4"></div></div>
+                            </div>
+                            <div class="strength-text" id="strength-text">Password strength</div>
+                        </div>
+                        <div class="form-error">Password must be at least 8 characters with numbers and symbols</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-role" class="form-label required">I am a...</label>
+                        <select id="register-role" class="form-control" required>
+                            <option value="">Select your role</option>
+                            <option value="researcher">Researcher</option>
+                            <option value="student">Student</option>
+                            <option value="professor">Professor</option>
+                            <option value="engineer">Engineer</option>
+                            <option value="scientist">Scientist</option>
+                        </select>
+                        <div class="form-error">Please select your role</div>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="register-terms" class="form-check-input" required>
+                        <label for="register-terms" class="form-check-label">
+                            I agree to the <a href="#" class="auth-link">Terms of Service</a> and <a href="#" class="auth-link">Privacy Policy</a>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="register-newsletter" class="form-check-input" checked>
+                        <label for="register-newsletter" class="form-check-label">
+                            Subscribe to scientific updates and newsletters
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" id="register-btn">
+                        Create Account
+                    </button>
+                </form>
+                
+                <div class="form-footer">
+                    Already have an account? <a href="#" class="auth-link" id="show-login">Sign in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgot-password-modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <div class="modal-header">
+                <h3 class="modal-title">Reset Password</h3>
+                <p class="modal-subtitle">Enter your email to receive a password reset link</p>
+            </div>
+            <form id="reset-password-form">
+                <div class="form-group">
+                    <label for="reset-email" class="form-label required">Email</label>
+                    <input type="email" id="reset-email" class="form-control" placeholder="your@email.com" required>
+                    <div class="form-error">Please enter a valid email address</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancel-reset">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Send Reset Link</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="success-modal">
+        <div class="modal-content success-modal-content">
+            <button class="close-modal">&times;</button>
+            <i class="fas fa-check-circle success-icon"></i>
+            <h3 class="modal-title" id="success-title">Success!</h3>
+            <p class="modal-subtitle" id="success-message">Your password reset link has been sent to your email.</p>
+            <button class="btn btn-primary" style="margin-top: 2rem;" id="close-success-modal">Continue</button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const authModal = document.getElementById('auth-modal');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const forgotPasswordModal = document.getElementById('forgot-password-modal');
+        const successModal = document.getElementById('success-modal');
+        const loginTab = document.querySelector('[data-tab="login"]');
+        const registerTab = document.querySelector('[data-tab="register"]');
+        const showRegister = document.getElementById('show-register');
+        const showLogin = document.getElementById('show-login');
+        const forgotPasswordLink = document.getElementById('forgot-password-link');
+        const cancelReset = document.getElementById('cancel-reset');
+        const closeSuccessModal = document.getElementById('close-success-modal');
+        const toggleLoginPassword = document.getElementById('toggle-login-password');
+        const toggleRegisterPassword = document.getElementById('toggle-register-password');
+        const registerPassword = document.getElementById('register-password');
+        const strengthFill1 = document.getElementById('strength-fill-1');
+        const strengthFill2 = document.getElementById('strength-fill-2');
+        const strengthFill3 = document.getElementById('strength-fill-3');
+        const strengthFill4 = document.getElementById('strength-fill-4');
+        const strengthText = document.getElementById('strength-text');
+
+        // Tab Switching
+        loginTab.addEventListener('click', () => {
+            loginTab.classList.add('active');
+            registerTab.classList.remove('active');
+            loginForm.classList.add('active');
+            registerForm.classList.remove('active');
+        });
+
+        registerTab.addEventListener('click', () => {
+            registerTab.classList.add('active');
+            loginTab.classList.remove('active');
+            registerForm.classList.add('active');
+            loginForm.classList.remove('active');
+        });
+
+        showRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerTab.click();
+        });
+
+        showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginTab.click();
+        });
+
+        // Forgot Password
+        forgotPasswordLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            authModal.classList.remove('active');
+            forgotPasswordModal.classList.add('active');
+        });
+
+        cancelReset.addEventListener('click', () => {
+            forgotPasswordModal.classList.remove('active');
+            authModal.classList.add('active');
+        });
+
+        // Password Toggle
+        toggleLoginPassword.addEventListener('click', () => {
+            const passwordInput = document.getElementById('login-password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleLoginPassword.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleLoginPassword.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+
+        toggleRegisterPassword.addEventListener('click', () => {
+            if (registerPassword.type === 'password') {
+                registerPassword.type = 'text';
+                toggleRegisterPassword.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                registerPassword.type = 'password';
+                toggleRegisterPassword.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+
+        // Password Strength Meter
+        registerPassword.addEventListener('input', () => {
+            const password = registerPassword.value;
+            const strength = calculatePasswordStrength(password);
+            
+            // Update strength bars
+            strengthFill1.style.width = strength >= 1 ? '100%' : '0%';
+            strengthFill2.style.width = strength >= 2 ? '100%' : '0%';
+            strengthFill3.style.width = strength >= 3 ? '100%' : '0%';
+            strengthFill4.style.width = strength >= 4 ? '100%' : '0%';
+            
+            // Update strength text
+            const strengthMessages = ['Very Weak', 'Weak', 'Medium', 'Strong', 'Very Strong'];
+            strengthText.textContent = strengthMessages[strength];
+            
+            // Update colors
+            const strengthColors = ['#e74c3c', '#f39c12', '#f1c40f', '#2ecc71', '#27ae60'];
+            [strengthFill1, strengthFill2, strengthFill3, strengthFill4].forEach((fill, index) => {
+                fill.style.backgroundColor = strengthColors[strength];
+            });
+        });
+
+        function calculatePasswordStrength(password) {
+            let strength = 0;
+            
+            // Length check
+            if (password.length >= 8) strength++;
+            if (password.length >= 12) strength++;
+            
+            // Complexity checks
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            
+            // Cap at 4
+            return Math.min(strength, 4);
+        }
+
+        // Form Submissions (simulated)
+        document.getElementById('email-login').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // In a real app, you would handle login here
+            console.log('Login submitted');
+        });
+
+        document.getElementById('email-register').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // In a real app, you would handle registration here
+            console.log('Registration submitted');
+        });
+
+        document.getElementById('reset-password-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            forgotPasswordModal.classList.remove('active');
+            successModal.classList.add('active');
+            document.getElementById('success-title').textContent = 'Reset Link Sent';
+            document.getElementById('success-message').textContent = 'We\'ve sent a password reset link to your email address.';
+        });
+
+        // Close modals
+        closeSuccessModal.addEventListener('click', () => {
+            successModal.classList.remove('active');
+            authModal.classList.add('active');
+        });
+
+        document.querySelectorAll('.close-modal').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+                authModal.classList.add('active');
+            });
+        });
+
+        // Close when clicking outside modal
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+                authModal.classList.add('active');
+            }
+        });
+    </script>
+    <script src="/scisolve/js/app.js"></script>
+
+</body>
+</html>

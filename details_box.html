@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Challenges</title>
+  <link rel="stylesheet" href="style.css"> <!-- এখানে তোমার CSS রাখবে -->
+  <style>
+    /* নিচের স্টাইল চাইলে style.css এ নিতে পারো */
+    :root { --primary-color: #1f2937; /* dark slate */ --secondary-color: #3b82f6; /* sky blue */ --accent-color: #f59e0b; /* amber */ --light-color: #f3f4f6; --dark-color: #111827; --success-color: #10b981; --warning-color: #f59e0b; --danger-color: #ef4444; --gray-light: #d1d5db; --gray-medium: #9ca3af; --gray-dark: #4b5563; --shadow-md: 0 4px 6px rgba(0,0,0,0.1); --transition: all 0.3s ease-in-out; --bg-image: url('R.jpeg'); /* Subject colors */ --biology-color: #10b981; --physics-color: #8b5cf6; --chemistry-color: #f59e0b; --environmental-color: #06b6d4; --cs-color: #3b82f6; --math-color: #ef4444; } * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; } body { background: linear-gradient(to right, rgba(31, 41, 55, 0.85), rgba(17, 24, 39, 0.85)), var(--bg-image) no-repeat center center fixed; background-size: cover; color: var(--light-color); line-height: 1.6; min-height: 100vh; } .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 20px; } header { background-color: rgba(17, 24, 39, 0.9); box-shadow: var(--shadow-md); position: fixed; width: 100%; top: 0; z-index: 1000; backdrop-filter: blur(5px); } nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; } .logo { font-size: 1.8rem; font-weight: 700; color: var(--secondary-color); display: flex; align-items: center; transition: var(--transition); } .logo:hover { transform: translateY(-2px); } .logo span { color: var(--accent-color); } .nav-links { display: flex; list-style: none; } .nav-links li { margin-left: 2rem; } .nav-links a { text-decoration: none; color: var(--light-color); font-weight: 500; transition: var(--transition); position: relative; padding: 0.5rem 0; } .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background-color: var(--secondary-color); transition: var(--transition); } .nav-links a:hover { color: var(--secondary-color); } .nav-links a:hover::after { width: 100%; } .nav-links a.active { color: var(--secondary-color); font-weight: 600; } .nav-links a.active::after { width: 100%; }
+    main {
+      padding-top: 100px;
+    }
+
+    .challenge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .challenge-card {
+      background: rgba(17, 24, 39, 0.8);
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+      padding: 1rem;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .challenge-card:hover {
+      transform: translateY(-5px);
+      background: rgba(31, 41, 55, 0.9);
+    }
+
+    .challenge-card h3 {
+      color: var(--secondary-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .challenge-meta {
+      font-size: 0.9rem;
+      color: var(--gray-medium);
+      margin-bottom: 0.5rem;
+    }
+
+    .challenge-desc {
+      font-size: 0.95rem;
+      color: var(--gray-light);
+      margin-bottom: 1rem;
+    }
+
+    .challenge-footer {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--accent-color);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header>
+    <nav class="container">
+      <div class="logo">Challenge<span>Hub</span></div>
+      <ul class="nav-links">
+        <li><a href="#" class="active">Challenges</a></li>
+        <li><a href="#">Leaderboard</a></li>
+        <li><a href="#">Profile</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <h1>Available Challenges</h1>
+    <div id="challenge-list" class="challenge-grid">
+      Loading challenges...
+    </div>
+  </main>
+
+  <!-- JS -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const listContainer = document.getElementById('challenge-list');
+
+    fetch('api/challenge_list.php')
+      .then(res => res.json())
+      .then(data => {
+        if (!Array.isArray(data) || data.length === 0) {
+          listContainer.innerHTML = '<p>❌ কোনো চ্যালেঞ্জ পাওয়া যায়নি।</p>';
+          return;
+        }
+
+        const html = data.map(challenge => `
+          <div class="challenge-card" onclick="window.location.href='challenge-detail.html?id=${challenge.challenge_id}'">
+            <h3>${challenge.title}</h3>
+            <div class="challenge-meta">
+              ${challenge.category} • ${challenge.difficulty}
+            </div>
+            <div class="challenge-desc">
+              ${challenge.description.substring(0, 100)}...
+            </div>
+            <div class="challenge-footer">
+              <span>💰 $${challenge.prize}</span>
+              <span>⏳ ${new Date(challenge.deadline).toLocaleDateString()}</span>
+            </div>
+          </div>
+        `).join('');
+
+        listContainer.innerHTML = html;
+      })
+      .catch(err => {
+        console.error(err);
+        listContainer.innerHTML = '<p>❌ চ্যালেঞ্জ লোড করতে সমস্যা হয়েছে।</p>';
+      });
+  });
+  </script>
+</body>
+</html>

@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Same head content as dashboard -->
+    <title>SciSolve | Expert Analytics</title>
+    <style>
+    
+    :root {
+        --primary-color: #0ea5e9;      /* Bright blue */
+        --secondary-color: #3b82f6;    /* Lighter blue */
+        --success-color: #10b981;      /* Emerald green */
+        --warning-color: #f59e0b;      /* Amber */
+        --danger-color: #ef4444;       /* Red */
+        --accent-color: #f97316;       /* Orange accent */
+        --gray-dark: #111827;
+        --gray-medium: #374151;
+        --gray-light: #9ca3af;
+        --bg-dark: #1e293b;
+        --radius-sm: 6px;
+        --radius-md: 12px;
+        --radius-lg: 20px;
+        --radius-full: 9999px;
+        --space-xs: 6px;
+        --space-sm: 12px;
+        --space-md: 18px;
+        --space-lg: 30px;
+        --space-xl: 48px;
+        --transition: all 0.3s ease-in-out;
+        --shadow-sm: 0 1px 4px rgba(0,0,0,0.1);
+        --shadow-md: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    * {
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: white;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background:
+          linear-gradient(rgba(17,24,39,0.85), rgba(22,28,36,0.85)),
+          url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+        padding: 36px 0;
+        color: #d1fae5;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* Header */
+    header nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--space-sm) 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .logo {
+        font-weight: 800;
+        font-size: 1.8rem;
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+
+    .logo span {
+        color: var(--secondary-color);
+    }
+
+    .nav-links {
+        list-style: none;
+        display: flex;
+        gap: var(--space-lg);
+    }
+
+    .nav-links li a {
+        color: var(--gray-light);
+        font-weight: 600;
+        text-decoration: none;
+        padding: var(--space-xs) var(--space-sm);
+        border-radius: var(--radius-sm);
+        transition: var(--transition);
+    }
+
+    .nav-links li a:hover,
+    .nav-links li a.active {
+        background: var(--primary-color);
+        color: white;
+        box-shadow: var(--shadow-md);
+    }
+
+    /* Auth buttons */
+    .auth-buttons button {
+        background: transparent;
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        font-weight: 700;
+        padding: 8px 20px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: var(--transition);
+        margin-left: var(--space-sm);
+    }
+
+    .auth-buttons button:hover {
+        background: var(--primary-color);
+        color: white;
+        box-shadow: var(--shadow-md);
+    }
+
+    /* Main Titles */
+    .team-header h1 {
+        font-size: 3rem;
+        font-weight: 900;
+        margin-bottom: var(--space-sm);
+        letter-spacing: 1px;
+    }
+
+    .team-header h1 span {
+        color: var(--secondary-color);
+    }
+
+    .team-header p {
+        font-size: 1.15rem;
+        color: var(--gray-light);
+        max-width: 600px;
+        margin-bottom: var(--space-lg);
+    }
+
+    /* Analytics Header */
+    .analytics-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--space-xl);
+        flex-wrap: wrap;
+        gap: var(--space-md);
+    }
+
+    .analytics-header h2 {
+        font-size: 1.9rem;
+        font-weight: 800;
+        color: var(--secondary-color);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .analytics-header h2 i {
+        color: var(--primary-color);
+    }
+
+    /* Timeframe Selector */
+    .timeframe-selector {
+        display: flex;
+        gap: var(--space-sm);
+        background: rgba(31,41,55,0.7);
+        border-radius: var(--radius-full);
+        padding: var(--space-xs);
+    }
+
+    .timeframe-btn {
+        padding: var(--space-xs) var(--space-sm);
+        border-radius: var(--radius-full);
+        border: none;
+        background: transparent;
+        color: var(--gray-light);
+        cursor: pointer;
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: var(--transition);
+    }
+
+    .timeframe-btn.active {
+        background: var(--secondary-color);
+        color: white;
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* Analytics Grid */
+    .analytics-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: var(--space-lg);
+        margin-bottom: var(--space-xl);
+    }
+
+    /* Cards */
+    .card {
+        background: rgba(17,24,39,0.75);
+        border-radius: var(--radius-lg);
+        padding: var(--space-lg);
+        border: 1px solid rgba(59,130,246,0.15);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        transition: var(--transition);
+    }
+
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(14,165,233,0.6);
+        border-color: var(--primary-color);
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--space-lg);
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--gray-light);
+    }
+
+    .card-actions {
+        display: flex;
+        gap: var(--space-xs);
+    }
+
+    .card-action-btn {
+        background: transparent;
+        border: none;
+        color: var(--gray-light);
+        cursor: pointer;
+        transition: var(--transition);
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-sm);
+    }
+
+    .card-action-btn:hover {
+        background: rgba(255,255,255,0.1);
+        color: var(--secondary-color);
+    }
+
+    /* KPI Cards */
+    .kpi-value {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: var(--space-xs);
+    }
+
+    .kpi-change {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+        font-size: 0.9rem;
+        margin-bottom: var(--space-md);
+    }
+
+    .kpi-change.positive {
+        color: var(--success-color);
+    }
+
+    .kpi-change.negative {
+        color: var(--danger-color);
+    }
+
+    /* Chart containers */
+    .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+
+    /* Card spans */
+    .card-span-6 {
+        grid-column: span 6;
+    }
+
+    .card-span-4 {
+        grid-column: span 4;
+    }
+
+    .card-span-3 {
+        grid-column: span 3;
+    }
+
+    .card-span-12 {
+        grid-column: span 12;
+    }
+
+    /* Domain Distribution */
+    .domain-list {
+        list-style: none;
+        margin-top: var(--space-md);
+    }
+
+    .domain-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--space-sm) 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .domain-item:last-child {
+        border-bottom: none;
+    }
+
+    .domain-bar {
+        height: 6px;
+        background: rgba(59,130,246,0.2);
+        border-radius: var(--radius-full);
+        margin-top: var(--space-xs);
+        overflow: hidden;
+    }
+
+    .domain-progress {
+        height: 100%;
+        background: var(--secondary-color);
+        border-radius: var(--radius-full);
+    }
+
+    /* Activity Feed */
+    .activity-item {
+        display: flex;
+        gap: var(--space-md);
+        padding: var(--space-sm) 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .activity-item:last-child {
+        border-bottom: none;
+    }
+
+    .activity-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(59,130,246,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--secondary-color);
+        flex-shrink: 0;
+    }
+
+    .activity-content {
+        flex: 1;
+    }
+
+    .activity-time {
+        font-size: 0.8rem;
+        color: var(--gray-medium);
+    }
+
+    /* Review Sentiment */
+    .sentiment-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
+        margin-bottom: var(--space-sm);
+    }
+
+    .sentiment-label {
+        width: 100px;
+        font-size: 0.9rem;
+    }
+
+    .sentiment-bar {
+        flex: 1;
+        height: 8px;
+        background: rgba(255,255,255,0.1);
+        border-radius: var(--radius-full);
+        overflow: hidden;
+    }
+
+    .sentiment-progress {
+        height: 100%;
+        border-radius: var(--radius-full);
+    }
+
+    .sentiment-value {
+        width: 40px;
+        text-align: right;
+        font-size: 0.9rem;
+    }
+
+    /* Tooltip styles */
+    .tooltip {
+        position: absolute;
+        background: rgba(17,24,39,0.95);
+        border: 1px solid rgba(59,130,246,0.3);
+        border-radius: var(--radius-md);
+        padding: var(--space-sm);
+        pointer-events: none;
+        z-index: 100;
+        box-shadow: var(--shadow-md);
+        font-size: 0.85rem;
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+
+    .tooltip-title {
+        font-weight: 500;
+        margin-bottom: var(--space-xs);
+    }
+
+    /* Responsive grid */
+    @media (max-width: 1024px) {
+        .card-span-6,
+        .card-span-12 {
+            grid-column: span 12;
+        }
+        
+        .card-span-4 {
+            grid-column: span 6;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .card-span-4,
+        .card-span-3 {
+            grid-column: span 12;
+        }
+        
+        .timeframe-selector {
+            width: 100%;
+            justify-content: center;
+            margin-top: var(--space-md);
+        }
+        
+        .analytics-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .team-header h1 {
+            font-size: 2.2rem;
+        }
+        
+        .nav-links {
+            display: none; /* Consider a mobile menu for small screens */
+        }
+    }
+
+    </style>
+</head>
+<body>
+    <!-- Same header as dashboard with updated navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Sci<span>Solve</span></a>
+                <ul class="nav-links">
+                    <li><a href="domain.html">Dashboard</a></li>
+                    <li><a href="problem.html">Challenges</a></li>
+                    <li><a href="solution.html">Solutions</a></li>
+                    <li><a href="mentorship.html">Mentorship</a></li>
+                    <li><a href="analytics.html" class="active">Analytics</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    <button class="btn btn-login">Profile</button>
+                    <button class="btn btn-signup">Log Out</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section>
+            <div class="team-header">
+                <h1>Expert <span>Analytics</span></h1>
+                <p>Track your validation performance, mentorship impact, and domain expertise metrics.</p>
+            </div>
+            
+            <div class="analytics-header">
+                <h2><i class="fas fa-chart-line"></i> Performance Overview</h2>
+                <div class="timeframe-selector">
+                    <button class="timeframe-btn">Today</button>
+                    <button class="timeframe-btn">Week</button>
+                    <button class="timeframe-btn active">Month</button>
+                    <button class="timeframe-btn">Quarter</button>
+                    <button class="timeframe-btn">Year</button>
+                </div>
+            </div>
+            
+            <div class="analytics-grid">
+                <!-- KPI Cards -->
+                <div class="card card-span-3">
+                    <div class="card-header">
+                        <div class="card-title">Reviews Completed</div>
+                        <div class="card-actions">
+                            <button class="card-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    <div class="kpi-value">142</div>
+                    <div class="kpi-change positive">
+                        <i class="fas fa-arrow-up"></i> 12% from last month
+                    </div>
+                    <div class="chart-container" id="reviewsChart"></div>
+                </div>
+                
+                <div class="card card-span-3">
+                    <div class="card-header">
+                        <div class="card-title">Approval Rate</div>
+                        <div class="card-actions">
+                            <button class="card-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    <div class="kpi-value">87%</div>
+                    <div class="kpi-change positive">
+                        <i class="fas fa-arrow-up"></i> 3% from last month
+                    </div>
+                    <div class="chart-container" id="approvalChart"></div>
+                </div>
+                
+                <div class="card card-span-3">
+                    <div class="card-header">
+                        <div class="card-title">Avg. Review Time</div>
+                        <div class="card-actions">
+                            <button class="card-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    <div class="kpi-value">6.2h</div>
+                    <div class="kpi-change negative">
+                        <i class="fas fa-arrow-down"></i> 1.1h from last month
+                    </div>
+                    <div class="chart-container" id="timeChart"></div>
+                </div>
+                
+                <div class="card card-span-3">
+                    <div class="card-header">
+                        <div class="card-title">Mentorship Sessions</div>
+                        <div class="card-actions">
+                            <button class="card-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    <div class="kpi-value">24</div>
+                    <div class="kpi-change positive">
+                        <i class="fas fa-arrow-up"></i> 5 from last month
+                    </div>
+                    <div class="chart-container" id="sessionsChart"></div>
+                </div>
+                
+                <!-- Main Charts -->
+                <div class="card card-span-8">
+                    <div class="card-header">
+                        <div class="card-title">Review Activity Trend</div>
+                        <div class="card-actions">
+                            <button class="card-action-btn"><i class="fas fa-download"></i></button>
+                            <button class="card-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    <div class="chart-container" id="activityTrendChart"></div>
+                </div>
+                
+                <div class="card card-span-4">
+                    <div class="card-header">
+                        <div class="card-title">Domain Distribution</div>
+                        <div class="card-actions">
+                            <button class="card-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    <div class="chart-container" id="domainChart"></div>
+                    <ul class="domain-list">
+                        <li class="domain-item">
+                            <div>
+                                <span>Quantum Computing</span>
+                                <div class="domain-bar">
+                                    <div class="domain-progress" style="width: 65%"></div>
+                                </div>
+                            </div>
+                            <span>65%</span>
+                        </li>
+                        <li class="domain-item">
+                            <div>
+                                <span>Quantum Algorithms</span>
+                                <div class="domain-bar">
+                                    <div class="domain-progress" style="width: 22%"></div>
+                                </div>
+                            </div>
+                            <span>22%</span>
+                        </li>
+                        <li class="domain-item">
+                            <div>
+                                <span>Quantum Cryptography</span>
+                                <div class="domain-bar">
+                                    <div class="domain-progress" style="width: 8%"></div>
+                                </div>
+                            </div>
+                            <span>8%</span>
+                        </li>
+                        <li class="domain-item">
+                            <div>
+                                <span>Other</span>
+                                <div class="domain-bar">
+                                    <div class="domain-progress" style="width: 5%"></div>
+                                </div>
+                            </div>
+                            <span>5%</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Bottom Row -->
+                <div class="card card-span-6">
+                    <div class="card-header">
+                        <div class="card-title">Review Sentiment Analysis</div>
+                        <div class="card-actions">
+                            <button class="card-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    <div class="chart-container" id="sentimentChart"></div>
+                    <div style="margin-top: var(--space-md);">
+                        <div class="sentiment-item">
+                            <div class="sentiment-label">Positive</div>
+                            <div class="sentiment-bar">
+                                <div class="sentiment-progress" style="width: 78%; background: var(--success-color);"></div>
+                            </div>
+                            <div class="sentiment-value">78%</div>
+                        </div>
+                        <div class="sentiment-item">
+                            <div class="sentiment-label">Neutral</div>
+                            <div class="sentiment-bar">
+                                <div class="sentiment-progress" style="width: 17%; background: var(--warning-color);"></div>
+                            </div>
+                            <div class="sentiment-value">17%</div>
+                        </div>
+                        <div class="sentiment-item">
+                            <div class="sentiment-label">Negative</div>
+                            <div class="sentiment-bar">
+                                <div class="sentiment-progress" style="width: 5%; background: var(--danger-color);"></div>
+                            </div>
+                            <div class="sentiment-value">5%</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card card-span-6">
+                    <div class="card-header">
+                        <div class="card-title">Recent Activity</div>
+                        <div class="card-actions">
+                            <button class="card-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    <div style="max-height: 400px; overflow-y: auto;">
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-check-double"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>Approved solution for "Optimized Grover's Algorithm" by Dr. Zhang</p>
+                                <div class="activity-time">Today, 10:42 AM</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-comment-alt"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>Provided feedback on quantum error correction implementation</p>
+                                <div class="activity-time">Yesterday, 3:15 PM</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>Completed mentoring session with Prof. Patel on entanglement protocols</p>
+                                <div class="activity-time">Yesterday, 11:30 AM</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>Requested revisions for BB84 protocol vulnerability submission</p>
+                                <div class="activity-time">Jun 12, 2023, 2:45 PM</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>Published literature review on recent quantum sensing advancements</p>
+                                <div class="activity-time">Jun 11, 2023, 5:20 PM</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>Approved batch of 5 quantum simulation solutions</p>
+                                <div class="activity-time">Jun 10, 2023, 9:15 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Same footer as dashboard -->
+    <footer>
+        <!-- Footer content from dashboard -->
+    </footer>
+
+    <!-- Tooltip element -->
+    <div class="tooltip" id="chartTooltip">
+        <div class="tooltip-title" id="tooltipTitle"></div>
+        <div id="tooltipContent"></div>
+    </div>
+
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Timeframe selector
+        document.querySelectorAll('.timeframe-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.timeframe-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                // In a real app, this would update the data shown
+                console.log('Timeframe changed to:', this.textContent);
+            });
+        });
+        
+        // Chart configurations
+        const chartOptions = {
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    enabled: false,
+                    external: function(context) {
+                        const tooltip = document.getElementById('chartTooltip');
+                        const tooltipTitle = document.getElementById('tooltipTitle');
+                        const tooltipContent = document.getElementById('tooltipContent');
+                        
+                        if (context.tooltip.opacity === 0) {
+                            tooltip.style.opacity = '0';
+                            return;
+                        }
+                        
+                        const data = context.tooltip.dataPoints[0];
+                        tooltipTitle.textContent = data.label || '';
+                        tooltipContent.innerHTML = `<strong>Value:</strong> ${data.raw}`;
+                        
+                        tooltip.style.opacity = '1';
+                        tooltip.style.left = context.tooltip.caretX + 'px';
+                        tooltip.style.top = context.tooltip.caretY + 'px';
+                    }
+                }
+            },
+            scales: {
+                x: { display: false },
+                y: { display: false }
+            },
+            elements: {
+                line: {
+                    tension: 0.4,
+                    borderWidth: 2,
+                    borderColor: 'rgba(59, 130, 246, 1)'
+                },
+                point: {
+                    radius: 0,
+                    hoverRadius: 4
+                }
+            }
+        };
+        
+        // Mini charts
+        const miniChartOptions = {
+            ...chartOptions,
+            elements: {
+                ...chartOptions.elements,
+                line: {
+                    ...chartOptions.elements.line,
+                    fill: true,
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)'
+                }
+            }
+        };
+        
+        // Reviews Chart
+        const reviewsCtx = document.getElementById('reviewsChart').getContext('2d');
+        new Chart(reviewsCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 30}, (_, i) => i + 1),
+                datasets: [{
+                    data: [12, 15, 14, 17, 15, 16, 14, 18, 20, 18, 17, 19, 20, 22, 21, 23, 25, 24, 26, 25, 27, 26, 28, 27, 29, 30, 32, 31, 33, 35],
+                    borderColor: 'rgba(16, 185, 129, 1)',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)'
+                }]
+            },
+            options: miniChartOptions
+        });
+        
+        // Approval Chart
+        const approvalCtx = document.getElementById('approvalChart').getContext('2d');
+        new Chart(approvalCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 30}, (_, i) => i + 1),
+                datasets: [{
+                    data: [82, 83, 84, 83, 85, 84, 85, 86, 85, 86, 87, 86, 87, 88, 87, 88, 87, 88, 89, 88, 87, 88, 89, 88, 89, 90, 89, 88, 89, 90],
+                    borderColor: 'rgba(16, 185, 129, 1)',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)'
+                }]
+            },
+            options: miniChartOptions
+        });
+        
+        // Time Chart
+        const timeCtx = document.getElementById('timeChart').getContext('2d');
+        new Chart(timeCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 30}, (_, i) => i + 1),
+                datasets: [{
+                    data: [8.2, 8.0, 7.8, 7.6, 7.5, 7.4, 7.2, 7.1, 7.0, 6.9, 6.8, 6.7, 6.6, 6.5, 6.4, 6.3, 6.2, 6.1, 6.0, 6.1, 6.0, 5.9, 5.8, 5.7, 5.6, 5.5, 5.4, 5.3, 5.2, 5.1],
+                    borderColor: 'rgba(239, 68, 68, 1)',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)'
+                }]
+            },
+            options: miniChartOptions
+        });
+        
+        // Sessions Chart
+        const sessionsCtx = document.getElementById('sessionsChart').getContext('2d');
+        new Chart(sessionsCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 30}, (_, i) => i + 1),
+                datasets: [{
+                    data: [0, 1, 0, 1, 2, 1, 0, 1, 2, 1, 2, 1, 0, 1, 2, 1, 2, 3, 2, 1, 2, 3, 2, 3, 4, 3, 2, 3, 4, 5],
+                    borderColor: 'rgba(16, 185, 129, 1)',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)'
+                }]
+            },
+            options: miniChartOptions
+        });
+        
+        // Activity Trend Chart
+        const trendCtx = document.getElementById('activityTrendChart').getContext('2d');
+        new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [
+                    {
+                        label: 'Approved',
+                        data: [85, 92, 98, 105, 112, 125, 118, 130, 142, 155, 148, 160],
+                        borderColor: 'rgba(16, 185, 129, 1)',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    },
+                    {
+                        label: 'Rejected',
+                        data: [15, 12, 8, 10, 14, 12, 18, 15, 10, 8, 12, 10],
+                        borderColor: 'rgba(239, 68, 68, 1)',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    },
+                    {
+                        label: 'Pending Review',
+                        data: [30, 28, 25, 32, 28, 24, 30, 25, 22, 18, 25, 20],
+                        borderColor: 'rgba(245, 158, 11, 1)',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                ...chartOptions,
+                plugins: {
+                    ...chartOptions.plugins,
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: 'white',
+                            usePointStyle: true,
+                            padding: 20
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: 'rgba(255,255,255,0.7)' }
+                    },
+                    y: {
+                        display: true,
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: 'rgba(255,255,255,0.7)' }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                }
+            }
+        });
+        
+        // Domain Chart
+        const domainCtx = document.getElementById('domainChart').getContext('2d');
+        new Chart(domainCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Quantum Computing', 'Quantum Algorithms', 'Quantum Cryptography', 'Other'],
+                datasets: [{
+                    data: [65, 22, 8, 5],
+                    backgroundColor: [
+                        'rgba(59, 130, 246, 0.8)',
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(245, 158, 11, 0.8)',
+                        'rgba(156, 163, 175, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(59, 130, 246, 1)',
+                        'rgba(16, 185, 129, 1)',
+                        'rgba(245, 158, 11, 1)',
+                        'rgba(156, 163, 175, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            color: 'white',
+                            padding: 20,
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+        
+        // Sentiment Chart
+        const sentimentCtx = document.getElementById('sentimentChart').getContext('2d');
+        new Chart(sentimentCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Positive', 'Neutral', 'Negative'],
+                datasets: [{
+                    data: [78, 17, 5],
+                    backgroundColor: [
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(245, 158, 11, 0.8)',
+                        'rgba(239, 68, 68, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(16, 185, 129, 1)',
+                        'rgba(245, 158, 11, 1)',
+                        'rgba(239, 68, 68, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+    </script>
+    <script src="/scisolve/js/app.js"></script>
+
+</body>
+</html>

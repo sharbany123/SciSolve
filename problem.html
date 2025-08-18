@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SciSolve | Research Challenges</title>
+    <style>
+        :root {
+            --primary-color: #0ea5e9;      /* Bright blue */
+            --secondary-color: #3b82f6;    /* Lighter blue */
+            --success-color: #10b981;      /* Emerald green */
+            --accent-color: #f97316;       /* Orange accent */
+            --gray-dark: #111827;
+            --gray-medium: #374151;
+            --gray-light: #9ca3af;
+            --bg-dark: #1e293b;
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-full: 9999px;
+            --space-xs: 6px;
+            --space-sm: 12px;
+            --space-md: 18px;
+            --space-lg: 30px;
+            --space-xl: 48px;
+            --transition: all 0.3s ease-in-out;
+            --shadow-sm: 0 1px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background:
+              linear-gradient(rgba(17,24,39,0.85), rgba(22,28,36,0.85)),
+              url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            padding: 36px 0; /* adjust as needed */
+            color: #d1fae5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: var(--space-lg);
+        }
+
+        .nav-links li a {
+            color: var(--gray-light);
+            font-weight: 600;
+            text-decoration: none;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .nav-links li a:hover,
+        .nav-links li a.active {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Auth buttons */
+        .auth-buttons button {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 700;
+            padding: 8px 20px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            margin-left: var(--space-sm);
+        }
+
+        .auth-buttons button:hover {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Main Titles */
+        .team-header h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: var(--space-sm);
+            letter-spacing: 1px;
+        }
+
+        .team-header h1 span {
+            color: var(--secondary-color);
+        }
+
+        .team-header p {
+            font-size: 1.15rem;
+            color: var(--gray-light);
+            max-width: 600px;
+            margin-bottom: var(--space-lg);
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .search-bar input,
+        .search-bar select {
+            padding: 12px 16px;
+            border-radius: var(--radius-lg);
+            border: none;
+            background: var(--gray-dark);
+            color: white;
+            font-weight: 600;
+            box-shadow: inset 0 0 6px rgba(0,0,0,0.4);
+            transition: var(--transition);
+            font-size: 1rem;
+            flex-grow: 1;
+            min-width: 180px;
+        }
+
+        .search-bar input::placeholder {
+            color: var(--gray-light);
+        }
+
+        .search-bar input:focus,
+        .search-bar select:focus {
+            outline: none;
+            box-shadow: 0 0 10px var(--secondary-color);
+            background: #0f172a;
+        }
+
+        /* Challenges Header */
+        .challenges-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+            flex-wrap: wrap;
+            gap: var(--space-md);
+        }
+
+        .challenges-header h2 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .challenges-header h2 i {
+            color: var(--primary-color);
+        }
+
+        .challenges-header span {
+            font-weight: 600;
+            color: var(--gray-light);
+        }
+
+        /* Challenge Cards Grid */
+        .challenge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        /* Challenge Card */
+        .challenge-card {
+            background: rgba(17,24,39,0.75);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            border: 1px solid rgba(59,130,246,0.15);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(14,165,233,0.6);
+            border-color: var(--primary-color);
+        }
+
+        /* Challenge Badge */
+        .challenge-badge {
+            background: rgba(16,185,129,0.15);
+            color: var(--success-color);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-shadow: 0 0 5px rgba(16,185,129,0.6);
+        }
+
+        /* Challenge Reward */
+        .challenge-reward {
+            background: rgba(59,130,246,0.15);
+            color: var(--secondary-color);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: var(--space-sm);
+            text-shadow: 0 0 8px rgba(59,130,246,0.7);
+        }
+
+        /* Challenge Stats */
+        .challenge-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: var(--space-md);
+            border-top: 1px solid rgba(255,255,255,0.12);
+            color: var(--gray-light);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .challenge-stats span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Pagination Buttons */
+        .btn {
+            cursor: pointer;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 5px 12px rgba(14,165,233,0.6);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            box-shadow: 0 8px 18px rgba(59,130,246,0.8);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover:not(:disabled) {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 5px 12px rgba(14,165,233,0.6);
+        }
+
+        .btn-outline:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(17,24,39,0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: var(--space-lg);
+            z-index: 9999;
+            overflow-y: auto;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #0f172a;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            max-width: 720px;
+            width: 100%;
+            padding: var(--space-lg);
+            color: white;
+            animation: fadeInScale 0.4s ease forwards;
+            position: relative;
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--primary-color);
+            margin-bottom: var(--space-md);
+        }
+
+        .modal-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .close-modal {
+            background: transparent;
+            border: none;
+            color: var(--gray-light);
+            font-size: 2rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--accent-color);
+        }
+
+        /* Modal body */
+        .modal-body h3 {
+            font-size: 1.8rem;
+            margin-bottom: var(--space-md);
+            color: var(--secondary-color);
+        }
+
+        .modal-body h4 {
+            color: var(--primary-color);
+            margin: var(--space-md) 0 var(--space-sm) 0;
+        }
+
+        .modal-body p,
+        .modal-body ul {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--gray-light);
+        }
+
+        .modal-body ul {
+            list-style-type: disc;
+            margin-left: var(--space-lg);
+        }
+
+        .review-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .meta-card {
+            background: rgba(59,130,246,0.15);
+            border-radius: var(--radius-md);
+            padding: var(--space-sm);
+            color: var(--secondary-color);
+            font-weight: 700;
+            box-shadow: 0 0 8px rgba(59,130,246,0.5);
+        }
+
+        .meta-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .meta-value {
+            font-size: 1rem;
+        }
+
+        /* Modal footer */
+        .modal-footer {
+            margin-top: var(--space-lg);
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--space-md);
+        }
+
+        /* Responsive tweaks */
+        @media (max-width: 720px) {
+            .challenge-grid {
+                grid-template-columns: 1fr;
+            }
+            .search-bar {
+                flex-direction: column;
+            }
+            .search-bar input,
+            .search-bar select {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Sci<span>Solve</span></a>
+                <ul class="nav-links">
+                    <li><a href="domain.html">Dashboard</a></li>
+                    <li><a href="problem.html" class="active">Challenges</a></li>
+                    <li><a href="solution.html">Solutions</a></li>
+                    <li><a href="mentorship.html">Mentorship</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    <button class="btn btn-login">Profile</button>
+                    <button class="btn btn-signup">Log Out</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section>
+            <div class="team-header">
+                <h1>Research <span>Challenges</span></h1>
+                <p>Browse open scientific challenges in your domain and contribute solutions.</p>
+                
+                <div class="search-bar">
+                    <input type="text" placeholder="Search challenges...">
+                    <select>
+                        <option>All Domains</option>
+                        <option>Quantum Physics</option>
+                        <option>Biochemistry</option>
+                        <option>Machine Learning</option>
+                    </select>
+                    <select>
+                        <option>All Difficulties</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="challenges-header">
+                <h2><i class="fas fa-trophy"></i> Current Challenges</h2>
+                <span>24 active challenges</span>
+            </div>
+            
+            <div class="challenge-grid">
+                <!-- Challenge 1 -->
+                <div class="challenge-card">
+                    <span class="challenge-badge"><i class="fas fa-atom"></i> Quantum Computing</span>
+                    <h3>Optimizing Qubit Gate Operations</h3>
+                    <p>Develop more efficient sequences of quantum gates for common operations to reduce error rates.</p>
+                    <div class="challenge-reward"><i class="fas fa-award"></i> $5,000 Reward</div>
+                    <div class="challenge-stats">
+                        <span><i class="fas fa-users"></i> 14 Teams</span>
+                        <span><i class="fas fa-clock"></i> 12 Days Left</span>
+                    </div>
+                </div>
+                
+                <!-- Challenge 2 -->
+                <div class="challenge-card">
+                    <span class="challenge-badge"><i class="fas fa-flask"></i> Quantum Chemistry</span>
+                    <h3>Molecular Simulation Acceleration</h3>
+                    <p>Improve VQE algorithms for faster molecular energy calculations on NISQ devices.</p>
+                    <div class="challenge-reward"><i class="fas fa-star"></i> 3,500 Points</div>
+                    <div class="challenge-stats">
+                        <span><i class="fas fa-users"></i> 8 Teams</span>
+                        <span><i class="fas fa-clock"></i> 21 Days Left</span>
+                    </div>
+                </div>
+                
+                <!-- Challenge 3 -->
+                <div class="challenge-card">
+                    <span class="challenge-badge"><i class="fas fa-lock"></i> Quantum Cryptography</span>
+                    <h3>Post-Quantum Encryption</h3>
+                    <p>Develop and test new encryption methods resistant to quantum computer attacks.</p>
+                    <div class="challenge-reward"><i class="fas fa-award"></i> $7,500 Reward</div>
+                    <div class="challenge-stats">
+                        <span><i class="fas fa-users"></i> 23 Teams</span>
+                        <span><i class="fas fa-clock"></i> 5 Days Left</span>
+                    </div>
+                </div>
+                
+                <!-- Challenge 4 -->
+                <div class="challenge-card">
+                    <span class="challenge-badge"><i class="fas fa-code"></i> Quantum Algorithms</span>
+                    <h3>Error Correction Improvements</h3>
+                    <p>Create more efficient quantum error correction codes with lower overhead.</p>
+                    <div class="challenge-reward"><i class="fas fa-book"></i> Publication Opportunity</div>
+                    <div class="challenge-stats">
+                        <span><i class="fas fa-users"></i> 17 Teams</span>
+                        <span><i class="fas fa-clock"></i> 30 Days Left</span>
+                    </div>
+                </div>
+                
+                <!-- Challenge 5 -->
+                <div class="challenge-card">
+                    <span class="challenge-badge"><i class="fas fa-wave-square"></i> Quantum Sensing</span>
+                    <h3>High-Precision Magnetometry</h3>
+                    <p>Improve sensitivity of quantum sensors for medical imaging applications.</p>
+                    <div class="challenge-reward"><i class="fas fa-award"></i> $10,000 Reward</div>
+                    <div class="challenge-stats">
+                        <span><i class="fas fa-users"></i> 6 Teams</span>
+                        <span><i class="fas fa-clock"></i> 45 Days Left</span>
+                    </div>
+                </div>
+                
+                <!-- Challenge 6 -->
+                <div class="challenge-card">
+                    <span class="challenge-badge"><i class="fas fa-network-wired"></i> Quantum Communication</span>
+                    <h3>Long-Distance Entanglement</h3>
+                    <p>Develop protocols for maintaining quantum entanglement over fiber optic networks.</p>
+                    <div class="challenge-reward"><i class="fas fa-graduation-cap"></i> Research Grant</div>
+                    <div class="challenge-stats">
+                        <span><i class="fas fa-users"></i> 9 Teams</span>
+                        <span><i class="fas fa-clock"></i> 60 Days Left</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- New Challenge Modal -->
+    <div class="modal-overlay" id="newChallengeModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-plus"></i> Create New Challenge</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Challenge Title</label>
+                    <input type="text" class="form-control" placeholder="Clear, descriptive title">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Scientific Domain</label>
+                    <select class="form-control">
+                        <option>Quantum Physics</option>
+                        <option>Biochemistry</option>
+                        <option>Machine Learning</option>
+                        <option>Materials Science</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Challenge Description</label>
+                    <textarea class="form-control" rows="5" placeholder="Detailed description of the problem, background, and requirements"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Difficulty Level</label>
+                    <select class="form-control">
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                        <option>Expert</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Reward Type</label>
+                    <select class="form-control">
+                        <option>Monetary</option>
+                        <option>Recognition</option>
+                        <option>Publication</option>
+                        <option>Grant</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Duration (Days)</label>
+                    <input type="number" class="form-control" value="30" min="1">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline close-modal">Cancel</button>
+                <button class="btn btn-primary">Create Challenge</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal and interactive functionality
+        document.querySelector('.btn-primary').addEventListener('click', function() {
+            document.getElementById('newChallengeModal').classList.add('active');
+        });
+        
+        // Close modal functionality
+        document.querySelectorAll('.close-modal').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.getElementById('newChallengeModal').classList.remove('active');
+            });
+        });
+        
+        // Challenge card interaction
+        document.querySelectorAll('.challenge-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // In a real app, this would navigate to challenge detail page
+                console.log('Navigating to challenge detail');
+            });
+        });
+    </script>
+    <script src="/scisolve/js/app.js"></script>
+
+</body>
+</html>

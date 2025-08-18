@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SciSolve: Global Crowdsourced Science Challenges</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1f2937; /* dark slate */
+            --secondary-color: #3b82f6; /* sky blue */
+            --accent-color: #f59e0b; /* amber */
+            --light-color: #f3f4f6;
+            --dark-color: #111827;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --gray-light: #d1d5db;
+            --gray-medium: #9ca3af;
+            --gray-dark: #4b5563;
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease-in-out;
+            --bg-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1950&q=80');
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, rgba(31, 41, 55, 0.8), rgba(17, 24, 39, 0.8)),
+                        var(--bg-image) no-repeat center center fixed;
+            background-size: cover;
+            color: var(--light-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: rgba(17, 24, 39, 0.85);
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--light-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--light-color);
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .auth-buttons .btn {
+            margin-left: 1rem;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-login {
+            background-color: transparent;
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+        }
+        
+        .btn-login:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-signup {
+            background-color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-signup:hover {
+            background-color: #2563eb;
+            border-color: #2563eb;
+        }
+        
+        .hero {
+            padding: 8rem 0 4rem;
+            text-align: center;
+            background: transparent;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--light-color);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            color: var(--gray-light);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Stats Section */
+        .stats {
+            padding: 4rem 0;
+            background-color: rgba(31, 41, 55, 0.9);
+            color: white;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-item {
+            padding: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        /* Testimonials Section */
+        .testimonials {
+            padding: 5rem 0;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .testimonial-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 2rem;
+            position: relative;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+        
+        .testimonial-card:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+        }
+        
+        .testimonial-quote {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--light-color);
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin-right: 1rem;
+            background-size: cover;
+        }
+        
+        .author-info h4 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+            color: var(--light-color);
+        }
+        
+        .author-info p {
+            font-size: 0.8rem;
+            color: var(--gray-light);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--light-color);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            color: var(--gray-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--light-color);
+        }
+        
+        .feature-card p {
+            color: var(--gray-light);
+        }
+        
+        /* Challenges Section */
+        .challenges {
+            padding: 5rem 0;
+            background-color: rgba(31, 41, 55, 0.8);
+        }
+        
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .challenge-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+        
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .challenge-image {
+            height: 200px;
+            background-color: #ddd;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .challenge-content {
+            padding: 1.5rem;
+        }
+        
+        .challenge-category {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .challenge-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--light-color);
+        }
+        
+        .challenge-card p {
+            color: var(--gray-light);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .challenge-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--gray-light);
+        }
+        
+        .challenge-difficulty {
+            display: flex;
+            align-items: center;
+        }
+        
+        .difficulty-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .easy {
+            background-color: var(--success-color);
+        }
+        
+        .medium {
+            background-color: var(--warning-color);
+        }
+        
+        .hard {
+            background-color: var(--danger-color);
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 5rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
+            color: white;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta p {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: rgba(17, 24, 39, 0.95);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+            color: var(--light-color);
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary-color);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--gray-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray-light);
+            font-size: 0.9rem;
+        }
+
+        /* ===== AUTH MODAL STYLES ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 480px;
+            padding: 2.5rem;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(0);
+            transition: var(--transition);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-medium);
+            background: none;
+            border: none;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            color: var(--dark-color);
+            background-color: var(--gray-light);
+        }
+
+        /* Auth Tabs */
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .auth-tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray-dark);
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+            position: relative;
+            text-align: center;
+            flex: 1;
+        }
+
+        .auth-tab.active {
+            color: var(--secondary-color);
+            border-bottom-color: var(--secondary-color);
+        }
+
+        .auth-tab:not(.active):hover {
+            color: var(--dark-color);
+        }
+
+        /* Auth Forms */
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .auth-subtitle {
+            color: var(--gray-dark);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        /* Social Buttons */
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-social {
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--gray-light);
+            background-color: white;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .btn-social:hover {
+            background-color: var(--light-color);
+            border-color: var(--gray-medium);
+        }
+
+        .btn-social i {
+            font-size: 1.2rem;
+        }
+
+        .btn-google {
+            color: #4285F4;
+        }
+
+        .btn-github {
+            color: #333;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            color: var(--gray-medium);
+            font-size: 0.9rem;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .divider::before {
+            margin-right: 1rem;
+        }
+
+        .divider::after {
+            margin-left: 1rem;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--dark-color);
+        }
+
+        .form-label.required::after {
+            content: "*";
+            color: var(--danger-color);
+            margin-left: 0.3rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: white;
+            color: var(--dark-color);
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-control.has-error {
+            border-color: var(--danger-color);
+        }
+
+        .form-control.has-error:focus {
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        .form-error {
+            color: var(--danger-color);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .form-control.has-error + .form-error {
+            display: block;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-medium);
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .password-toggle:hover {
+            color: var(--dark-color);
+        }
+
+        /* Password Strength */
+        .password-strength {
+            margin-top: 0.8rem;
+        }
+
+        .strength-meter {
+            display: flex;
+            gap: 0.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .strength-bar {
+            height: 4px;
+            flex: 1;
+            background-color: var(--gray-light);
+            border-radius: 2px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .strength-fill {
+            height: 100%;
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .strength-text {
+            font-size: 0.85rem;
+            color: var(--gray-dark);
+        }
+
+        /* Checkbox */
+        .form-check {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-check-input {
+            margin-right: 0.75rem;
+            margin-top: 0.3rem;
+            flex-shrink: 0;
+        }
+
+        .form-check-label {
+            font-size: 0.95rem;
+            color: var(--gray-dark);
+            line-height: 1.5;
+        }
+
+        .form-check-label a {
+            color: var(--secondary-color);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .form-check-label a:hover {
+            text-decoration: underline;
+        }
+
+        /* Form Footer */
+        .form-footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--gray-dark);
+        }
+
+        .form-footer a {
+            color: var(--secondary-color);
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 0.5rem;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Success Modal */
+        .success-modal-content {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: var(--success-color);
+            margin-bottom: 1.5rem;
+            animation: bounceIn 0.5s;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Loading State */
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .btn-loading::after {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 250px;
+                margin-bottom: 1rem;
+            }
+
+            .modal-content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .auth-tabs {
+                margin-bottom: 2rem;
+            }
+            
+            .auth-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 1.5rem 1rem;
+                box-shadow: none;
+                border: 1px solid var(--gray-light);
+            }
+            
+            nav {
+                padding: 1rem;
+            }
+        }
+
+
+        
+    </style>
+</head>
+<body>
+    <!-- Rest of your HTML content remains exactly the same -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Sci<span>Solve</span></div>
+                <ul class="nav-links">
+                    <!--<li><a href="#">Home</a></li>-->
+                    <li><a href="challenges.html">Challenges</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="collaboration.html" class="active">Collaboration</a></li>
+                    <li><a href="leaderboard.html" class="active">Leaderboard</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+                <div class="auth-buttons">
+                   
+                    <a href="profile.html" class="btn btn-secondary"><i class="fas fa-user-circle"></i> Profile</a>
+
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Login/Signup Modal -->
+    <div class="modal" id="auth-modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            
+            <!-- Auth Tabs -->
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Sign In</div>
+                <div class="auth-tab" data-tab="register">Create Account</div>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login-form" class="auth-form active">
+                <h2 class="auth-title">Welcome back</h2>
+                <p class="auth-subtitle">Sign in to continue your scientific journey</p>
+                
+                <!-- Social Login -->
+                <div class="social-buttons">
+                    <button class="btn-social btn-google" id="google-login">
+                        <i class="fab fa-google"></i> Continue with Google
+                    </button>
+                    <button class="btn-social btn-github" id="github-login">
+                        <i class="fab fa-github"></i> Continue with GitHub
+                    </button>
+                </div>
+                
+                <div class="divider">or sign in with email</div>
+                
+                <!-- Email Login -->
+                <form id="email-login">
+                    <div class="form-group">
+                        <label for="login-email" class="form-label required">Email</label>
+                        <input type="email" id="login-email" class="form-control" placeholder="your@email.com" required>
+                        <div class="form-error">Please enter a valid email address</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password" class="form-label required">Password</label>
+                        <div style="position: relative;">
+                            <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+                            <i class="fas fa-eye password-toggle" id="toggle-login-password"></i>
+                        </div>
+                        <div class="form-error">Password must be at least 8 characters</div>
+                        <div style="text-align: right; margin-top: 0.5rem;">
+                            <a href="#" class="auth-link" id="forgot-password-link">Forgot password?</a>
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="remember-me" class="form-check-input">
+                        <label for="remember-me" class="form-check-label">Keep me signed in</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" id="login-btn">
+                        Sign In
+                    </button>
+                </form>
+                
+                <div class="form-footer">
+                    Don't have an account? <a href="#" class="auth-link" id="show-register">Sign up</a>
+                </div>
+            </div>
+
+            <!-- Registration Form -->
+            <div id="register-form" class="auth-form">
+                <h2 class="auth-title">Create your account</h2>
+                <p class="auth-subtitle">Join our community of problem solvers</p>
+                
+                <!-- Social Registration -->
+                <div class="social-buttons">
+                    <button class="btn-social btn-google">
+                        <i class="fab fa-google"></i> Continue with Google
+                    </button>
+                    <button class="btn-social btn-github">
+                        <i class="fab fa-github"></i> Continue with GitHub
+                    </button>
+                </div>
+                
+                <div class="divider">or sign up with email</div>
+                
+                <!-- Email Registration -->
+                <form id="email-register">
+                    <div class="form-group">
+                        <label for="register-name" class="form-label required">Full Name</label>
+                        <input type="text" id="register-name" class="form-control" placeholder="Jane Doe" required>
+                        <div class="form-error">Please enter your full name</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email" class="form-label required">Email</label>
+                        <input type="email" id="register-email" class="form-control" placeholder="your@email.com" required>
+                        <div class="form-error">Please enter a valid email address</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password" class="form-label required">Password</label>
+                        <div style="position: relative;">
+                            <input type="password" id="register-password" class="form-control" placeholder="••••••••" required>
+                            <i class="fas fa-eye password-toggle" id="toggle-register-password"></i>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-meter">
+                                <div class="strength-bar"><div class="strength-fill" id="strength-fill-1"></div></div>
+                                <div class="strength-bar"><div class="strength-fill" id="strength-fill-2"></div></div>
+                                <div class="strength-bar"><div class="strength-fill" id="strength-fill-3"></div></div>
+                                <div class="strength-bar"><div class="strength-fill" id="strength-fill-4"></div></div>
+                            </div>
+                            <div class="strength-text" id="strength-text">Password strength</div>
+                        </div>
+                        <div class="form-error">Password must be at least 8 characters with numbers and symbols</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-role" class="form-label required">I am a...</label>
+                        <select id="register-role" class="form-control" required>
+                            <option value="">Select your role</option>
+                            <option value="student">Student</option>
+                            <option value="researcher">Researcher</option>
+                            <option value="educator">Educator</option>
+                            <option value="professional">Industry Professional</option>
+                            <option value="enthusiast">Science Enthusiast</option>
+                        </select>
+                        <div class="form-error">Please select your role</div>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="register-terms" class="form-check-input" required>
+                        <label for="register-terms" class="form-check-label">
+                            I agree to the <a href="#" class="auth-link">Terms of Service</a> and <a href="#" class="auth-link">Privacy Policy</a>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="register-newsletter" class="form-check-input" checked>
+                        <label for="register-newsletter" class="form-check-label">
+                            Subscribe to our newsletter for updates
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" id="register-btn">
+                        Create Account
+                    </button>
+                </form>
+                
+                <div class="form-footer">
+                    Already have an account? <a href="#" class="auth-link" id="show-login">Sign in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgot-password-modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <div class="modal-header">
+                <h3 class="modal-title">Reset Password</h3>
+                <p class="modal-subtitle">Enter your email address and we'll send you a link to reset your password.</p>
+            </div>
+            <form id="reset-password-form">
+                <div class="form-group">
+                    <label for="reset-email" class="form-label required">Email</label>
+                    <input type="email" id="reset-email" class="form-control" placeholder="your@email.com" required>
+                    <div class="form-error">Please enter a valid email address</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancel-reset">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Send Reset Link</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="success-modal">
+        <div class="modal-content success-modal-content">
+            <button class="close-modal">&times;</button>
+            <i class="fas fa-check-circle success-icon"></i>
+            <h3 class="modal-title" id="success-title">Success!</h3>
+            <p class="modal-subtitle" id="success-message">Your password reset link has been sent to your email.</p>
+            <button class="btn btn-primary" style="margin-top: 2rem;" id="close-success-modal">Continue</button>
+        </div>
+    </div>
+
+    <!-- Rest of your landing page content -->
+    <section class="hero">
+        <div class="container">
+            <h1>Solve Scientific Challenges Collaboratively</h1>
+            <p>Join a global community of researchers, students, and enthusiasts working together to solve real-world scientific problems through crowdsourced innovation.</p>
+            <div class="hero-buttons">
+                
+                <a href="#" class="btn btn-secondary" id="hero-signup-btn">Join Community</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== NEW: STATISTICS SECTION ===== -->
+    <section class="stats">
+        <div class="container">
+            <h2>Our Impact in Numbers</h2>
+            <p>Join our growing community of problem solvers</p>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number"><span id="activeUsers">0</span></div>
+                    <div class="stat-label">Active Members</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number"><span id="completedChallenges">0</span></div>
+                    <div class="stat-label">Challenges Posted</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number"><span id="runningSimulations">0</span></div>
+                    <div class="stat-label">Solutions Submitted</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">45+</div>
+                    <div class="stat-label">Countries</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose SciSolve?</h2>
+                <p>Our platform brings together the best minds to tackle scientific challenges through collaboration and innovation.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Discover Challenges</h3>
+                    <p>Find scientific problems from various disciplines that need innovative solutions from the community.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Collaborate Globally</h3>
+                    <p>Work with researchers, students, and enthusiasts from around the world to solve complex problems.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Gamified Experience</h3>
+                    <p>Earn points, badges, and recognition for your contributions to scientific problem-solving.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== NEW: TESTIMONIALS SECTION ===== -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Success Stories</h2>
+                <p>Hear from our community members about their experiences</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        "SciSolve helped me connect with biologists worldwide to solve a protein folding challenge that became part of my PhD research."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/44.jpg');"></div>
+                        <div class="author-info">
+                            <h4>Dr. Sarah Chen</h4>
+                            <p>Biochemistry Researcher</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        "As a high school student, I never thought I could contribute to real science until I joined SciSolve's climate modeling challenge."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/32.jpg');"></div>
+                        <div class="author-info">
+                            <h4>Rahul Patel</h4>
+                            <p>Student & Science Enthusiast</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        "Our university posted a challenge about renewable energy optimization and received innovative solutions we hadn't considered."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/68.jpg');"></div>
+                        <div class="author-info">
+                            <h4>Prof. Maria Gonzalez</h4>
+                            <p>Environmental Science Professor</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="latestChallengesSection">
+        <div class="container">
+            <div class="section-title">
+                <h2>Featured Challenges</h2>
+                <p>Browse through our current scientific challenges that need your expertise and creativity.</p>
+                <div id="latestChallenges" class="challenges-grid"></div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="challenges.html" class="btn btn-primary">View All Challenges</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Contribute to Scientific Discovery?</h2>
+            <p>Join thousands of researchers and enthusiasts who are solving real scientific problems through collaborative innovation.</p>
+            <div class="hero-buttons" style="justify-content: center;">
+                <a href="#" class="btn btn-primary" id="cta-signup-btn">Get Started Now</a>
+                <a href="challenges.html" class="btn btn-secondary">Browse Challenges</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SciSolve</h3>
+                    <p>The global crowdsourced science challenge platform that enables collaborative problem-solving for researchers, students, and enthusiasts.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="challenges.html">Challenges</a></li>
+                        <li><a href="simulation_engine.html">Simulation</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="collaboration.html">Collaboration</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="documentation.html">Documentation</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="cookies.html">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 SciSolve. All rights reserved. | Designed with ❤️ for the scientific community</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const authModal = document.getElementById('auth-modal');
+        const loginTab = document.querySelector('[data-tab="login"]');
+        const registerTab = document.querySelector('[data-tab="register"]');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const showRegisterLink = document.getElementById('show-register');
+        const showLoginLink = document.getElementById('show-login');
+        const forgotPasswordLink = document.getElementById('forgot-password-link');
+        const forgotPasswordModal = document.getElementById('forgot-password-modal');
+        const closeModalButtons = document.querySelectorAll('.close-modal, #cancel-reset');
+        const successModal = document.getElementById('success-modal');
+        const closeSuccessModal = document.getElementById('close-success-modal');
+        const passwordInput = document.getElementById('register-password');
+        const strengthFill1 = document.getElementById('strength-fill-1');
+        const strengthFill2 = document.getElementById('strength-fill-2');
+        const strengthFill3 = document.getElementById('strength-fill-3');
+        const strengthFill4 = document.getElementById('strength-fill-4');
+        const strengthText = document.getElementById('strength-text');
+        const toggleLoginPassword = document.getElementById('toggle-login-password');
+        const toggleRegisterPassword = document.getElementById('toggle-register-password');
+        const loginPasswordInput = document.getElementById('login-password');
+        const registerPasswordInput = document.getElementById('register-password');
+        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
+        
+        const heroSignupBtn = document.getElementById('hero-signup-btn');
+        const ctaSignupBtn = document.getElementById('cta-signup-btn');
+
+        // Modal open/close functions
+        function openAuthModal(showRegister = false) {
+            authModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            if (showRegister) {
+                switchToRegister();
+            } else {
+                switchToLogin();
+            }
+        }
+
+        function closeAllModals() {
+            authModal.style.display = 'none';
+            forgotPasswordModal.style.display = 'none';
+            successModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Switch between login and registration forms
+        function switchToLogin() {
+            loginTab.classList.add('active');
+            registerTab.classList.remove('active');
+            loginForm.classList.add('active');
+            registerForm.classList.remove('active');
+        }
+
+        function switchToRegister() {
+            registerTab.classList.add('active');
+            loginTab.classList.remove('active');
+            registerForm.classList.add('active');
+            loginForm.classList.remove('active');
+        }
+
+        // Event listeners for modal opening
+        
+        heroSignupBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openAuthModal(true);
+        });
+        ctaSignupBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openAuthModal(true);
+        });
+
+        // Event listeners for tab switching
+        loginTab.addEventListener('click', switchToLogin);
+        registerTab.addEventListener('click', switchToRegister);
+
+        showRegisterLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchToRegister();
+        });
+
+        showLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchToLogin();
+        });
+
+        // Forgot password modal
+        forgotPasswordLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            authModal.style.display = 'none';
+            forgotPasswordModal.style.display = 'flex';
+        });
+
+        // Close modals
+        closeModalButtons.forEach(button => {
+            button.addEventListener('click', closeAllModals);
+        });
+
+        closeSuccessModal.addEventListener('click', closeAllModals);
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === authModal || e.target === forgotPasswordModal || e.target === successModal) {
+                closeAllModals();
+            }
+        });
+
+        // Password strength indicator
+        passwordInput.addEventListener('input', () => {
+            const password = passwordInput.value;
+            let strength = 0;
+            
+            // Length check
+            if (password.length >= 8) strength += 25;
+            if (password.length >= 12) strength += 25;
+            
+            // Complexity checks
+            if (/[A-Z]/.test(password)) strength += 15;
+            if (/[0-9]/.test(password)) strength += 15;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+            
+            // Update strength bars
+            const strengthPercent = Math.min(strength, 100);
+            
+            if (strengthPercent >= 25) {
+                strengthFill1.style.backgroundColor = strengthPercent < 50 ? '#ef4444' : 
+                                                     strengthPercent < 75 ? '#f59e0b' : '#10b981';
+                strengthFill1.style.width = '100%';
+            } else {
+                strengthFill1.style.width = '0%';
+            }
+            
+            if (strengthPercent >= 50) {
+                strengthFill2.style.backgroundColor = strengthPercent < 75 ? '#f59e0b' : '#10b981';
+                strengthFill2.style.width = '100%';
+            } else {
+                strengthFill2.style.width = '0%';
+            }
+            
+            if (strengthPercent >= 75) {
+                strengthFill3.style.backgroundColor = '#10b981';
+                strengthFill3.style.width = '100%';
+            } else {
+                strengthFill3.style.width = '0%';
+            }
+            
+            if (strengthPercent >= 90) {
+                strengthFill4.style.backgroundColor = '#10b981';
+                strengthFill4.style.width = '100%';
+            } else {
+                strengthFill4.style.width = '0%';
+            }
+            
+            // Update strength text
+            if (strengthPercent < 25) {
+                strengthText.textContent = 'Very weak';
+                strengthText.style.color = '#ef4444';
+            } else if (strengthPercent < 50) {
+                strengthText.textContent = 'Weak';
+                strengthText.style.color = '#ef4444';
+            } else if (strengthPercent < 75) {
+                strengthText.textContent = 'Moderate';
+                strengthText.style.color = '#f59e0b';
+            } else if (strengthPercent < 90) {
+                strengthText.textContent = 'Strong';
+                strengthText.style.color = '#10b981';
+            } else {
+                strengthText.textContent = 'Very strong';
+                strengthText.style.color = '#10b981';
+            }
+        });
+
+        // Toggle password visibility
+        function togglePasswordVisibility(input, toggle) {
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggle.classList.remove('fa-eye');
+                toggle.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                toggle.classList.remove('fa-eye-slash');
+                toggle.classList.add('fa-eye');
+            }
+        }
+
+        toggleLoginPassword.addEventListener('click', () => {
+            togglePasswordVisibility(loginPasswordInput, toggleLoginPassword);
+        });
+
+        toggleRegisterPassword.addEventListener('click', () => {
+            togglePasswordVisibility(registerPasswordInput, toggleRegisterPassword);
+        });
+
+        // Form validation
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function validatePassword(password) {
+            return password.length >= 8;
+        }
+
+        // Form submissions
+        document.getElementById('email-login').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const emailValid = validateEmail(email);
+            const passwordValid = validatePassword(password);
+            
+            // Validate form
+            if (!emailValid || !passwordValid) {
+                if (!emailValid) {
+                    document.getElementById('login-email').classList.add('has-error');
+                }
+                if (!passwordValid) {
+                    document.getElementById('login-password').classList.add('has-error');
+                }
+                return;
+            }
+
+            // Simulate login process
+            loginBtn.innerHTML = '<span class="btn-loading"></span> Signing in...';
+            loginBtn.classList.add('btn-loading');
+
+            // Simulate API call
+            setTimeout(() => {
+                loginBtn.innerHTML = 'Sign In';
+                loginBtn.classList.remove('btn-loading');
+                
+                // For demo purposes, just show success
+                document.getElementById('success-title').textContent = 'Login Successful!';
+                document.getElementById('success-message').textContent = 'You are now signed in to your account.';
+                authModal.style.display = 'none';
+                successModal.style.display = 'flex';
+                
+                // In a real app, you would redirect or update the UI here
+            }, 1500);
+        });
+
+        document.getElementById('email-register').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const role = document.getElementById('register-role').value;
+            const termsChecked = document.getElementById('register-terms').checked;
+            
+            const emailValid = validateEmail(email);
+            const passwordValid = validatePassword(password);
+            
+            // Validate form
+            let formValid = true;
+            
+            if (!name) {
+                document.getElementById('register-name').classList.add('has-error');
+                formValid = false;
+            }
+            
+            if (!emailValid) {
+                document.getElementById('register-email').classList.add('has-error');
+                formValid = false;
+            }
+            
+            if (!passwordValid) {
+                document.getElementById('register-password').classList.add('has-error');
+                formValid = false;
+            }
+            
+            if (!role) {
+                document.getElementById('register-role').classList.add('has-error');
+                formValid = false;
+            }
+            
+            if (!termsChecked) {
+                document.getElementById('register-terms').classList.add('has-error');
+                formValid = false;
+            }
+            
+            if (!formValid) return;
+
+            // Simulate registration process
+            registerBtn.innerHTML = '<span class="btn-loading"></span> Creating account...';
+            registerBtn.classList.add('btn-loading');
+
+            // Simulate API call
+            setTimeout(() => {
+                registerBtn.innerHTML = 'Create Account';
+                registerBtn.classList.remove('btn-loading');
+                
+                // For demo purposes, show success and switch to login
+                document.getElementById('success-title').textContent = 'Registration Successful!';
+                document.getElementById('success-message').textContent = 'Your account has been created. Welcome to SciSolve!';
+                authModal.style.display = 'none';
+                successModal.style.display = 'flex';
+                
+                // Clear form
+                document.getElementById('email-register').reset();
+            }, 1500);
+        });
+
+        document.getElementById('reset-password-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('reset-email').value;
+            const emailValid = validateEmail(email);
+            
+            if (!emailValid) {
+                document.getElementById('reset-email').classList.add('has-error');
+                return;
+            }
+            
+            // Simulate password reset process
+            const submitBtn = document.querySelector('#reset-password-form .btn-primary');
+            submitBtn.innerHTML = '<span class="btn-loading"></span> Sending...';
+            submitBtn.classList.add('btn-loading');
+
+            // Simulate API call
+            setTimeout(() => {
+                submitBtn.innerHTML = 'Send Reset Link';
+                submitBtn.classList.remove('btn-loading');
+                
+                // Show success
+                document.getElementById('success-title').textContent = 'Check Your Email';
+                document.getElementById('success-message').textContent = 'We\'ve sent a password reset link to your email address.';
+                forgotPasswordModal.style.display = 'none';
+                successModal.style.display = 'flex';
+                
+                // Clear form
+                document.getElementById('reset-password-form').reset();
+            }, 1500);
+        });
+
+        // Clear validation errors when user starts typing
+        const formInputs = document.querySelectorAll('.form-control');
+        formInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                input.classList.remove('has-error');
+            });
+        });
+
+        // Clear checkbox validation when checked
+        document.getElementById('register-terms').addEventListener('change', function() {
+            this.classList.remove('has-error');
+        });
+
+        // Social login handlers (demo only)
+        document.getElementById('google-login').addEventListener('click', () => {
+            alert('In a real implementation, this would redirect to Google OAuth');
+        });
+
+        document.getElementById('github-login').addEventListener('click', () => {
+            alert('In a real implementation, this would redirect to GitHub OAuth');
+        });
+
+        // Initialize form validation on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const hero = document.querySelector('.hero');
+            hero.style.opacity = '0';
+            hero.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                hero.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                hero.style.opacity = '1';
+                hero.style.transform = 'translateY(0)';
+            }, 100);
+            
+            // Feature card hover effect enhancement
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.querySelector('.feature-icon').style.transform = 'scale(1.1)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.querySelector('.feature-icon').style.transform = 'scale(1)';
+                });
+            });
+            
+            // Animate stats counting
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                const target = parseInt(stat.textContent);
+                const suffix = stat.textContent.match(/\D+$/)?.[0] || '';
+                let count = 0;
+                const duration = 2000;
+                const increment = target / (duration / 16);
+                
+                const updateCount = () => {
+                    count += increment;
+                    if (count < target) {
+                        stat.textContent = Math.floor(count) + suffix;
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        stat.textContent = target + suffix;
+                    }
+                };
+                
+                setTimeout(updateCount, 500);
+            });
+
+            // Clear any URL parameters that might contain sensitive data
+            if (window.location.search) {
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        });
+    </script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  fetch('./api/home_stats.php')
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      function set(id, val) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = val;
+      }
+      set('activeUsers', data.users);
+      set('completedChallenges', data.challenges);
+      set('runningSimulations', data.running_simulations);
+    })
+    .catch(function (err) {
+      console.error('Stats load failed:', err);
+     
+    });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // ==== Home Stats ====
+  fetch('./api/home_stats.php')
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      function set(id, val) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = val;
+      }
+      set('activeUsers', data.users);
+      set('completedChallenges', data.challenges);
+      set('runningSimulations', data.running_simulations);
+    })
+    .catch(function (err) {
+      console.error('Stats load failed:', err);
+    });
+
+  // ==== Latest Challenges ====
+  fetch('./api/challenges_latest.php')
+    .then(r => r.json())
+    .then(items => {
+      const wrap = document.getElementById('latestChallenges');
+      if (!wrap) return;
+      wrap.innerHTML = '';
+      items.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'challenge-card';
+        card.innerHTML = `
+          <div class="challenge-image" style="background-image: url('${c.image_url || 'https://via.placeholder.com/500'}');"></div>
+          <div class="challenge-content">
+            <span class="challenge-category">${c.category}</span>
+            <h3>${c.title}</h3>
+            <p>${c.description ? c.description.substring(0, 80) + '...' : ''}</p>
+            <div class="challenge-meta">
+              <div class="challenge-difficulty">
+                <span class="difficulty-dot ${c.difficulty.toLowerCase()}"></span>
+                <span>${c.difficulty}</span>
+              </div>
+            </div>
+            <a href="challenge-detail.html?id=${c.challenge_id}">View Details</a>
+          </div>
+        `;
+        wrap.appendChild(card);
+      });
+    })
+    .catch(err => console.error('Latest challenges failed:', err));
+});
+</script>
+
+
+
+
+</body>
+</html>
